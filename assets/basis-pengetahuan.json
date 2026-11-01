@@ -1,0 +1,77 @@
+{
+  "versi": "0.1.0-contoh",
+  "tanggal_rilis": "2026-11-01",
+  "catatan": "DATA CONTOH untuk uji fungsi prototipe. Wajib diganti basis pengetahuan resmi dari Dinas Pertanian dan Pangan sebelum dipakai di lapangan.",
+  "gejala": [
+    { "id": "G01", "nama": "Bercak berbentuk belah ketupat atau jorong pada daun", "kelompok": "daun" },
+    { "id": "G02", "nama": "Bercak dengan pusat abu-abu dan tepi coklat", "kelompok": "daun" },
+    { "id": "G03", "nama": "Bercak kebasahan di tepi daun lalu memanjang", "kelompok": "daun" },
+    { "id": "G04", "nama": "Daun mengering keabu-abuan", "kelompok": "daun" },
+    { "id": "G05", "nama": "Daun menguning hingga jingga mulai dari ujung", "kelompok": "daun" },
+    { "id": "G06", "nama": "Tanaman tampak kerdil dibanding sekitarnya", "kelompok": "tanaman" },
+    { "id": "G07", "nama": "Leher malai membusuk coklat kehitaman, malai rebah", "kelompok": "malai" },
+    { "id": "G08", "nama": "Bercak coklat bulat kecil tersebar di daun", "kelompok": "daun" },
+    { "id": "G09", "nama": "Daun mengering seperti terbakar", "kelompok": "daun" },
+    { "id": "G10", "nama": "Bercak memanjang sejajar tulang daun", "kelompok": "daun" },
+    { "id": "G11", "nama": "Gabah belang atau bercak coklat pada bulir", "kelompok": "malai" },
+    { "id": "G12", "nama": "Bercak abu-abu kebiruan pada pelepah bagian bawah", "kelompok": "pelepah" },
+    { "id": "G13", "nama": "Malai hampa, gabah tidak terisi", "kelompok": "malai" },
+    { "id": "G14", "nama": "Pelepah membusuk dengan lapisan jamur putih atau kelabu", "kelompok": "pelepah" },
+    { "id": "G15", "nama": "Tanaman layu mendadak seperti tersiram air panas", "kelompok": "tanaman" },
+    { "id": "G16", "nama": "Jumlah anakan sedikit", "kelompok": "tanaman" },
+    { "id": "G17", "nama": "Bercak pada pelepah dekat permukaan air", "kelompok": "pelepah" },
+    { "id": "G18", "nama": "Gabah berubah warna kecoklatan", "kelompok": "malai" },
+    { "id": "G19", "nama": "Daun hijau gelap, kaku, dan berdiri tegak", "kelompok": "tanaman" },
+    { "id": "G20", "nama": "Pertumbuhan tidak merata dalam satu petak", "kelompok": "tanaman" }
+  ],
+  "penyakit": [
+    {
+      "id": "P01",
+      "nama": "Blas",
+      "nama_ilmiah": "Pyricularia oryzae",
+      "penyebab": "jamur",
+      "deskripsi": "Penyakit jamur yang menyerang daun, leher malai, dan bulir. Paling merusak bila menyerang leher malai karena malai menjadi rebah dan gabah hampa.",
+      "gambar": [],
+      "bobot_gejala": { "G01": 3, "G02": 3, "G07": 3, "G13": 2, "G09": 1 },
+      "pengendalian": {
+        "kultur": ["Gunakan varietas yang tahan blas sesuai anjuran setempat", "Atur pemupukan nitrogen agar tidak berlebihan", "Bersihkan sisa jerami dan tunggul setelah panen"],
+        "hayati": ["Aplikasi agens hayati sesuai anjuran penyuluh"],
+        "kimia": ["Fungisida hanya bila serangan meluas, dengan bahan aktif dan dosis sesuai label serta arahan penyuluh"]
+      },
+      "pencegahan": ["Tanam serempak dalam satu hamparan", "Hindari kepadatan tanam berlebih"],
+      "sumber": "Data contoh untuk uji prototipe"
+    },
+    {
+      "id": "P02",
+      "nama": "Hawar Daun Bakteri",
+      "nama_ilmiah": "Xanthomonas oryzae pv. oryzae",
+      "penyebab": "bakteri",
+      "deskripsi": "Bercak kebasahan pada tepi daun yang memanjang dan mengering keabu-abuan. Pada tanaman muda dapat menyebabkan layu mendadak.",
+      "gambar": [],
+      "bobot_gejala": { "G03": 3, "G10": 2, "G04": 2, "G15": 3, "G09": 1 },
+      "pengendalian": {
+        "kultur": ["Perbaiki drainase agar petak tidak tergenang terus", "Kurangi pemupukan nitrogen berlebih", "Cabut dan musnahkan tanaman yang terserang berat"],
+        "hayati": ["Kurangi luka mekanis saat pemeliharaan karena bakteri masuk lewat luka"],
+        "kimia": ["Bakterisida berbahan aktif tembaga sesuai anjuran penyuluh bila serangan meluas"]
+      },
+      "pencegahan": ["Gunakan benih sehat dan varietas tahan", "Sanitasi alat pertanian antar petak"],
+      "sumber": "Data contoh untuk uji prototipe"
+    },
+    {
+      "id": "P03",
+      "nama": "Tungro",
+      "nama_ilmiah": "Rice tungro virus",
+      "penyebab": "virus (ditularkan wereng hijau)",
+      "deskripsi": "Daun menguning hingga jingga dari ujung, tanaman kerdil, jumlah anakan sedikit, dan malai kecil atau hampa. Penularan melalui wereng hijau.",
+      "gambar": [],
+      "bobot_gejala": { "G05": 3, "G06": 3, "G13": 2, "G16": 2 },
+      "pengendalian": {
+        "kultur": ["Cabut dan musnahkan tanaman sakit agar tidak menjadi sumber penularan", "Tanam serempak untuk memutus siklus wereng hijau"],
+        "hayati": ["Pantau populasi wereng hijau secara rutin bersama penyuluh"],
+        "kimia": ["Pengendalian vektor sesuai arahan penyuluh, bukan aplikasi rutin tanpa pemantauan"]
+      },
+      "pencegahan": ["Gunakan varietas tahan tungro", "Hindari pertanaman yang bertumpang tindih waktunya"],
+      "sumber": "Data contoh untuk uji prototipe"
+    }
+  ]
+}
