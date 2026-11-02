@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'logika.dart';
 import 'models.dart';
 import 'penyimpanan.dart';
+import 'periksa_foto.dart';
 
 const Color hijau = Color(0xFF1F6F43);
 const Color hijauMuda = Color(0xFFE8F3EC);
@@ -166,6 +167,19 @@ class BerandaScreen extends StatelessWidget {
                 style: FilledButton.styleFrom(
                   backgroundColor: hijau,
                   padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PeriksaFotoScreen()),
+                ),
+                icon: const Icon(Icons.photo_camera),
+                label: const Text('Periksa Foto Daun'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  foregroundColor: hijauTua,
                 ),
               ),
               const SizedBox(height: 10),
