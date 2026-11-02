@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'citra.dart';
-import 'main.dart';
 
 const _hijau = Color(0xFF1F6F43);
 const _hijauTua = Color(0xFF14432A);
