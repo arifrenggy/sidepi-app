@@ -546,8 +546,8 @@ class _HasilScreenState extends State<HasilScreen> {
             ),
           ),
           const SizedBox(height: 14),
-          Text(penafian,
-              style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A8A80), height: 1.4)),
+          const Text(penafian,
+              style: TextStyle(fontSize: 11.5, color: Color(0xFF7A8A80), height: 1.4)),
         ],
       ),
     );
@@ -732,7 +732,7 @@ class DetailScreen extends StatelessWidget {
             Text('Sumber: ${penyakit.sumber}',
                 style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A8A80))),
           const SizedBox(height: 10),
-          Text(penafian, style: const TextStyle(fontSize: 11.5, color: Color(0xFF7A8A80), height: 1.4)),
+          const Text(penafian, style: TextStyle(fontSize: 11.5, color: Color(0xFF7A8A80), height: 1.4)),
         ],
       ),
     );
