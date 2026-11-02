@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6f43">
+<title>SIDEPI Periksa Foto</title>
+<link rel="stylesheet" href="gaya.css">
+</head>
+<body>
+<header>
+  <h1>SIDEPI</h1>
+  <p>Periksa foto daun padi</p>
+</header>
+
+<main>
+  <section id="layar-awal">
+    <div class="kotak-foto" id="kotak-foto">
+      <span id="teks-kosong">Belum ada foto</span>
+      <img id="pratinjau" alt="" hidden>
+    </div>
+    <div class="tombol-baris">
+      <button id="tombol-kamera" class="utama">Ambil Foto</button>
+      <button id="tombol-galeri">Pilih dari Galeri</button>
+    </div>
+    <input type="file" id="input-foto" accept="image/*" capture="environment" hidden>
+    <p class="petunjuk">Dekatkan kamera sampai bercak memenuhi layar, hindari bayangan badan sendiri, dan jangan pakai lampu kilat.</p>
+  </section>
+
+  <section id="layar-proses" hidden>
+    <p class="memuat">Menganalisis foto…</p>
+  </section>
+
+  <section id="layar-hasil" hidden>
+    <div id="kartu-utama" class="kartu"></div>
+    <h2>Yang terukur dari foto</h2>
+    <table id="tabel-ukur"></table>
+    <h2>Konfirmasi cepat</h2>
+    <p class="petunjuk">Centang yang benar-benar terlihat. Ini memperkuat atau membatalkan dugaan foto.</p>
+    <div id="daftar-ciri"></div>
+    <div id="kesimpulan-ciri" class="kartu kecil" hidden></div>
+    <p id="penafian" class="petunjuk"></p>
+    <div class="tombol-baris">
+      <button id="tombol-ulang">Foto Lain</button>
+    </div>
+  </section>
+</main>
+
+<script src="pohon.js"></script>
+<script src="analisa.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
