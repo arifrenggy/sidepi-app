@@ -1,5 +1,4 @@
 // SIDEPI - model foto TFLite (transfer learning MobileNetV3, metode paper IJCS)
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
