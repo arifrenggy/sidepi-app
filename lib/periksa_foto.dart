@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'citra.dart';
+import 'model_foto.dart';
 
 const _hijau = Color(0xFF1F6F43);
 const _hijauTua = Color(0xFF14432A);
@@ -19,6 +20,9 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   final _picker = ImagePicker();
   File? _foto;
   HasilFoto? _hasil;
+  HasilModel? _hasilModel;
+  final _model = ModelFoto();
+  bool _modelSiap = false;
   bool _memproses = false;
   String? _galat;
   final Set<int> _ciriDicentang = {};
@@ -44,10 +48,22 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         return;
       }
       final berkas = File(x.path);
-      final hasil = periksaFotoBytes(await berkas.readAsBytes());
+      final bytes = await berkas.readAsBytes();
+      final hasil = periksaFotoBytes(bytes);
+      HasilModel? hasilModel;
+      try {
+        if (!_modelSiap) {
+          await _model.siapkan();
+          _modelSiap = true;
+        }
+        hasilModel = _model.periksa(bytes);
+      } catch (_) {
+        hasilModel = null;
+      }
       setState(() {
         _foto = berkas;
         _hasil = hasil;
+        _hasilModel = hasilModel;
         _memproses = false;
       });
     } catch (e) {
@@ -182,6 +198,10 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
           ],
         ),
       ),
+      if (_hasilModel != null) ...[
+        const SizedBox(height: 14),
+        _kartuModel(_hasilModel!),
+      ],
       const SizedBox(height: 16),
       const Text('Konfirmasi ciri yang terlihat',
           style: TextStyle(fontWeight: FontWeight.bold, color: _hijauTua)),
@@ -242,6 +262,72 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         children: [
           Expanded(child: Text(label, style: const TextStyle(fontSize: 12.5, color: Color(0xFF5A6B60)))),
           Text(nilai, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _hijauTua)),
+        ],
+      ),
+    );
+  }
+
+  Widget _kartuModel(HasilModel m) {
+    final urut = m.peluang.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    final yakin = m.teratas >= 0.6;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: _hijau.withValues(alpha: 0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('MODEL FOTO (TFLITE, OFFLINE)',
+              style: TextStyle(fontSize: 11, letterSpacing: 0.6, color: _hijauTua)),
+          const SizedBox(height: 6),
+          Text('${namaTampil[m.kelas]} — ${(m.teratas * 100).toStringAsFixed(0)}%',
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: _hijauTua)),
+          const SizedBox(height: 10),
+          ...urut.map((e) => Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 130,
+                      child: Text(namaTampil[e.key] ?? e.key,
+                          style: const TextStyle(fontSize: 12, color: Color(0xFF3C4C42))),
+                    ),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(3),
+                        child: LinearProgressIndicator(
+                          value: e.value,
+                          minHeight: 7,
+                          backgroundColor: _hijauMuda,
+                          valueColor: const AlwaysStoppedAnimation<Color>(_hijau),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 38,
+                      child: Text('${(e.value * 100).toStringAsFixed(0)}%',
+                          textAlign: TextAlign.right,
+                          style: const TextStyle(fontSize: 12, color: Color(0xFF3C4C42))),
+                    ),
+                  ],
+                ),
+              )),
+          const SizedBox(height: 4),
+          Text(
+            yakin
+                ? 'Model cukup yakin. Tetap cocokkan dengan ciri yang terlihat di lapangan.'
+                : 'Model belum yakin. Utamakan hasil pengukuran dan ciri yang kamu lihat langsung.',
+            style: const TextStyle(fontSize: 11.5, color: Color(0xFF5A6B60), height: 1.4),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Model hanya mengenali blas, bercak daun coklat, dan daun sehat. Penyakit lain seperti tungro belum ada dalam model foto.',
+            style: TextStyle(fontSize: 11, color: Color(0xFF7A8A80), height: 1.35),
+          ),
         ],
       ),
     );
