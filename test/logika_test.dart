@@ -40,12 +40,26 @@ void main() {
     expect(a.utama?.penyakit.id, 'P1');
   });
 
-  test('U2 hanya 2 dari 4 bobot kunci -> sedang, bukan hasil utama', () {
-    final a = hitungHasil(kbDasar(), {'G01', 'G03'});
-    // P1: cocok 4 dari 7 = 57% (sedang)
-    expect(a.kemungkinan.first.skor, 57);
-    expect(a.utama, isNull);
+  test('U2 skor 40-59 tanpa capai 60 -> perlu verifikasi, tanpa hasil utama', () {
+    // P1 punya 4 ciri (3+3+2+1 = 9). Pilih G01 (3) + G03 (2) = 5/9 = 56%.
+    final kb = BasisPengetahuan(
+      versi: 'x',
+      tanggalRilis: 'x',
+      gejala: [
+        Gejala(id: 'G01', nama: 'a', kelompok: 'daun'),
+        Gejala(id: 'G02', nama: 'b', kelompok: 'daun'),
+        Gejala(id: 'G03', nama: 'c', kelompok: 'daun'),
+        Gejala(id: 'G04', nama: 'd', kelompok: 'daun'),
+      ],
+      penyakit: [
+        p('P1', {'G01': 3, 'G02': 3, 'G03': 2, 'G04': 1}),
+      ],
+    );
+    final a = hitungHasil(kb, {'G01', 'G03'});
+    expect(a.kemungkinan.first.skor, 56);
     expect(a.kemungkinan.first.label, 'Sedang');
+    expect(a.utama, isNull);
+    expect(a.pesan, contains('verifikasi penyuluh'));
   });
 
   test('U3 tinggi tanpa ciri kunci tidak jadi hasil utama', () {
