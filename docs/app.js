@@ -53,6 +53,28 @@ function tampilkan(h) {
   var kartu = el('kartu-utama');
   kartu.className = 'kartu ' + (h.status === 'sehat' ? 'aman' : 'hati-hati');
   var judul, angka, isi;
+  if (h.status === 'bukan_padi') {
+    judul = 'Ini bukan foto tanaman padi';
+    angka = 'Tidak diproses';
+    isi = 'Foto ini tidak memuat bagian tanaman yang cukup, jadi tidak dianalisis. Arahkan kamera ke daun, batang, atau malai padi, isi layar dengan bagian tanaman tersebut, lalu ambil ulang.';
+    kartu.innerHTML = '<div class="label">Pemeriksaan dibatalkan</div><h2>' + judul + '</h2><div class="angka">' + angka + '</div><p>' + isi + '</p>';
+    el('tabel-ukur').innerHTML = '<tr><td>Bagian tanaman terlihat</td><td>' + Math.round(h.ciri.rasio_tanaman * 100) + '%</td></tr>';
+    el('daftar-ciri').innerHTML = '';
+    el('kesimpulan-ciri').hidden = true;
+    el('penafian').textContent = 'Untuk hasil yang bisa dipakai, foto harus memuat bagian tanaman padi dengan jelas.';
+    return;
+  }
+  if (h.status === 'terlalu_jauh') {
+    judul = 'Bagian tanaman terlalu kecil';
+    angka = Math.round(h.ciri.rasio_tanaman * 100) + '% tanaman';
+    isi = 'Bagian tanaman dalam foto terlalu sedikit untuk dinilai. Kalau ini memang tanaman padi, dekatkan kamera sampai daun memenuhi layar lalu ambil ulang. Kalau bukan tanaman, tidak perlu dilanjutkan.';
+    kartu.innerHTML = '<div class="label">Perlu foto ulang</div><h2>' + judul + '</h2><div class="angka">' + angka + '</div><p>' + isi + '</p>';
+    el('tabel-ukur').innerHTML = '<tr><td>Bagian tanaman terlihat</td><td>' + Math.round(h.ciri.rasio_tanaman * 100) + '%</td></tr>';
+    el('daftar-ciri').innerHTML = '';
+    el('kesimpulan-ciri').hidden = true;
+    el('penafian').textContent = 'Petunjuk: jarak 10-15 cm dari daun, latar sederhana, cahaya cukup.';
+    return;
+  }
   if (h.status === 'sehat') {
     judul = 'Daun tampak sehat';
     angka = Math.round(h.ciri.rasio_lesi * 100) + '% bercak';
@@ -71,6 +93,7 @@ function tampilkan(h) {
   kartu.innerHTML = '<div class="label">Hasil pemeriksaan foto</div><h2>' + judul + '</h2><div class="angka">' + angka + '</div><p>' + isi + '</p>';
 
   var baris = [
+    ['Bagian tanaman dalam foto', Math.round(h.ciri.rasio_tanaman * 100) + '%'],
     ['Luas daun berbercak', Math.round(h.ciri.rasio_lesi * 100) + '%'],
     ['Jumlah bercak terpisah', h.ciri.jumlah_bercak + ' titik'],
     ['Kecerahan bercak', Math.round(h.ciri.val_lesi) + ' dari 255'],

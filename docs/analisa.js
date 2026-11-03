@@ -24,7 +24,7 @@ function rgbKeHsv(r, g, b) {
 }
 
 function analisaPiksel(data, w, h) {
-  var totalDaun = 0, totalLesi = 0, totalPucat = 0;
+  var totalDaun = 0, totalLesi = 0, totalPucat = 0, totalTanaman = 0;
   var hueLesi = [], valLesi = [], satLesi = [];
   var mask = new Uint8Array(w * h);
   for (var y = 0; y < h; y++) {
@@ -35,6 +35,8 @@ function analisaPiksel(data, w, h) {
       var latar = (V > 232 && S < 30) || V < 26;
       if (latar) continue;
       var hijau = H >= 35 && H <= 95 && S > 45 && V > 45;
+      var warnaTanaman = H >= 20 && H <= 100 && S > 50 && V > 35;
+      if (warnaTanaman) totalTanaman++;
       totalDaun++;
       if (!hijau && S > 55 && V > 35) {
         mask[y * w + x] = 1;
@@ -51,6 +53,8 @@ function analisaPiksel(data, w, h) {
     return b[Math.floor(b.length / 2)];
   }
   return {
+    cakupan: totalDaun / (w * h),
+    rasio_tanaman: totalDaun ? totalTanaman / totalDaun : 0,
     rasio_lesi: totalDaun ? totalLesi / totalDaun : 0,
     val_lesi: median(valLesi),
     sat_lesi: median(satLesi),
@@ -93,7 +97,10 @@ function periksaFoto(img) {
   var ciri = analisaPiksel(data, w, h);
   var hasil = jalankanPohon(ciri, POHON);
   var status;
-  if (ciri.rasio_lesi < 0.05) status = 'sehat';
+  if (ciri.cakupan < 0.12) status = 'bukan_padi';
+  else if (ciri.rasio_tanaman < 0.25) status = 'bukan_padi';
+  else if (ciri.rasio_tanaman < 0.45) status = 'terlalu_jauh';
+  else if (ciri.rasio_lesi < 0.05) status = 'sehat';
   else if (hasil.yakin < 0.7) status = 'belum_pasti';
   else if (hasil.kelas === 'sehat') status = 'sehat';
   else status = 'ada_indikasi';
