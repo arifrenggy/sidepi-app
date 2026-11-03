@@ -63,6 +63,15 @@ jobs:
           }
           GRADLE
 
+      - name: Setelan Gradle
+        run: |
+          cat >> android/gradle.properties << 'PROPS'
+          org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g
+          org.gradle.parallel=false
+          org.gradle.daemon=false
+          android.useAndroidX=true
+          PROPS
+
       - name: Ambil dependensi
         run: flutter pub get
 
@@ -73,7 +82,9 @@ jobs:
         run: flutter test
 
       - name: Bangun APK
-        run: flutter build apk --release --split-per-abi
+        run: |
+          flutter build apk --release || (find build -name "*.apk" -print; exit 1)
+          find build -name "*.apk" -print
 
       - name: Unggah APK
         uses: actions/upload-artifact@v4
