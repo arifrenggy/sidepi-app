@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versi-0.6.0-1f6f43?style=for-the-badge" alt="Versi" />
+  <img src="https://img.shields.io/badge/Versi-0.7.1-1f6f43?style=for-the-badge" alt="Versi" />
   <img src="https://img.shields.io/badge/Platform-Android-3ddc84?style=for-the-badge&logo=android&logoColor=white" alt="Platform" />
   <img src="https://img.shields.io/badge/Akurasi-97.1%25-0f9d58?style=for-the-badge" alt="Akurasi" />
   <img src="https://img.shields.io/badge/Mode-100%25_Offline-2563eb?style=for-the-badge" alt="Offline" />
-  <img src="https://img.shields.io/badge/Ukuran_APK-22.7_MB-f59e0b?style=for-the-badge" alt="Ukuran" />
+  <img src="https://img.shields.io/badge/Ukuran_APK-24.2_MB-f59e0b?style=for-the-badge" alt="Ukuran" />
 </p>
 
 <p align="center">
@@ -126,7 +126,7 @@ Jalur kedua tidak memakai kamera sama sekali. Petugas memilih kelompok gejala (d
 
 ### 6. Galeri Foto Acuan Lapangan
 
-Aplikasi membawa **42 foto acuan**, enam foto untuk setiap kelas, yang diambil dari kelompok foto berbeda agar tidak seragam. Galeri dapat dibuka dari hasil pemeriksaan foto, dari hasil analisis ciri, maupun dari menu tersendiri di beranda. Foto dapat diperbesar sampai empat kali untuk melihat bentuk bercak dan pola kerusakan. Total ukurannya hanya 652 KB.
+Aplikasi membawa **42 foto acuan**, enam foto untuk setiap kelas, yang diambil dari kelompok foto berbeda agar tidak seragam. Setiap subfolder kelas wajib didaftarkan satu per satu di `pubspec.yaml`, karena Flutter tidak membaca isi subfolder aset secara otomatis; `test/aset_test.dart` menjaga agar kesalahan itu tidak terulang. Galeri dapat dibuka dari hasil pemeriksaan foto, dari hasil analisis ciri, maupun dari menu tersendiri di beranda. Foto dapat diperbesar sampai empat kali untuk melihat bentuk bercak dan pola kerusakan. Total ukurannya hanya 652 KB.
 
 ### 7. Penjelasan Lengkap dan Diferensial
 
@@ -176,8 +176,8 @@ Rilis terbaru tersedia di halaman [Releases](https://github.com/arifrenggy/sidep
 
 | Berkas | Ukuran | Peruntukan |
 | :--- | ---: | :--- |
-| `sidepi-arm64.apk` | 22,7 MB | Ponsel Android keluaran 2018 ke atas (disarankan) |
-| `sidepi-universal.apk` | 61,6 MB | Ponsel lama atau bila versi ringan gagal dipasang |
+| `sidepi-arm64.apk` | 24,2 MB | Ponsel Android keluaran 2018 ke atas (disarankan) |
+| `sidepi-universal.apk` | 63,1 MB | Ponsel lama atau bila versi ringan gagal dipasang |
 
 Langkah pemasangan:
 
