@@ -50,7 +50,7 @@ class T {
 }
 
 ThemeData temaSidepi() {
-  final skema = const ColorScheme.light(
+  const skema = ColorScheme.light(
     primary: W.hijau,
     onPrimary: W.kertas,
     secondary: W.kunyit,
