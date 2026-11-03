@@ -154,21 +154,32 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
 
   List<Widget> _isiHasil(HasilFoto h) {
     final ciri = h.ciri;
-    final judul = h.status == 'sehat'
-        ? 'Daun tampak sehat'
-        : h.status == 'belum_pasti'
-            ? 'Belum dapat dipastikan'
-            : 'Indikasi: ${h.nama}';
-    final warna = h.status == 'sehat'
-        ? _hijau
-        : h.status == 'belum_pasti'
-            ? const Color(0xFFB8860B)
-            : const Color(0xFFA83A2C);
-    final pesan = h.status == 'sehat'
-        ? 'Foto tidak menunjukkan bercak penyakit yang berarti. Tetap periksa bagian lain tanaman.'
-        : h.status == 'belum_pasti'
-            ? 'Pola foto belum cukup khas. Centang ciri di bawah atau periksa tanaman lain.'
-            : 'Pola bercak pada foto paling mirip dengan ${h.nama}. Konfirmasi dengan ciri di bawah.';
+    final ditolak = h.status == 'bukan_padi' || h.status == 'terlalu_jauh';
+    final judul = h.status == 'bukan_padi'
+        ? 'Ini bukan foto tanaman padi'
+        : h.status == 'terlalu_jauh'
+            ? 'Bagian tanaman terlalu kecil'
+            : h.status == 'sehat'
+                ? 'Daun tampak sehat'
+                : h.status == 'belum_pasti'
+                    ? 'Belum dapat dipastikan'
+                    : 'Indikasi: ${h.nama}';
+    final warna = h.status == 'bukan_padi' || h.status == 'terlalu_jauh'
+        ? const Color(0xFF5A6B60)
+        : h.status == 'sehat'
+            ? _hijau
+            : h.status == 'belum_pasti'
+                ? const Color(0xFFB8860B)
+                : const Color(0xFFA83A2C);
+    final pesan = h.status == 'bukan_padi'
+        ? 'Foto ini tidak memuat bagian tanaman padi yang cukup, jadi tidak dianalisis. Arahkan kamera ke daun, batang, atau malai padi sampai memenuhi layar, lalu ambil ulang.'
+        : h.status == 'terlalu_jauh'
+            ? 'Bagian tanaman dalam foto terlalu sedikit untuk dinilai. Dekatkan kamera 10-15 cm dari daun, lalu ambil ulang.'
+            : h.status == 'sehat'
+                ? 'Foto tidak menunjukkan bercak penyakit yang berarti. Tetap periksa bagian lain tanaman.'
+                : h.status == 'belum_pasti'
+                    ? 'Pola foto belum cukup khas. Centang ciri di bawah atau periksa tanaman lain.'
+                    : 'Pola bercak pada foto paling mirip dengan ${h.nama}. Konfirmasi dengan ciri di bawah.';
 
     return [
       const SizedBox(height: 18),
@@ -182,7 +193,9 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('HASIL PEMERIKSAAN FOTO',
+            Text(h.status == 'bukan_padi' || h.status == 'terlalu_jauh'
+                    ? 'PEMERIKSAAN DIBATALKAN'
+                    : 'HASIL PEMERIKSAAN FOTO',
                 style: TextStyle(fontSize: 11, letterSpacing: 0.6, color: warna)),
             const SizedBox(height: 6),
             Text(judul,
@@ -190,15 +203,18 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
             const SizedBox(height: 8),
             Text(pesan, style: const TextStyle(fontSize: 13, color: _hijauTua, height: 1.45)),
             const SizedBox(height: 14),
-            _baris('Luas daun berbercak', '${(ciri.rasioLesi * 100).toStringAsFixed(1)}%'),
-            _baris('Jumlah bercak terdeteksi', '${ciri.jumlahBercak}'),
-            _baris('Kecerahan bercak', ciri.valLesi.toStringAsFixed(0)),
-            _baris('Warna dasar bercak', ciri.hueLesi.toStringAsFixed(0)),
-            _baris('Bercak berinti pucat', '${(ciri.pucat * 100).toStringAsFixed(1)}%'),
+            _baris('Bagian tanaman dalam foto', '${(ciri.rasioTanaman * 100).toStringAsFixed(0)}%'),
+            if (!ditolak) _baris('Luas daun berbercak', '${(ciri.rasioLesi * 100).toStringAsFixed(1)}%'),
+            if (!ditolak) ...[
+              _baris('Jumlah bercak terdeteksi', '${ciri.jumlahBercak}'),
+              _baris('Kecerahan bercak', ciri.valLesi.toStringAsFixed(0)),
+              _baris('Warna dasar bercak', ciri.hueLesi.toStringAsFixed(0)),
+              _baris('Bercak berinti pucat', '${(ciri.pucat * 100).toStringAsFixed(1)}%'),
+            ],
           ],
         ),
       ),
-      if (_hasilModel != null) ...[
+      if (_hasilModel != null && !ditolak) ...[
         const SizedBox(height: 14),
         _kartuModel(_hasilModel!),
       ],

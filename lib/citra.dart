@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 
 class CiriFoto {
+  final double cakupan;
+  final double rasioTanaman;
   final double rasioLesi;
   final double valLesi;
   final double satLesi;
@@ -11,8 +13,8 @@ class CiriFoto {
   final double pucat;
   final int jumlahBercak;
 
-  CiriFoto(this.rasioLesi, this.valLesi, this.satLesi, this.hueLesi, this.pucat,
-      this.jumlahBercak);
+  CiriFoto(this.cakupan, this.rasioTanaman, this.rasioLesi, this.valLesi, this.satLesi,
+      this.hueLesi, this.pucat, this.jumlahBercak);
 
   Map<String, double> get peta => {
         'rasio_lesi': rasioLesi,
@@ -37,6 +39,9 @@ class HasilFoto {
           : 'Daun sehat';
 
   String get status {
+    if (ciri.cakupan < 0.12) return 'bukan_padi';
+    if (ciri.rasioTanaman < 0.25) return 'bukan_padi';
+    if (ciri.rasioTanaman < 0.45) return 'terlalu_jauh';
     if (ciri.rasioLesi < 0.05) return 'sehat';
     if (yakin < 0.7) return 'belum_pasti';
     if (kelas == 'sehat') return 'sehat';
@@ -159,7 +164,7 @@ int _hitungBercak(List<bool> mask, int w, int h, int ambangLuas) {
 CiriFoto analisaPiksel(img.Image gambar) {
   final w = gambar.width, h = gambar.height;
   final mask = List<bool>.filled(w * h, false);
-  var totalDaun = 0, totalLesi = 0, totalPucat = 0;
+  var totalDaun = 0, totalLesi = 0, totalPucat = 0, totalTanaman = 0;
   final hueLesi = <double>[], valLesi = <double>[], satLesi = <double>[];
 
   for (var y = 0; y < h; y++) {
@@ -170,6 +175,8 @@ CiriFoto analisaPiksel(img.Image gambar) {
       final latar = (V > 232 && S < 30) || V < 26;
       if (latar) continue;
       final hijau = H >= 35 && H <= 95 && S > 45 && V > 45;
+      final warnaTanaman = H >= 20 && H <= 100 && S > 50 && V > 35;
+      if (warnaTanaman) totalTanaman++;
       totalDaun++;
       if (!hijau && S > 55 && V > 35) {
         mask[y * w + x] = true;
@@ -183,6 +190,8 @@ CiriFoto analisaPiksel(img.Image gambar) {
   }
 
   return CiriFoto(
+    totalDaun / (w * h),
+    totalDaun == 0 ? 0 : totalTanaman / totalDaun,
     totalDaun == 0 ? 0 : totalLesi / totalDaun,
     _median(valLesi),
     _median(satLesi),

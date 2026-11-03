@@ -45,4 +45,12 @@ void main() {
   test('berkas rusak ditolak dengan jelas', () {
     expect(() => periksaFotoBytes([1, 2, 3, 4]), throwsA(isA<FormatException>()));
   });
+
+  test('foto bukan tanaman padi tidak dianalisis', () {
+    final h = periksa('bukan_padi.jpg');
+    expect(h.status, anyOf('bukan_padi', 'terlalu_jauh'),
+        reason: 'foto kucing tidak boleh diproses sebagai penyakit padi');
+    expect(h.ciri.rasioTanaman, lessThan(0.5),
+        reason: 'bagian tanaman pada foto kucing sangat sedikit');
+  });
 }
