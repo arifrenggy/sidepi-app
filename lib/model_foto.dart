@@ -19,6 +19,24 @@ class HasilModel {
   double get teratas => peluang[kelas] ?? 0;
 }
 
+HasilModel gabungModel(List<HasilModel> daftar) {
+  final jumlah = <String, double>{};
+  for (final m in daftar) {
+    m.peluang.forEach((k, v) => jumlah[k] = (jumlah[k] ?? 0) + v);
+  }
+  final rata = <String, double>{};
+  jumlah.forEach((k, v) => rata[k] = v / daftar.length);
+  var kelas = labelModel.first;
+  var tertinggi = -1.0;
+  rata.forEach((k, v) {
+    if (v > tertinggi) {
+      tertinggi = v;
+      kelas = k;
+    }
+  });
+  return HasilModel(kelas, rata);
+}
+
 class ModelFoto {
   static const int ukuran = 224;
   Interpreter? _mesin;

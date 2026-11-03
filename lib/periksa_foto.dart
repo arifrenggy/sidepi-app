@@ -1,4 +1,4 @@
-// SIDEPI - layar periksa foto (pengolahan citra klasik, tanpa internet).
+// SIDEPI - layar periksa foto: bisa satu atau beberapa foto sekaligus.
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -20,15 +20,21 @@ class PeriksaFotoScreen extends StatefulWidget {
 
 class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   final _picker = ImagePicker();
-  File? _foto;
-  HasilFoto? _hasil;
-  HasilModel? _hasilModel;
   final _model = ModelFoto();
   bool _modelSiap = false;
   bool _memproses = false;
   String? _galat;
-  final Set<int> _ciriDicentang = {};
   Map<String, dynamic> _detail = {};
+  final Set<int> _ciriDicentang = {};
+
+  final List<File> _berkas = [];
+  final List<HasilFoto> _perFoto = [];
+  final List<HasilModel?> _modelPerFoto = [];
+  HasilModel? _gabungan;
+  int _diterima = 0;
+  int _dilewati = 0;
+  int _sepakat = 0;
+  int _utama = 0;
 
   @override
   void initState() {
@@ -57,35 +63,85 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
     setState(() {
       _galat = null;
       _memproses = true;
-      _hasil = null;
+      _berkas.clear();
+      _perFoto.clear();
+      _modelPerFoto.clear();
+      _gabungan = null;
+      _diterima = 0;
+      _dilewati = 0;
+      _sepakat = 0;
+      _utama = 0;
       _ciriDicentang.clear();
     });
     try {
-      final x = await _picker.pickImage(source: sumber, maxWidth: 1600, imageQuality: 92);
-      if (x == null) {
+      final List<XFile> pilihan = sumber == ImageSource.camera
+          ? [await _picker.pickImage(source: sumber, maxWidth: 1600, imageQuality: 92)]
+              .whereType<XFile>()
+              .toList()
+          : (await _picker.pickMultiImage(maxWidth: 1600, imageQuality: 92)).take(6).toList();
+      if (pilihan.isEmpty) {
         setState(() => _memproses = false);
         return;
       }
-      final berkas = File(x.path);
-      final bytes = await berkas.readAsBytes();
-      final hasil = periksaFotoBytes(bytes);
-      HasilModel? hasilModel;
-      try {
-        if (!_modelSiap) {
+      if (!_modelSiap) {
+        try {
           await _model.siapkan();
           _modelSiap = true;
+        } catch (_) {
+          _modelSiap = false;
         }
-        hasilModel = _model.periksa(bytes);
-      } catch (_) {
-        hasilModel = null;
       }
+
+      final berkasBaru = <File>[];
+      final hasilBaru = <HasilFoto>[];
+      final modelBaru = <HasilModel?>[];
+      for (final x in pilihan) {
+        final f = File(x.path);
+        final bytes = await f.readAsBytes();
+        hasilBaru.add(periksaFotoBytes(bytes));
+        HasilModel? m;
+        try {
+          m = _modelSiap ? _model.periksa(bytes) : null;
+        } catch (_) {
+          m = null;
+        }
+        modelBaru.add(m);
+        berkasBaru.add(f);
+      }
+
+      final dipakai = <HasilModel>[];
+      var utama = 0;
+      var yakin = -1.0;
+      for (var i = 0; i < hasilBaru.length; i++) {
+        final h = hasilBaru[i];
+        if (h.status == 'bukan_padi' || h.status == 'terlalu_jauh') continue;
+        final m = modelBaru[i];
+        if (m == null) continue;
+        dipakai.add(m);
+        if (m.teratas > yakin) {
+          yakin = m.teratas;
+          utama = i;
+        }
+      }
+      HasilModel? gab;
+      var sepakat = 0;
+      if (dipakai.isNotEmpty) {
+        gab = gabungModel(dipakai);
+        sepakat = dipakai.where((m) => m.kelas == gab!.kelas).length;
+      }
+
       setState(() {
-        _foto = berkas;
-        _hasil = hasil;
-        _hasilModel = hasilModel;
+        _berkas.addAll(berkasBaru);
+        _perFoto.addAll(hasilBaru);
+        _modelPerFoto.addAll(modelBaru);
+        _gabungan = gab;
+        _diterima = dipakai.length;
+        _dilewati = hasilBaru.length - dipakai.length;
+        _sepakat = sepakat;
+        _utama = utama;
         _memproses = false;
       });
-    } catch (e) {
+    } catch (_) {
       setState(() {
         _galat = 'Foto tidak dapat diperiksa. Coba ambil ulang dengan pencahayaan cukup.';
         _memproses = false;
@@ -105,23 +161,28 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         child: ListView(
           padding: const EdgeInsets.all(18),
           children: [
-            if (_foto != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.file(_foto!, height: 240, fit: BoxFit.cover),
+            if (_berkas.isNotEmpty)
+              SizedBox(
+                height: 120,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _berkas.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemBuilder: (_, i) => ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.file(_berkas[i], width: 120, height: 120, fit: BoxFit.cover),
+                  ),
+                ),
               ),
-            if (_foto == null)
+            if (_berkas.isEmpty)
               Container(
                 height: 160,
-                decoration: BoxDecoration(
-                  color: _hijauMuda,
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                decoration: BoxDecoration(color: _hijauMuda, borderRadius: BorderRadius.circular(12)),
                 child: const Center(
                   child: Padding(
                     padding: EdgeInsets.all(16),
                     child: Text(
-                      'Foto satu helai daun dari jarak dekat, dengan cahaya cukup dan latar sederhana.',
+                      'Foto 2 sampai 3 bagian tanaman: daun atas, daun bawah, dan leher malai. Satu foto juga bisa.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: _hijauTua, fontSize: 13),
                     ),
@@ -135,7 +196,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
                   child: FilledButton.icon(
                     onPressed: _memproses ? null : () => _ambil(ImageSource.camera),
                     icon: const Icon(Icons.photo_camera),
-                    label: const Text('Ambil Foto'),
+                    label: const Text('Kamera'),
                     style: FilledButton.styleFrom(
                       backgroundColor: _hijau,
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -147,7 +208,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
                   child: OutlinedButton.icon(
                     onPressed: _memproses ? null : () => _ambil(ImageSource.gallery),
                     icon: const Icon(Icons.photo_library),
-                    label: const Text('Galeri'),
+                    label: const Text('Pilih Banyak'),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       foregroundColor: _hijauTua,
@@ -164,41 +225,50 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
               const SizedBox(height: 16),
               Text(_galat!, style: const TextStyle(color: Color(0xFFA83A2C))),
             ],
-            if (_hasil != null) ..._isiHasil(_hasil!),
+            if (_perFoto.isNotEmpty) ..._isiHasil(),
           ],
         ),
       ),
     );
   }
 
-  List<Widget> _isiHasil(HasilFoto h) {
-    final ciri = h.ciri;
-    final ditolak = h.status == 'bukan_padi' || h.status == 'terlalu_jauh';
-    final judul = h.status == 'bukan_padi'
-        ? 'Ini bukan foto tanaman padi'
-        : h.status == 'terlalu_jauh'
-            ? 'Bagian tanaman terlalu kecil'
-            : h.status == 'sehat'
-                ? 'Daun tampak sehat'
-                : h.status == 'belum_pasti'
-                    ? 'Belum dapat dipastikan'
-                    : 'Indikasi: ${h.nama}';
-    final warna = h.status == 'bukan_padi' || h.status == 'terlalu_jauh'
+  bool _ditolak(HasilFoto h) => h.status == 'bukan_padi' || h.status == 'terlalu_jauh';
+
+  List<Widget> _isiHasil() {
+    final semuaDitolak = _gabungan == null;
+    final kelas = _gabungan?.kelas ?? _perFoto[_utama].kelas;
+    final teksKelas = namaTampil[kelas] ?? _perFoto[_utama].nama;
+    final yakin = _gabungan?.teratas ?? 0;
+
+    final judul = semuaDitolak
+        ? (_perFoto[_utama].status == 'bukan_padi'
+            ? 'Ini bukan foto tanaman padi'
+            : 'Bagian tanaman terlalu kecil')
+        : kelas == 'sehat'
+            ? 'Daun tampak sehat'
+            : 'Indikasi: $teksKelas';
+    final warna = semuaDitolak
         ? const Color(0xFF5A6B60)
-        : h.status == 'sehat'
+        : kelas == 'sehat'
             ? _hijau
-            : h.status == 'belum_pasti'
-                ? const Color(0xFFB8860B)
-                : const Color(0xFFA83A2C);
-    final pesan = h.status == 'bukan_padi'
-        ? 'Foto ini tidak memuat bagian tanaman padi yang cukup, jadi tidak dianalisis. Arahkan kamera ke daun, batang, atau malai padi sampai memenuhi layar, lalu ambil ulang.'
-        : h.status == 'terlalu_jauh'
-            ? 'Bagian tanaman dalam foto terlalu sedikit untuk dinilai. Dekatkan kamera 10-15 cm dari daun, lalu ambil ulang.'
-            : h.status == 'sehat'
-                ? 'Foto tidak menunjukkan bercak penyakit yang berarti. Tetap periksa bagian lain tanaman.'
-                : h.status == 'belum_pasti'
-                    ? 'Pola foto belum cukup khas. Centang ciri di bawah atau periksa tanaman lain.'
-                    : 'Pola bercak pada foto paling mirip dengan ${h.nama}. Konfirmasi dengan ciri di bawah.';
+            : const Color(0xFFA83A2C);
+
+    var pesan = '';
+    if (semuaDitolak) {
+      pesan = _perFoto[_utama].status == 'bukan_padi'
+          ? 'Foto ini tidak memuat bagian tanaman padi yang cukup, jadi tidak dianalisis. Arahkan kamera ke daun, batang, atau malai padi sampai memenuhi layar, lalu ambil ulang.'
+          : 'Bagian tanaman dalam foto terlalu sedikit untuk dinilai. Dekatkan kamera 10-15 cm dari daun lalu ambil ulang.';
+    } else if (_diterima == 1) {
+      pesan = kelas == 'sehat'
+          ? 'Foto tidak menunjukkan bercak penyakit yang berarti. Tetap periksa bagian lain tanaman.'
+          : 'Pola pada foto paling mirip dengan $teksKelas. Tambah 1-2 foto bagian lain untuk memperkuat hasil.';
+    } else if (_sepakat == _diterima) {
+      pesan = 'Kesimpulan dari $_diterima foto dan semuanya sepakat: $teksKelas. Hasil seperti ini paling bisa dipercaya.';
+    } else {
+      pesan = 'Kesimpulan dari $_diterima foto, $_sepakat sepakat pada $teksKelas. Foto yang berbeda pendapat biasanya bagian tanaman yang gejalanya belum jelas, jadi cocokkan dengan ciri di bawah.';
+    }
+
+    final ciri = _perFoto[_utama].ciri;
 
     return [
       const SizedBox(height: 18),
@@ -212,38 +282,91 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(h.status == 'bukan_padi' || h.status == 'terlalu_jauh'
+            Text(
+                semuaDitolak
                     ? 'PEMERIKSAAN DIBATALKAN'
-                    : 'HASIL PEMERIKSAAN FOTO',
+                    : _diterima > 1
+                        ? 'KESIMPULAN DARI $_diterima FOTO'
+                        : 'HASIL PEMERIKSAAN FOTO',
                 style: TextStyle(fontSize: 11, letterSpacing: 0.6, color: warna)),
             const SizedBox(height: 6),
-            Text(judul,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: warna)),
+            Text(judul, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: warna)),
+            if (!semuaDitolak && _diterima >= 1) ...[
+              const SizedBox(height: 4),
+              Text('keyakinan ${(yakin * 100).toStringAsFixed(0)}%',
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF5A6B60))),
+            ],
             const SizedBox(height: 8),
             Text(pesan, style: const TextStyle(fontSize: 13, color: _hijauTua, height: 1.45)),
+            if (_dilewati > 0) ...[
+              const SizedBox(height: 6),
+              Text('$_dilewati foto dilewati karena bukan tanaman padi atau terlalu jauh.',
+                  style: const TextStyle(fontSize: 11.5, color: Color(0xFF8A5A20))),
+            ],
             const SizedBox(height: 14),
-            _baris('Bagian tanaman dalam foto', '${(ciri.rasioTanaman * 100).toStringAsFixed(0)}%'),
-            if (!ditolak) _baris('Luas daun berbercak', '${(ciri.rasioLesi * 100).toStringAsFixed(1)}%'),
-            if (!ditolak) ...[
+            _baris('Bagian tanaman pada foto acuan', '${(ciri.rasioTanaman * 100).toStringAsFixed(0)}%'),
+            if (!semuaDitolak) ...[
+              _baris('Luas daun berbercak', '${(ciri.rasioLesi * 100).toStringAsFixed(1)}%'),
               _baris('Jumlah bercak terdeteksi', '${ciri.jumlahBercak}'),
-              _baris('Kecerahan bercak', ciri.valLesi.toStringAsFixed(0)),
-              _baris('Warna dasar bercak', ciri.hueLesi.toStringAsFixed(0)),
               _baris('Bercak berinti pucat', '${(ciri.pucat * 100).toStringAsFixed(1)}%'),
             ],
           ],
         ),
       ),
-      if (!ditolak && _detail[h.kelas] != null) ...[
-        const SizedBox(height: 14),
-        _kartuPenyakit(h.kelas),
-        const SizedBox(height: 14),
-        _kartuKemungkinanLain(h.kelas),
-        const SizedBox(height: 14),
-        _kartuPengendalian(h.kelas),
+      if (_perFoto.length > 1) ...[
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Hasil tiap foto',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _hijauTua)),
+              const SizedBox(height: 8),
+              ...List.generate(_perFoto.length, (i) {
+                final h = _perFoto[i];
+                final m = _modelPerFoto[i];
+                final nama = m != null ? (namaTampil[m.kelas] ?? m.kelas) : h.nama;
+                final nilai = m != null ? '${(m.teratas * 100).toStringAsFixed(0)}%' : '-';
+                final catatan = _ditolak(h)
+                    ? 'dilewati, bukan foto tanaman'
+                    : m == null
+                        ? 'model tidak tersedia'
+                        : m.kelas == kelas
+                            ? 'sepakat'
+                            : 'beda pendapat';
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Row(
+                    children: [
+                      Text('Foto ${i + 1}', style: const TextStyle(fontSize: 12.5, color: Color(0xFF5A6B60))),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text('$nama $nilai — $catatan',
+                            style: TextStyle(
+                                fontSize: 12.5,
+                                color: _ditolak(h) ? const Color(0xFF8A9A90) : _hijauTua)),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ],
+          ),
+        ),
       ],
-      if (_hasilModel != null && !ditolak) ...[
+      if (!semuaDitolak && _detail[kelas] != null) ...[
         const SizedBox(height: 14),
-        _kartuModel(_hasilModel!),
+        _kartuPenyakit(kelas),
+        const SizedBox(height: 14),
+        _kartuKemungkinanLain(kelas),
+        const SizedBox(height: 14),
+        _kartuPengendalian(kelas),
+      ],
+      if (_gabungan != null) ...[
+        const SizedBox(height: 14),
+        _kartuModel(_gabungan!),
       ],
       const SizedBox(height: 16),
       const Text('Konfirmasi ciri yang terlihat',
@@ -272,13 +395,10 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         Container(
           margin: const EdgeInsets.only(top: 8),
           padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: _hijauMuda,
-            borderRadius: BorderRadius.circular(10),
-          ),
+          decoration: BoxDecoration(color: _hijauMuda, borderRadius: BorderRadius.circular(10)),
           child: Text(
             _ciriDicentang.length >= 2
-                ? 'Ciri yang dicentang mendukung indikasi blas. Lanjutkan dengan tindakan pengendalian dan laporkan ke penyuluh.'
+                ? 'Ciri yang dicentang mendukung indikasi $teksKelas. Lanjutkan dengan tindakan pengendalian dan laporkan ke penyuluh.'
                 : 'Satu ciri belum cukup. Periksa ciri lain atau kirim tanaman ke penyuluh.',
             style: const TextStyle(fontSize: 13, color: _hijauTua, height: 1.4),
           ),
@@ -291,7 +411,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Text(
-          'Hasil foto adalah alat bantu, bukan diagnosis final. Ketepatan uji versi ini 71,5% pada 130 foto laboratorium; pada foto lapangan bisa lebih rendah. Selalu konfirmasi dengan penyuluh.',
+          'Hasil foto adalah alat bantu, bukan diagnosis final. Ketepatan uji model 92,3% pada foto laboratorium (data uji dipisah per kelompok foto kembar); pada foto lapangan bisa lebih rendah. Selalu konfirmasi dengan penyuluh.',
           style: TextStyle(fontSize: 11, color: Color(0xFF5A6B60), height: 1.45),
         ),
       ),
