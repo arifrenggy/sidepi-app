@@ -1,6 +1,8 @@
 // SIDEPI - layar periksa foto (pengolahan citra klasik, tanpa internet).
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'citra.dart';
 import 'model_foto.dart';
@@ -26,6 +28,23 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   bool _memproses = false;
   String? _galat;
   final Set<int> _ciriDicentang = {};
+  Map<String, dynamic> _detail = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _muatDetail();
+  }
+
+  Future<void> _muatDetail() async {
+    try {
+      final teks = await rootBundle.loadString('assets/detail_penyakit.json');
+      final data = jsonDecode(teks) as Map<String, dynamic>;
+      if (mounted) setState(() => _detail = data);
+    } catch (_) {
+      // tanpa detail, aplikasi tetap bisa dipakai
+    }
+  }
 
   static const _ciriKonfirmasi = [
     'Bercak berbentuk belah ketupat atau jorong',
@@ -214,6 +233,14 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
           ],
         ),
       ),
+      if (!ditolak && _detail[h.kelas] != null) ...[
+        const SizedBox(height: 14),
+        _kartuPenyakit(h.kelas),
+        const SizedBox(height: 14),
+        _kartuKemungkinanLain(h.kelas),
+        const SizedBox(height: 14),
+        _kartuPengendalian(h.kelas),
+      ],
       if (_hasilModel != null && !ditolak) ...[
         const SizedBox(height: 14),
         _kartuModel(_hasilModel!),
@@ -344,6 +371,144 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
             'Model mengenali lima hal: blas, bercak daun coklat, hawar daun bakteri, tungro, dan daun sehat. Penyakit di luar itu belum dikenali.',
             style: TextStyle(fontSize: 11, color: Color(0xFF7A8A80), height: 1.35),
           ),
+        ],
+      ),
+    );
+  }
+
+  Map<String, dynamic>? _info(String kelas) {
+    final d = _detail[kelas];
+    return d is Map<String, dynamic> ? d : null;
+  }
+
+  Widget _kartuPenyakit(String kelas) {
+    final d = _info(kelas);
+    if (d == null) return const SizedBox();
+    final gejala = (d['gejala'] as List? ?? []).cast<String>();
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: _hijau.withValues(alpha: 0.2)),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(d['gambar'] as String, height: 180, width: double.infinity, fit: BoxFit.cover),
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(d['nama'] as String? ?? '',
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _hijauTua)),
+                const SizedBox(height: 2),
+                Text(d['penyebab'] as String? ?? '',
+                    style: const TextStyle(fontSize: 12, color: Color(0xFF5A6B60))),
+                const SizedBox(height: 8),
+                Text(d['deskripsi'] as String? ?? '',
+                    style: const TextStyle(fontSize: 13, height: 1.5, color: _hijauTua)),
+                if (gejala.isNotEmpty) ...[
+                  const SizedBox(height: 10),
+                  const Text('Ciri yang perlu dicocokkan',
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: _hijauTua)),
+                  const SizedBox(height: 4),
+                  ...gejala.map((g) => Padding(
+                        padding: const EdgeInsets.only(bottom: 3),
+                        child: Text('• $g',
+                            style: const TextStyle(fontSize: 12.5, height: 1.4, color: Color(0xFF3C4C42))),
+                      )),
+                ],
+                const SizedBox(height: 6),
+                const Text('Contoh foto gejala dari dataset latih.',
+                    style: TextStyle(fontSize: 10, color: Color(0xFF8A9A90))),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _kartuKemungkinanLain(String kelas) {
+    final m = _hasilModel;
+    if (m == null) return const SizedBox();
+    final lain = m.peluang.entries.where((e) => e.key != kelas).toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    if (lain.isEmpty) return const SizedBox();
+    final d = _info(kelas);
+    final mirip = (d?['mirip'] as List? ?? []).cast<String>();
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: _hijauMuda,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Kemungkinan lain yang gejalanya mirip',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _hijauTua)),
+          const SizedBox(height: 6),
+          ...lain.take(2).map((e) {
+            final nama = namaTampil[e.key] ?? e.key;
+            final catatan = mirip.contains(e.key) ? 'sering tertukar dengan hasil di atas' : 'kemungkinan kecil';
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text('• $nama ${(e.value * 100).toStringAsFixed(0)}% — $catatan',
+                  style: const TextStyle(fontSize: 12.5, height: 1.4, color: _hijauTua)),
+            );
+          }),
+          const SizedBox(height: 4),
+          const Text('Kalau ciri di lapangan tidak cocok dengan hasil utama, periksa kemungkinan ini lebih dulu.',
+              style: TextStyle(fontSize: 11, color: Color(0xFF5A6B60), height: 1.4)),
+        ],
+      ),
+    );
+  }
+
+  Widget _kartuPengendalian(String kelas) {
+    final d = _info(kelas);
+    if (d == null) return const SizedBox();
+    final langkah = (d['pengendalian'] as List? ?? []).cast<String>();
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFD8E6DC)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Rekomendasi pengendalian',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _hijauTua)),
+          const SizedBox(height: 8),
+          ...List.generate(langkah.length, (i) => Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(color: _hijau, shape: BoxShape.circle),
+                      child: Text('${i + 1}',
+                          style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(langkah[i],
+                          style: const TextStyle(fontSize: 12.5, height: 1.45, color: _hijauTua)),
+                    ),
+                  ],
+                ),
+              )),
+          const SizedBox(height: 4),
+          const Text('Sebutkan nama bahan aktif saat membeli obat, dan ikuti dosis pada label atau anjuran penyuluh.',
+              style: TextStyle(fontSize: 11, color: Color(0xFF5A6B60), height: 1.4)),
         ],
       ),
     );

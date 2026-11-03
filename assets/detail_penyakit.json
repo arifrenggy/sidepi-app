@@ -1,0 +1,115 @@
+{
+ "blas": {
+  "nama": "Blas",
+  "penyebab": "Jamur Pyricularia oryzae",
+  "gambar": "assets/gejala/blas.jpg",
+  "deskripsi": "Penyakit paling merusak pada padi. Bercak menyerang daun, lalu naik ke leher malai dan membuat malai patah. Serangan pada leher malai bisa menggagalkan panen.",
+  "gejala": [
+   "Bercak berbentuk belah ketupat atau jorong",
+   "Pusat bercak abu-abu dengan tepi coklat",
+   "Leher malai menghitam lalu patah",
+   "Daun mengering seperti terbakar"
+  ],
+  "pengendalian": [
+   "Tanam varietas tahan blas",
+   "Hindari pupuk nitrogen berlebihan dan bagi pemupukan",
+   "Jaga air tidak menggenang terus, beri waktu tanah kering",
+   "Bersihkan sisa tanaman sakit setelah panen",
+   "Fungisida berbahan aktif trisiklazol, propikonazol, atau azoksistrobin bila gejala awal muncul, sesuai anjuran penyuluh"
+  ],
+  "mirip": [
+   "bercak_coklat",
+   "hawar_daun"
+  ]
+ },
+ "bercak_coklat": {
+  "nama": "Bercak daun coklat",
+  "penyebab": "Jamur Bipolaris oryzae",
+  "gambar": "assets/gejala/bercak_coklat.jpg",
+  "deskripsi": "Umumnya muncul pada tanaman yang kekurangan hara, terutama kalium. Bercak menyebar luas dan menurunkan hasil, tetapi jarang mematikan tanaman.",
+  "gejala": [
+   "Bercak bulat atau oval berwarna coklat",
+   "Pusat bercak lebih terang dari tepinya",
+   "Bercak tersebar merata di permukaan daun",
+   "Daun menguning pada serangan berat"
+  ],
+  "pengendalian": [
+   "Pupuk berimbang, cukupi kalium",
+   "Gunakan benih sehat dan bersih",
+   "Perbaiki drainase, hindari tanah terlalu basah",
+   "Atur jarak tanam agar tidak terlalu rapat",
+   "Fungisida mankozeb atau karbendazim bila serangan meluas, sesuai anjuran penyuluh"
+  ],
+  "mirip": [
+   "blas",
+   "hawar_daun"
+  ]
+ },
+ "tungro": {
+  "nama": "Tungro",
+  "penyebab": "Virus tungro, ditularkan wereng hijau",
+  "gambar": "assets/gejala/tungro.jpg",
+  "deskripsi": "Penyakit virus yang ditularkan wereng hijau. Tanaman kerdil dan menguning, jumlah anakan sedikit, dan malai kecil atau hampa. Penyakit ini tidak bisa diobati, hanya dicegah.",
+  "gejala": [
+   "Daun menguning mulai dari ujung",
+   "Tanaman kerdil dan anakan sedikit",
+   "Malai kecil, pendek, atau hampa",
+   "Akar berkurang dan tanaman mudah dicabut"
+  ],
+  "pengendalian": [
+   "Cabut dan musnahkan tanaman sakit, jangan dibiarkan di petakan",
+   "Kendalikan wereng hijau, pakai perangkap lampu dan insektisida bila populasi tinggi",
+   "Tanam varietas tahan tungro",
+   "Tanam serempak dalam satu hamparan",
+   "Jangan menanam terus-menerus tanpa masa bera"
+  ],
+  "mirip": [
+   "hawar_daun",
+   "sehat"
+  ]
+ },
+ "hawar_daun": {
+  "nama": "Hawar daun bakteri",
+  "penyebab": "Bakteri Xanthomonas oryzae pv. oryzae",
+  "gambar": "assets/gejala/hawar_daun.jpg",
+  "deskripsi": "Menyerang daun dan dapat meluas cepat pada musim hujan. Daun mengering dari ujung dan tepi, tampak seperti tersiram air panas. Serangan berat membuat tanaman tidak berbulir.",
+  "gejala": [
+   "Bercak kebasahan pada tepi daun",
+   "Bercak memanjang dan berwarna kekuningan",
+   "Daun mengering dari ujung seperti tersiram air panas",
+   "Muncul setelah hujan lebat dan angin kencang"
+  ],
+  "pengendalian": [
+   "Tanam varietas tahan",
+   "Perbaiki drainase, hindari genangan dan pemupukan nitrogen berlebihan",
+   "Hindari memindahkan lumpur dan air dari petakan sakit ke petakan sehat",
+   "Kurangi luka mekanis saat penyiangan dan pemupukan",
+   "Bakterisida berbahan tembaga sesuai anjuran penyuluh bila serangan meluas"
+  ],
+  "mirip": [
+   "blas",
+   "tungro"
+  ]
+ },
+ "sehat": {
+  "nama": "Daun sehat",
+  "penyebab": "Tidak ada penyakit terdeteksi",
+  "gambar": "assets/gejala/sehat.jpg",
+  "deskripsi": "Tidak ditemukan pola bercak penyakit pada foto. Warna daun hijau merata dan permukaan daun bersih.",
+  "gejala": [
+   "Daun hijau merata",
+   "Tidak ada bercak atau tepi mengering",
+   "Batang dan malai tegak"
+  ],
+  "pengendalian": [
+   "Monitoring 1 minggu sekali, terutama setelah hujan",
+   "Pupuk berimbang dan tidak berlebihan",
+   "Jaga kebersihan saluran air dan pematang",
+   "Catat kondisi harian sebagai bahan laporan"
+  ],
+  "mirip": [
+   "blas",
+   "bercak_coklat"
+  ]
+ }
+}
