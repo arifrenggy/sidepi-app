@@ -552,7 +552,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   }
 
   Widget _kartuKemungkinanLain(String kelas) {
-    final m = _hasilModel;
+    final m = _gabungan;
     if (m == null) return const SizedBox();
     final lain = m.peluang.entries.where((e) => e.key != kelas).toList()
       ..sort((a, b) => b.value.compareTo(a.value));
