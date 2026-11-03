@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'model_foto.dart';
-
-const _hijau = Color(0xFF1F6F43);
-const _hijauTua = Color(0xFF14432A);
-const _hijauMuda = Color(0xFFE8F3EC);
+import 'tema.dart';
 
 /// Memuat daftar foto acuan per kelas dari assets/acuan.json.
 Future<Map<String, List<String>>> muatAcuan() async {
@@ -35,8 +32,7 @@ class StripAcuan extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Foto acuan dari lapangan',
-                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, color: _hijauTua)),
+            Text('Foto acuan lapangan', style: T.mikro),
             const SizedBox(height: 6),
             SizedBox(
               height: tinggi,
@@ -60,8 +56,7 @@ class StripAcuan extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text('Ketuk foto untuk melihat lebih besar.',
-                style: TextStyle(fontSize: 10.5, color: Colors.grey.shade600)),
+            Text('Ketuk untuk memperbesar.', style: T.kecil.copyWith(fontSize: 10.5, color: W.redupMuda)),
           ],
         );
       },
@@ -96,9 +91,9 @@ class _GaleriAcuanScreenState extends State<GaleriAcuanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: _hijau,
-        foregroundColor: Colors.white,
-        title: Text(widget.judul, style: const TextStyle(fontSize: 16)),
+        backgroundColor: W.kertas,
+        foregroundColor: W.tinta,
+        title: Text(widget.judul),
       ),
       body: FutureBuilder<Map<String, List<String>>>(
         future: muatAcuan(),
@@ -124,17 +119,16 @@ class _GaleriAcuanScreenState extends State<GaleriAcuanScreen> {
                 ),
               ),
               Container(
-                color: _hijauMuda,
-                padding: const EdgeInsets.all(14),
+                color: W.permukaan,
+                padding: const EdgeInsets.fromLTRB(20, 14, 20, 22),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Foto ${_halaman + 1} dari ${daftar.length}',
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: _hijauTua)),
-                    const SizedBox(height: 4),
+                    Text('Foto ${_halaman + 1} dari ${daftar.length}', style: T.mikro),
+                    const SizedBox(height: 6),
                     Text(
-                      'Contoh gejala ${widget.judul}. Bandingkan dengan tanaman yang diperiksa; kalau cirinya tidak sama, curigai penyakit lain yang mirip.',
-                      style: const TextStyle(fontSize: 12, color: Color(0xFF3C4C42), height: 1.4),
+                      'Contoh gejala ${widget.judul}. Kalau ciri pada tanaman tidak sama dengan foto ini, curigai penyakit lain yang mirip.',
+                      style: T.kecil.copyWith(fontSize: 12.5, height: 1.45),
                     ),
                   ],
                 ),
@@ -176,15 +170,14 @@ class DaftarGaleriScreen extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFD8E6DC)),
+                      color: W.permukaan,
+                      borderRadius: BorderRadius.circular(R.sedang),
+                      border: Border.all(color: W.garisTipis),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(namaTampil[k] ?? k,
-                            style: const TextStyle(fontWeight: FontWeight.bold, color: _hijauTua)),
+                        Text(namaTampil[k] ?? k, style: T.subjudul.copyWith(fontSize: 14)),
                         const SizedBox(height: 8),
                         StripAcuan(kelas: k, tinggi: 84),
                       ],

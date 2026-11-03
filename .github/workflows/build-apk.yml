@@ -71,6 +71,11 @@ jobs:
           }
           GRADLE
 
+      - name: Pasang ikon dan layar muat
+        run: |
+          cp -r android_custom/res/. android/app/src/main/res/
+          ls android/app/src/main/res/mipmap-xxxhdpi
+
       - name: Setelan Gradle
         run: |
           cat >> android/gradle.properties << 'PROPS'

@@ -1,7 +1,7 @@
 name: sidepi
 description: SIDEPI - identifikasi penyakit tanaman padi untuk petugas lapangan
 publish_to: 'none'
-version: 0.6.0+7
+version: 0.7.0+8
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -28,3 +28,17 @@ flutter:
     - assets/detail_penyakit.json
     - assets/acuan/
     - assets/acuan.json
+    - assets/brand/
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter-ExtraBold.ttf
+          weight: 800
