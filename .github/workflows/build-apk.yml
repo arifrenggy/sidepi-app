@@ -36,6 +36,11 @@ jobs:
               configurations.all {
                   exclude group: 'org.tensorflow', module: 'tensorflow-lite-select-tf-ops'
                   exclude group: 'org.tensorflow', module: 'tensorflow-lite-gpu'
+                  resolutionStrategy.eachDependency { d ->
+                      if (d.requested.group == 'org.tensorflow' && d.requested.name.startsWith('tensorflow-lite')) {
+                          d.useVersion '2.16.1'
+                      }
+                  }
               }
           }
 
