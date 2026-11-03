@@ -26,3 +26,17 @@ table#tabel-ukur td { padding: 10px 12px; border-bottom:1px solid #eef3ef; }
 table#tabel-ukur td:last-child { text-align:right; font-variant-numeric: tabular-nums; font-weight:600; color: var(--gelap); }
 .ciri { display:flex; gap: 10px; align-items:flex-start; background:#fff; border:1px solid var(--garis); border-radius: 12px; padding: 12px; margin-bottom: 8px; font-size: 13.5px; line-height:1.5; }
 .ciri input { width: 22px; height: 22px; margin: 0; accent-color: var(--hijau); }
+
+.kartu-penyakit { background:#fff; border:1px solid var(--garis); border-radius:14px; overflow:hidden; margin-bottom:10px; }
+.kartu-penyakit img { width:100%; height:170px; object-fit:cover; display:block; }
+.kartu-penyakit .isi { padding: 14px; }
+.kartu-penyakit h3 { margin:0; font-size:18px; color: var(--gelap); }
+.kartu-penyakit .sebab { font-size:12px; color: var(--abu); margin-top:2px; }
+.kartu-penyakit p { font-size:13px; line-height:1.55; color:#35473c; margin:8px 0 0; }
+.kartu-penyakit ul { margin:6px 0 0; padding-left:18px; font-size:12.5px; line-height:1.5; color:#3c4c42; }
+.sumber { font-size:10px; color:#8a9a90; margin-top:6px; }
+.kotak-kendali { background:#fff; border:1px solid #d8e6dc; border-radius:14px; padding:14px; margin-bottom:10px; }
+.kotak-kendali ol { margin:0; padding-left:20px; font-size:12.5px; line-height:1.55; color: var(--gelap); }
+.kotak-kendali ol li { margin-bottom:6px; }
+.kotak-lain { background: var(--hijau-muda); border-radius:14px; padding:14px; margin-bottom:10px; font-size:12.5px; line-height:1.5; color: var(--gelap); }
+.kotak-lain b { font-size:13px; }

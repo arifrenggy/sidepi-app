@@ -14,6 +14,9 @@ var TINGKAT = {
 
 var el = function (id) { return document.getElementById(id); };
 var hasilTerakhir = null;
+var DETAIL = {};
+
+fetch('detail_penyakit.json').then(function (r) { return r.json(); }).then(function (d) { DETAIL = d; });
 
 el('tombol-kamera').onclick = function () { el('input-foto').click(); };
 el('tombol-galeri').onclick = function () { el('input-foto').removeAttribute('capture'); el('input-foto').click(); };
@@ -110,6 +113,8 @@ function tampilkan(h) {
   el('daftar-ciri').querySelectorAll('input').forEach(function (inp) {
     inp.onchange = hitungCiri;
   });
+  tampilkanDetail(h);
+
   el('kesimpulan-ciri').hidden = true;
   el('penafian').textContent = 'Hasil ini alat bantu, bukan diagnosis final. Ketepatan uji 73% pada 130 foto laboratorium; pada foto lapangan bisa lebih rendah. Untuk keputusan pengendalian, cocokkan dengan penyuluh atau POPT.';
 }
@@ -144,3 +149,38 @@ el('tombol-ulang').onclick = function () {
   el('input-foto').value = '';
   el('input-foto').setAttribute('capture', 'environment');
 };
+
+
+function tampilkanDetail(h) {
+  var d = DETAIL[h.kelas];
+  var kotak = el('kartu-penyakit');
+  var lain = el('kartu-lain');
+  var kendali = el('kartu-kendali');
+  if (!d) { kotak.innerHTML = ''; lain.innerHTML = ''; kendali.innerHTML = ''; return; }
+
+  kotak.innerHTML = '<div class="kartu-penyakit">' +
+    '<img src="gejala/' + h.kelas + '.jpg" alt="contoh gejala">' +
+    '<div class="isi"><h3>' + d.nama + '</h3>' +
+    '<div class="sebab">' + d.penyebab + '</div>' +
+    '<p>' + d.deskripsi + '</p>' +
+    '<ul>' + d.gejala.map(function (g) { return '<li>' + g + '</li>'; }).join('') + '</ul>' +
+    '<div class="sumber">Contoh foto gejala dari dataset latih.</div>' +
+    '</div></div>';
+
+  var teks = '<div class="kotak-lain"><b>Kemungkinan lain</b><br>';
+  var sisa = h.ciri ? 0 : 0;
+  var daftar = (h.peluang || []).filter(function (p) { return p.kelas !== h.kelas; }).slice(0, 2);
+  if (daftar.length === 0) {
+    daftar = (d.mirip || []).map(function (k) { return { kelas: k, nama: (DETAIL[k] || {}).nama || k }; });
+  }
+  teks += daftar.map(function (p) {
+    var mirip = (d.mirip || []).indexOf(p.kelas) >= 0;
+    return p.nama + (p.persen !== undefined ? ' (' + p.persen + '%)' : '') + ' — ' + (mirip ? 'gejalanya sering tertukar dengan hasil di atas' : 'kemungkinan kecil');
+  }).join('<br>');
+  teks += '<br><br>Kalau ciri di lapangan tidak cocok dengan hasil utama, periksa kemungkinan ini lebih dulu.</div>';
+  lain.innerHTML = teks;
+
+  kendali.innerHTML = '<div class="kotak-kendali"><ol>' +
+    d.pengendalian.map(function (k) { return '<li>' + k + '</li>'; }).join('') +
+    '</ol><div class="sumber">Sebutkan nama bahan aktif saat membeli obat, dan ikuti dosis pada label atau anjuran penyuluh.</div></div>';
+}
