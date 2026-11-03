@@ -18,11 +18,12 @@ const Map<String, String> kelasAcuan = {
   'P03': 'tungro',
 };
 
+// Kunci mengikuti kolom "kelompok" pada basis pengetahuan.
 const Map<String, IconData> ikonBagian = {
   'daun': Icons.eco_outlined,
-  'batang': Icons.grass_outlined,
+  'pelepah': Icons.grass_outlined,
   'malai': Icons.grain_outlined,
-  'pertumbuhan': Icons.spa_outlined,
+  'tanaman': Icons.spa_outlined,
 };
 
 void main() {
@@ -398,9 +399,9 @@ class _PilihBagianScreenState extends State<PilihBagianScreen> {
 
   String _namaBagian(String k) => switch (k) {
         'daun' => 'Daun',
-        'batang' => 'Batang dan pelepah',
+        'pelepah' => 'Batang dan pelepah',
         'malai' => 'Malai dan bulir',
-        'pertumbuhan' => 'Pertumbuhan tanaman',
+        'tanaman' => 'Pertumbuhan tanaman',
         _ => k,
       };
 }
@@ -1041,7 +1042,7 @@ class TentangScreen extends StatelessWidget {
               children: [
                 Image.asset('assets/brand/logo_gelap.png', width: 42, height: 42),
                 const SizedBox(height: 8),
-                Text('SIDEPI · v0.7.0', style: T.mikro),
+                Text('SIDEPI · v0.7.2', style: T.mikro),
               ],
             ),
           ),
