@@ -3,11 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-const List<String> labelModel = ['bercak_coklat', 'blas', 'hawar_daun', 'sehat', 'tungro'];
+const List<String> labelModel = [
+  'bercak_coklat',
+  'blas',
+  'kresek',
+  'penggerek',
+  'penggulung',
+  'sehat',
+  'tungro',
+];
 const Map<String, String> namaTampil = {
   'bercak_coklat': 'Bercak daun coklat',
   'blas': 'Blas',
-  'hawar_daun': 'Hawar daun bakteri',
+  'kresek': 'Kresek (hawar daun bakteri)',
+  'penggerek': 'Hama penggerek batang',
+  'penggulung': 'Hama putih palsu (penggulung daun)',
   'sehat': 'Daun sehat',
   'tungro': 'Tungro',
 };
@@ -66,10 +76,23 @@ class ModelFoto {
       ),
     );
     final keluaran = List.generate(1, (_) => List.filled(labelModel.length, 0.0));
-
     _mesin!.run(masukan, keluaran);
 
-    final baris = keluaran.first;
+    // cermin kiri-kanan: prediksi kedua dirata-rata supaya hasil lebih stabil
+    final masukanBalik = List.generate(
+      1,
+      (_) => List.generate(
+        ukuran,
+        (y) => List.generate(ukuran, (x) => masukan[0][y][ukuran - 1 - x]),
+      ),
+    );
+    final keluaranBalik = List.generate(1, (_) => List.filled(labelModel.length, 0.0));
+    _mesin!.run(masukanBalik, keluaranBalik);
+
+    final baris = List<double>.generate(
+      labelModel.length,
+      (i) => ((keluaran.first[i] as num).toDouble() + (keluaranBalik.first[i] as num).toDouble()) / 2,
+    );
     final peluang = <String, double>{};
     for (var i = 0; i < labelModel.length; i++) {
       peluang[labelModel[i]] = (baris[i] as num).toDouble();

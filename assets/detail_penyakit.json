@@ -22,29 +22,6 @@
    "hawar_daun"
   ]
  },
- "bercak_coklat": {
-  "nama": "Bercak daun coklat",
-  "penyebab": "Jamur Bipolaris oryzae",
-  "gambar": "assets/gejala/bercak_coklat.jpg",
-  "deskripsi": "Umumnya muncul pada tanaman yang kekurangan hara, terutama kalium. Bercak menyebar luas dan menurunkan hasil, tetapi jarang mematikan tanaman.",
-  "gejala": [
-   "Bercak bulat atau oval berwarna coklat",
-   "Pusat bercak lebih terang dari tepinya",
-   "Bercak tersebar merata di permukaan daun",
-   "Daun menguning pada serangan berat"
-  ],
-  "pengendalian": [
-   "Pupuk berimbang, cukupi kalium",
-   "Gunakan benih sehat dan bersih",
-   "Perbaiki drainase, hindari tanah terlalu basah",
-   "Atur jarak tanam agar tidak terlalu rapat",
-   "Fungisida mankozeb atau karbendazim bila serangan meluas, sesuai anjuran penyuluh"
-  ],
-  "mirip": [
-   "blas",
-   "hawar_daun"
-  ]
- },
  "tungro": {
   "nama": "Tungro",
   "penyebab": "Virus tungro, ditularkan wereng hijau",
@@ -68,27 +45,27 @@
    "sehat"
   ]
  },
- "hawar_daun": {
-  "nama": "Hawar daun bakteri",
-  "penyebab": "Bakteri Xanthomonas oryzae pv. oryzae",
-  "gambar": "assets/gejala/hawar_daun.jpg",
-  "deskripsi": "Menyerang daun dan dapat meluas cepat pada musim hujan. Daun mengering dari ujung dan tepi, tampak seperti tersiram air panas. Serangan berat membuat tanaman tidak berbulir.",
+ "bercak_coklat": {
+  "nama": "Bercak daun coklat",
+  "penyebab": "Jamur Bipolaris oryzae",
+  "gambar": "assets/gejala/bercak_coklat.jpg",
+  "deskripsi": "Umumnya muncul pada tanaman yang kekurangan hara, terutama kalium. Bercak menyebar luas dan menurunkan hasil, tetapi jarang mematikan tanaman.",
   "gejala": [
-   "Bercak kebasahan pada tepi daun",
-   "Bercak memanjang dan berwarna kekuningan",
-   "Daun mengering dari ujung seperti tersiram air panas",
-   "Muncul setelah hujan lebat dan angin kencang"
+   "Bercak bulat atau oval berwarna coklat",
+   "Pusat bercak lebih terang dari tepinya",
+   "Bercak tersebar merata di permukaan daun",
+   "Daun menguning pada serangan berat"
   ],
   "pengendalian": [
-   "Tanam varietas tahan",
-   "Perbaiki drainase, hindari genangan dan pemupukan nitrogen berlebihan",
-   "Hindari memindahkan lumpur dan air dari petakan sakit ke petakan sehat",
-   "Kurangi luka mekanis saat penyiangan dan pemupukan",
-   "Bakterisida berbahan tembaga sesuai anjuran penyuluh bila serangan meluas"
+   "Pupuk berimbang, cukupi kalium",
+   "Gunakan benih sehat dan bersih",
+   "Perbaiki drainase, hindari tanah terlalu basah",
+   "Atur jarak tanam agar tidak terlalu rapat",
+   "Fungisida mankozeb atau karbendazim bila serangan meluas, sesuai anjuran penyuluh"
   ],
   "mirip": [
    "blas",
-   "tungro"
+   "hawar_daun"
   ]
  },
  "sehat": {
@@ -110,6 +87,75 @@
   "mirip": [
    "blas",
    "bercak_coklat"
+  ]
+ },
+ "kresek": {
+  "nama": "Kresek (hawar daun bakteri)",
+  "penyebab": "Bakteri Xanthomonas oryzae pv. oryzae",
+  "gambar": "assets/gejala/kresek.jpg",
+  "deskripsi": "Disebut kresek karena daun yang terserang tampak seperti tersiram air panas lalu mengering. Menyebar cepat pada musim hujan dan bisa menurunkan hasil sampai setengah bila menyerang saat pembentukan malai.",
+  "gejala": [
+   "Bercak kebasahan pada tepi daun",
+   "Bercak memanjang kekuningan lalu mengering",
+   "Daun mengering dari ujung seperti tersiram air panas",
+   "Muncul setelah hujan lebat dan angin kencang"
+  ],
+  "pengendalian": [
+   "Tanam varietas tahan kresek",
+   "Perbaiki drainase, hindari genangan dan nitrogen berlebihan",
+   "Jangan mengalirkan air dari petakan sakit ke petakan sehat",
+   "Kurangi luka mekanis saat penyiangan dan pemupukan",
+   "Bakterisida berbahan tembaga sesuai anjuran penyuluh bila serangan meluas"
+  ],
+  "mirip": [
+   "blas",
+   "tungro"
+  ]
+ },
+ "penggerek": {
+  "nama": "Hama penggerek batang",
+  "penyebab": "Ulat penggerek batang (Scirpophaga incertulas, Chilo suppressalis)",
+  "gambar": "assets/gejala/penggerek.jpg",
+  "deskripsi": "Ulat masuk ke dalam batang dan memakan jaringan di dalamnya. Pada tanaman muda, anakan mati mengering (sundep). Pada fase bunting, malai menjadi hampa dan mudah dicabut (beluk).",
+  "gejala": [
+   "Anakan muda mengering dan mati di tengah petakan",
+   "Malai hampa, tegak, dan mudah dicabut",
+   "Ada lubang kecil pada pangkal batang",
+   "Di dalam batang ditemukan ulat dan kotoran bekas gerigik"
+  ],
+  "pengendalian": [
+   "Tanam serempak dalam satu hamparan",
+   "Cabut dan musnahkan anakan atau malai yang terserang",
+   "Pasang perangkap lampu untuk menekan populasi ngengat",
+   "Lepaskan musuh alami seperti Trichogramma bila tersedia",
+   "Insektisida hanya bila populasi melewati ambang, sesuai anjuran penyuluh"
+  ],
+  "mirip": [
+   "kresek",
+   "penggulung"
+  ]
+ },
+ "penggulung": {
+  "nama": "Hama putih palsu (penggulung daun)",
+  "penyebab": "Ulat penggulung daun (Cnaphalocrocis medinalis)",
+  "gambar": "assets/gejala/penggulung.jpg",
+  "deskripsi": "Ulat menggulung daun dan memakan bagian hijau di dalamnya, menyisakan lapisan putih seperti kertas. Serangan berat membuat daun mengering dan menghambat pengisian bulir.",
+  "gejala": [
+   "Daun tergulung memanjang dan menempel rapat",
+   "Bekas makan berupa garis putih transparan",
+   "Daun tampak putih dan kering pada serangan berat",
+   "Di dalam gulungan ditemukan ulat kecil hijau"
+  ],
+  "pengendalian": [
+   "Periksa petakan 1 minggu sekali, buka gulungan daun untuk melihat ulat",
+   "Hindari pupuk nitrogen berlebihan",
+   "Musnahkan gulungan daun yang berisi ulat",
+   "Jaga populasi musuh alami seperti laba-laba dan kumbang",
+   "Insektisida sesuai ambang pengendalian dan anjuran penyuluh"
+  ],
+  "mirip": [
+   "penggerek",
+   "kresek"
   ]
  }
 }
