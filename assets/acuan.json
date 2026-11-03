@@ -1,0 +1,58 @@
+{
+ "bercak_coklat": [
+  "assets/acuan/bercak_coklat/1.jpg",
+  "assets/acuan/bercak_coklat/2.jpg",
+  "assets/acuan/bercak_coklat/3.jpg",
+  "assets/acuan/bercak_coklat/4.jpg",
+  "assets/acuan/bercak_coklat/5.jpg",
+  "assets/acuan/bercak_coklat/6.jpg"
+ ],
+ "blas": [
+  "assets/acuan/blas/1.jpg",
+  "assets/acuan/blas/2.jpg",
+  "assets/acuan/blas/3.jpg",
+  "assets/acuan/blas/4.jpg",
+  "assets/acuan/blas/5.jpg",
+  "assets/acuan/blas/6.jpg"
+ ],
+ "kresek": [
+  "assets/acuan/kresek/1.jpg",
+  "assets/acuan/kresek/2.jpg",
+  "assets/acuan/kresek/3.jpg",
+  "assets/acuan/kresek/4.jpg",
+  "assets/acuan/kresek/5.jpg",
+  "assets/acuan/kresek/6.jpg"
+ ],
+ "penggerek": [
+  "assets/acuan/penggerek/1.jpg",
+  "assets/acuan/penggerek/2.jpg",
+  "assets/acuan/penggerek/3.jpg",
+  "assets/acuan/penggerek/4.jpg",
+  "assets/acuan/penggerek/5.jpg",
+  "assets/acuan/penggerek/6.jpg"
+ ],
+ "penggulung": [
+  "assets/acuan/penggulung/1.jpg",
+  "assets/acuan/penggulung/2.jpg",
+  "assets/acuan/penggulung/3.jpg",
+  "assets/acuan/penggulung/4.jpg",
+  "assets/acuan/penggulung/5.jpg",
+  "assets/acuan/penggulung/6.jpg"
+ ],
+ "sehat": [
+  "assets/acuan/sehat/1.jpg",
+  "assets/acuan/sehat/2.jpg",
+  "assets/acuan/sehat/3.jpg",
+  "assets/acuan/sehat/4.jpg",
+  "assets/acuan/sehat/5.jpg",
+  "assets/acuan/sehat/6.jpg"
+ ],
+ "tungro": [
+  "assets/acuan/tungro/1.jpg",
+  "assets/acuan/tungro/2.jpg",
+  "assets/acuan/tungro/3.jpg",
+  "assets/acuan/tungro/4.jpg",
+  "assets/acuan/tungro/5.jpg",
+  "assets/acuan/tungro/6.jpg"
+ ]
+}

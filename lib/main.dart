@@ -7,7 +7,15 @@ import 'package:flutter/services.dart';
 import 'logika.dart';
 import 'models.dart';
 import 'penyimpanan.dart';
+import 'galeri_acuan.dart';
 import 'periksa_foto.dart';
+
+/// Padanan id basis pengetahuan ke kelas galeri foto acuan.
+const Map<String, String> kelasAcuan = {
+  'P01': 'blas',
+  'P02': 'kresek',
+  'P03': 'tungro',
+};
 
 const Color hijau = Color(0xFF1F6F43);
 const Color hijauMuda = Color(0xFFE8F3EC);
@@ -190,6 +198,19 @@ class BerandaScreen extends StatelessWidget {
                 ),
                 icon: const Icon(Icons.history),
                 label: const Text('Riwayat Identifikasi'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  foregroundColor: hijauTua,
+                ),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DaftarGaleriScreen()),
+                ),
+                icon: const Icon(Icons.photo_library_outlined),
+                label: const Text('Galeri Contoh Gejala'),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   foregroundColor: hijauTua,
@@ -492,6 +513,19 @@ class _HasilScreenState extends State<HasilScreen> {
           if (utama != null) _kartuUtama(utama),
           if (utama == null && a.kemungkinan.isNotEmpty) _kartuDugaan(a.kemungkinan.first),
           if (a.kemungkinan.isEmpty) _kartuKosong(),
+          if (a.kemungkinan.isNotEmpty &&
+              kelasAcuan[a.kemungkinan.first.penyakit.id] != null) ...[
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFD8E6DC)),
+              ),
+              child: StripAcuan(kelas: kelasAcuan[a.kemungkinan.first.penyakit.id]!),
+            ),
+          ],
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(14),

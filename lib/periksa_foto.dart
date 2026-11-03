@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'citra.dart';
+import 'galeri_acuan.dart';
 import 'model_foto.dart';
 
 const _hijau = Color(0xFF1F6F43);
@@ -360,6 +361,8 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         const SizedBox(height: 14),
         _kartuPenyakit(kelas),
         const SizedBox(height: 14),
+        _kartuGaleri(kelas),
+        const SizedBox(height: 14),
         _kartuKemungkinanLain(kelas),
         const SizedBox(height: 14),
         _kartuPengendalian(kelas),
@@ -545,6 +548,35 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
                     style: TextStyle(fontSize: 10, color: Color(0xFF8A9A90))),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _kartuGaleri(String kelas) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFD8E6DC)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          StripAcuan(kelas: kelas),
+          const SizedBox(height: 10),
+          OutlinedButton.icon(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => GaleriAcuanScreen(
+                kelas: kelas,
+                judul: namaTampil[kelas] ?? kelas,
+              ),
+            )),
+            icon: const Icon(Icons.photo_library_outlined, size: 18),
+            label: Text('Buka galeri ${namaTampil[kelas] ?? kelas}',
+                style: const TextStyle(fontSize: 12.5)),
           ),
         ],
       ),
