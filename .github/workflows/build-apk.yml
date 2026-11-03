@@ -94,12 +94,16 @@ jobs:
             exit 1
           fi
           echo "APK ditemukan di: $APK"
-          cp "$APK" sidepi-release.apk
-          ls -la sidepi-release.apk
+          cp "$APK" sidepi-universal.apk
+          # versi ringkas untuk HP Android modern (arm64)
+          flutter build apk --release --split-per-abi > /tmp/build2.log 2>&1
+          ARM=$(find . -name "app-arm64-v8a-release.apk" -type f | head -1)
+          if [ -n "$ARM" ]; then cp "$ARM" sidepi-arm64.apk; fi
+          ls -la sidepi-*.apk
 
       - name: Unggah APK
         uses: actions/upload-artifact@v4
         with:
           name: sidepi-apk
-          path: sidepi-release.apk
+          path: sidepi-*.apk
           if-no-files-found: error
