@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-const List<String> labelModel = ['bercak_coklat', 'blas', 'sehat'];
+const List<String> labelModel = ['bercak_coklat', 'blas', 'hawar_daun', 'sehat', 'tungro'];
 const Map<String, String> namaTampil = {
   'bercak_coklat': 'Bercak daun coklat',
   'blas': 'Blas',
+  'hawar_daun': 'Hawar daun bakteri',
   'sehat': 'Daun sehat',
+  'tungro': 'Tungro',
 };
 
 class HasilModel {
@@ -22,7 +24,7 @@ class ModelFoto {
   Interpreter? _mesin;
 
   Future<void> siapkan() async {
-    final data = await rootBundle.load('assets/models/sidepi_blas.tflite');
+    final data = await rootBundle.load('assets/models/sidepi_model.tflite');
     _mesin = Interpreter.fromBuffer(data.buffer.asUint8List());
   }
 

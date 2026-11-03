@@ -325,7 +325,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
           ),
           const SizedBox(height: 6),
           const Text(
-            'Model hanya mengenali blas, bercak daun coklat, dan daun sehat. Penyakit lain seperti tungro belum ada dalam model foto.',
+            'Model mengenali lima hal: blas, bercak daun coklat, hawar daun bakteri, tungro, dan daun sehat. Penyakit di luar itu belum dikenali.',
             style: TextStyle(fontSize: 11, color: Color(0xFF7A8A80), height: 1.35),
           ),
         ],
