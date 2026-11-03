@@ -15,6 +15,44 @@ Future<Map<String, List<String>>> muatAcuan() async {
   return hasil;
 }
 
+
+/// Foto acuan dengan cadangan: bila aset gagal dimuat, yang tampil penjelasan
+/// singkat, bukan kotak putih kosong tanpa keterangan.
+class FotoAcuan extends StatelessWidget {
+  const FotoAcuan({super.key, required this.path, this.tinggi, this.lebar, this.penuh = false});
+
+  final String path;
+  final double? tinggi;
+  final double? lebar;
+  final bool penuh;
+
+  @override
+  Widget build(BuildContext context) {
+    final bingkai = Container(
+      width: lebar,
+      height: tinggi,
+      color: W.hijauMuda,
+      alignment: Alignment.center,
+      child: const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.broken_image_outlined, size: 20, color: W.redupMuda),
+          SizedBox(height: 4),
+          Text('Foto tidak terbaca',
+              style: TextStyle(fontFamily: 'Inter', fontSize: 9.5, color: W.redupMuda)),
+        ],
+      ),
+    );
+    return Image.asset(
+      path,
+      width: lebar,
+      height: tinggi,
+      fit: penuh ? BoxFit.contain : BoxFit.cover,
+      errorBuilder: (_, __, ___) => bingkai,
+    );
+  }
+}
+
 /// Deretan kecil foto acuan, dipakai sebagai pelengkap hasil analisis.
 class StripAcuan extends StatelessWidget {
   const StripAcuan({super.key, required this.kelas, this.tinggi = 92});
@@ -50,7 +88,7 @@ class StripAcuan extends StatelessWidget {
                   )),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(daftar[i], width: tinggi, height: tinggi, fit: BoxFit.cover),
+                    child: FotoAcuan(path: daftar[i], tinggi: tinggi, lebar: tinggi),
                   ),
                 ),
               ),
@@ -113,7 +151,7 @@ class _GaleriAcuanScreenState extends State<GaleriAcuanScreen> {
                     minScale: 1,
                     maxScale: 4,
                     child: Center(
-                      child: Image.asset(daftar[i], fit: BoxFit.contain),
+                      child: FotoAcuan(path: daftar[i], penuh: true),
                     ),
                   ),
                 ),
@@ -159,11 +197,11 @@ class DaftarGaleriScreen extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 12),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 14),
                 child: Text(
                   'Bandingkan tanaman yang diperiksa dengan foto di bawah. Kalau cirinya tidak sama, curigai penyakit lain yang mirip.',
-                  style: TextStyle(fontSize: 12.5, color: Color(0xFF5A6B60), height: 1.45),
+                  style: T.kecil.copyWith(fontSize: 12.5, height: 1.45),
                 ),
               ),
               ...peta.keys.map((k) => Container(

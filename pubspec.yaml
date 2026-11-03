@@ -1,7 +1,7 @@
 name: sidepi
 description: SIDEPI - identifikasi penyakit tanaman padi untuk petugas lapangan
 publish_to: 'none'
-version: 0.7.0+8
+version: 0.7.1+9
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -26,7 +26,16 @@ flutter:
     - assets/models/
     - assets/gejala/
     - assets/detail_penyakit.json
+    # Flutter tidak membaca subfolder secara otomatis, jadi tiap folder
+    # kelas foto acuan harus didaftarkan satu per satu di sini.
     - assets/acuan/
+    - assets/acuan/bercak_coklat/
+    - assets/acuan/blas/
+    - assets/acuan/kresek/
+    - assets/acuan/penggerek/
+    - assets/acuan/penggulung/
+    - assets/acuan/sehat/
+    - assets/acuan/tungro/
     - assets/acuan.json
     - assets/brand/
   fonts:
