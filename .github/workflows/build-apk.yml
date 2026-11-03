@@ -84,18 +84,22 @@ jobs:
       - name: Bangun APK
         run: |
           set +e
-          flutter build apk --release --verbose > /tmp/build.log 2>&1
+          flutter build apk --release > /tmp/build.log 2>&1
           kode=$?
-          echo "kode keluar: $kode"
-          grep -aiE "error|failed|exception|FAILURE|what went wrong|Execution failed" /tmp/build.log | tail -30
-          echo "--- isi folder keluaran ---"
-          ls -la build/app/outputs/flutter-apk 2>/dev/null || echo "folder flutter-apk tidak ada"
-          find . -name "*.apk" -print 2>/dev/null | head
-          exit $kode
+          grep -aiE "error|failed|what went wrong|Execution failed" /tmp/build.log | tail -20
+          APK=$(find . -name "app-release.apk" -type f | head -1)
+          if [ -z "$APK" ]; then
+            echo "APK tidak ditemukan"
+            tail -30 /tmp/build.log
+            exit 1
+          fi
+          echo "APK ditemukan di: $APK"
+          cp "$APK" sidepi-release.apk
+          ls -la sidepi-release.apk
 
       - name: Unggah APK
         uses: actions/upload-artifact@v4
         with:
           name: sidepi-apk
-          path: build/app/outputs/flutter-apk/app-*-release.apk
+          path: sidepi-release.apk
           if-no-files-found: error
