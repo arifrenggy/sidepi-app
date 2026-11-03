@@ -29,6 +29,25 @@ jobs:
           flutter create --project-name sidepi --org id.go.sumbatimur --platforms android /tmp/scaffold
           cp -r /tmp/scaffold/android .
           sed -i 's/android:label="sidepi"/android:label="SIDEPI"/' android/app/src/main/AndroidManifest.xml
+          cat >> android/build.gradle << 'GRADLE'
+
+          // samakan target JVM Java dan Kotlin untuk semua plugin
+          subprojects {
+              afterEvaluate { proyek ->
+                  if (proyek.hasProperty('android')) {
+                      proyek.android {
+                          compileOptions {
+                              sourceCompatibility JavaVersion.VERSION_17
+                              targetCompatibility JavaVersion.VERSION_17
+                          }
+                      }
+                  }
+                  proyek.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                      kotlinOptions { jvmTarget = '17' }
+                  }
+              }
+          }
+          GRADLE
 
       - name: Ambil dependensi
         run: flutter pub get
