@@ -28,7 +28,9 @@ jobs:
 
       - name: Baca versi aplikasi
         id: versi
-        run: echo "nilai=$(grep '^version:' pubspec.yaml | sed 's/version: //; s/+.*//')" >> $GITHUB_OUTPUT
+        run: |
+          VERSI=$(grep '^version:' pubspec.yaml | sed 's/version: //; s/+.*//')
+          echo "nilai=$VERSI" >> $GITHUB_OUTPUT
 
       - name: Siapkan folder android
         run: |
