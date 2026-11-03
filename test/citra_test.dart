@@ -12,6 +12,7 @@ void main() {
       final h = periksa(f);
       expect(h.kelas, 'blas', reason: '$f seharusnya blas');
       expect(h.ciri.rasioLesi, greaterThan(0.05), reason: '$f ada bercak berarti');
+      expect(h.ciri.valLesi, greaterThan(140), reason: '$f bercaknya pucat khas blas');
     }
   });
 
@@ -22,12 +23,15 @@ void main() {
     }
   });
 
-  test('daun sehat dikenali sehat dan bercaknya sedikit', () {
+  test('daun sehat dikenali sehat', () {
     for (final f in ['sehat_001.jpg', 'sehat_002.jpg']) {
       final h = periksa(f);
       expect(h.kelas, 'sehat', reason: '$f seharusnya sehat');
-      expect(h.ciri.rasioLesi, lessThan(0.08), reason: '$f bercaknya sedikit');
+      // daun sehat: bercak gelap, bukan bercak pucat seperti blas
+      expect(h.ciri.valLesi, lessThan(120), reason: '$f bercaknya gelap');
     }
+    expect(periksa('sehat_001.jpg').ciri.rasioLesi, lessThan(0.08),
+        reason: 'foto sehat dengan sedikit bercak harus berasio kecil');
   });
 
   test('ciri yang dihitung masuk akal', () {
