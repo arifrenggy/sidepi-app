@@ -31,6 +31,14 @@ jobs:
           sed -i 's/android:label="sidepi"/android:label="SIDEPI"/' android/app/src/main/AndroidManifest.xml
           cat >> android/build.gradle << 'GRADLE'
 
+          // buang library TF yang membuat bentrok namespace; model kita hanya butuh operasi dasar
+          subprojects {
+              configurations.all {
+                  exclude group: 'org.tensorflow', module: 'tensorflow-lite-select-tf-ops'
+                  exclude group: 'org.tensorflow', module: 'tensorflow-lite-gpu'
+              }
+          }
+
           // samakan target JVM Java dan Kotlin untuk semua plugin
           subprojects {
               afterEvaluate { proyek ->
