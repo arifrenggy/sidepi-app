@@ -6,6 +6,7 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 const List<String> labelModel = [
   'bercak_coklat',
   'blas',
+  'bukan_padi',
   'kresek',
   'penggerek',
   'penggulung',
@@ -15,6 +16,7 @@ const List<String> labelModel = [
 const Map<String, String> namaTampil = {
   'bercak_coklat': 'Bercak daun coklat',
   'blas': 'Blas',
+  'bukan_padi': 'Bukan daun padi',
   'kresek': 'Kresek (hawar daun bakteri)',
   'penggerek': 'Hama penggerek batang',
   'penggulung': 'Hama putih palsu (penggulung daun)',
@@ -48,7 +50,7 @@ HasilModel gabungModel(List<HasilModel> daftar) {
 }
 
 class ModelFoto {
-  static const int ukuran = 224;
+  static const int ukuran = 256;
   Interpreter? _mesin;
 
   Future<void> siapkan() async {

@@ -31,6 +31,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   HasilModel? _gabungan;
   int _diterima = 0;
   int _dilewati = 0;
+  int _bukanPadi = 0;
   int _sepakat = 0;
   int _utama = 0;
 
@@ -115,6 +116,9 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         if (h.status == 'bukan_padi' || h.status == 'terlalu_jauh') continue;
         final m = modelBaru[i];
         if (m == null) continue;
+        // model sudah belajar menolak daun tanaman lain, jadi foto yang
+        // dinilai bukan padi tidak ikut menentukan kesimpulan
+        if (m.kelas == 'bukan_padi') continue;
         dipakai.add(m);
         if (m.teratas > yakin) {
           yakin = m.teratas;
@@ -128,7 +132,10 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         sepakat = dipakai.where((m) => m.kelas == gab!.kelas).length;
       }
 
+      final ditolakModel =
+          modelBaru.where((m) => m != null && m.kelas == 'bukan_padi').length;
       setState(() {
+        _bukanPadi = ditolakModel;
         _berkas.addAll(berkasBaru);
         _perFoto.addAll(hasilBaru);
         _modelPerFoto.addAll(modelBaru);
@@ -261,9 +268,11 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
     final yakin = _gabungan?.teratas ?? 0;
 
     final judul = semuaDitolak
-        ? (_perFoto[_utama].status == 'bukan_padi'
-            ? 'Foto ini bukan tanaman padi'
-            : 'Bagian tanaman terlalu kecil')
+        ? (_bukanPadi > 0
+            ? 'Ini bukan daun padi'
+            : _perFoto[_utama].status == 'bukan_padi'
+                ? 'Foto ini bukan tanaman padi'
+                : 'Bagian tanaman terlalu kecil')
         : kelas == 'sehat'
             ? 'Daun tampak sehat'
             : teksKelas;
@@ -273,16 +282,18 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
             ? W.hijauSedang
             : W.merah;
     final statusTeks = semuaDitolak
-        ? 'Pemeriksaan dibatalkan'
+        ? (_bukanPadi > 0 ? 'Bukan tanaman padi' : 'Pemeriksaan dibatalkan')
         : kelas == 'sehat'
             ? 'Tidak ada indikasi penyakit'
             : 'Indikasi penyakit atau hama';
 
     var pesan = '';
     if (semuaDitolak) {
-      pesan = _perFoto[_utama].status == 'bukan_padi'
-          ? 'Foto tidak memuat bagian tanaman padi yang cukup. Arahkan kamera ke daun, batang, atau malai padi sampai memenuhi layar, lalu ambil ulang.'
-          : 'Bagian tanaman dalam foto terlalu sedikit untuk dinilai. Dekatkan kamera 10 sampai 15 cm dari daun lalu ambil ulang.';
+      pesan = _bukanPadi > 0
+          ? 'Model mengenali foto ini sebagai daun tanaman lain, bukan padi. SIDEPI hanya menilai daun padi, jadi hasil penyakit tidak ditampilkan. Untuk tanaman lain, mintalah pendampingan penyuluh.'
+          : _perFoto[_utama].status == 'bukan_padi'
+              ? 'Foto tidak memuat bagian tanaman padi yang cukup. Arahkan kamera ke daun padi sampai memenuhi layar, lalu ambil ulang.'
+              : 'Bagian tanaman dalam foto terlalu sedikit untuk dinilai. Dekatkan kamera 10 sampai 15 cm dari daun lalu ambil ulang.';
     } else if (_diterima == 1) {
       pesan = kelas == 'sehat'
           ? 'Foto tidak menunjukkan bercak penyakit yang berarti. Tetap periksa bagian lain tanaman.'

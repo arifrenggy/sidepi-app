@@ -1042,7 +1042,7 @@ class TentangScreen extends StatelessWidget {
               children: [
                 Image.asset('assets/brand/logo_gelap.png', width: 42, height: 42),
                 const SizedBox(height: 8),
-                Text('SIDEPI · v0.7.2', style: T.mikro),
+                Text('SIDEPI · v0.8.0', style: T.mikro),
               ],
             ),
           ),

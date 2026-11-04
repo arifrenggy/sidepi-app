@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versi-0.7.1-1f6f43?style=for-the-badge" alt="Versi" />
+  <img src="https://img.shields.io/badge/Versi-0.8.0-1f6f43?style=for-the-badge" alt="Versi" />
   <img src="https://img.shields.io/badge/Platform-Android-3ddc84?style=for-the-badge&logo=android&logoColor=white" alt="Platform" />
-  <img src="https://img.shields.io/badge/Akurasi-97.1%25-0f9d58?style=for-the-badge" alt="Akurasi" />
+  <img src="https://img.shields.io/badge/Akurasi-96.5%25-0f9d58?style=for-the-badge" alt="Akurasi" />
   <img src="https://img.shields.io/badge/Mode-100%25_Offline-2563eb?style=for-the-badge" alt="Offline" />
   <img src="https://img.shields.io/badge/Ukuran_APK-24.2_MB-f59e0b?style=for-the-badge" alt="Ukuran" />
 </p>
@@ -144,20 +144,21 @@ Model, penjelasan, dan seluruh foto acuan dibundel di dalam APK. Tidak ada permi
 
 ## 📊 Data Latih dan Hasil Pengujian
 
-Dataset berisi **9.226 foto** yang berasal dari **1.652 foto sumber asli**. Selisih besar itu penting dijelaskan: banyak dataset publik sudah diaugmentasi, sehingga satu foto bisa muncul dalam delapan variasi. Bila variasi tersebut dibiarkan, foto yang sama dapat masuk ke data latih dan data uji sekaligus, dan akurasi yang dilaporkan menjadi palsu.
+Dataset berisi **11.006 foto** yang berasal dari **2.936 foto sumber asli**. Selisih besar itu penting dijelaskan: banyak dataset publik sudah diaugmentasi, sehingga satu foto bisa muncul dalam delapan variasi. Bila variasi tersebut dibiarkan, foto yang sama dapat masuk ke data latih dan data uji sekaligus, dan akurasi yang dilaporkan menjadi palsu.
 
-Karena itu seluruh foto dikelompokkan lebih dulu berdasarkan kemiripan fitur (ambang kosinus 0,95), lalu pembagian data dilakukan **per kelompok foto asli**, bukan per berkas. Persentase di bawah ini dihitung pada 1.740 foto uji yang berasal dari 331 kelompok foto yang tidak pernah dilihat model.
+Karena itu seluruh foto dikelompokkan lebih dulu berdasarkan kemiripan fitur (ambang kosinus 0,95), lalu pembagian data dilakukan **per kelompok foto asli**, bukan per berkas. Persentase di bawah ini dihitung pada 2.008 foto uji yang berasal dari 588 kelompok foto yang tidak pernah dilihat model.
 
 | Kelas | Foto | Foto asli | Akurasi |
 | :--- | ---: | ---: | ---: |
-| Bercak daun coklat | 1.600 | 297 | 100% |
-| Blas | 1.440 | 252 | 90% |
-| Kresek | 1.585 | 204 | 99% |
-| Daun sehat | 1.488 | 280 | 100% |
-| Penggerek batang | 1.200 | 327 | 95% |
-| Putih palsu (penggulung daun) | 605 | 152 | 100% |
-| Tungro | 1.308 | 140 | 100% |
-| **Total** | **9.226** | **1.652** | **97,1%** |
+| Bercak daun coklat | 1.600 | 337 | 95% |
+| Blas | 1.760 | 425 | 95% |
+| Bukan padi (jagung, tebu, teh, kapas, goni) | 1.460 | 303 | 98% |
+| Kresek | 1.585 | 256 | 95% |
+| Daun sehat | 1.488 | 94 | 100% |
+| Penggerek batang | 1.200 | 206 | 98% |
+| Putih palsu (penggulung daun) | 605 | 119 | 97% |
+| Tungro | 1.308 | 268 | 100% |
+| **Total** | **11.006** | **2.008** | **96,5%** |
 
 Sumber data:
 
