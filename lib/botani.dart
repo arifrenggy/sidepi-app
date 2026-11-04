@@ -24,6 +24,13 @@ class HasilPotong {
   /// Bagian bingkai yang ditempati tanaman (0..1). Kecil berarti terlalu jauh.
   final double porsiBingkai;
 
+  /// Porsi piksel tanaman pada bingkai asli, dipakai memutuskan perlu dipotong.
+  final double porsiTanaman;
+
+  /// Benar bila foto dipotong. Foto jarak dekat tidak dipotong agar bentuk
+  /// daun tetap utuh.
+  final bool dipotong;
+
   /// Perbandingan sisi panjang dan pendek kotak tanaman.
   final double rasioBentuk;
 
@@ -35,12 +42,14 @@ class HasilPotong {
     required this.porsiBingkai,
     required this.rasioBentuk,
     required this.kelurusanTepi,
+    this.porsiTanaman = 0,
+    this.dipotong = false,
   });
 
   /// Perkiraan kasar jarak kamera, dipakai untuk saran ke petugas.
   String get saranJarak {
-    if (porsiBingkai < 0.18) return 'Terlalu jauh, dekatkan kamera sampai daun memenuhi layar.';
-    if (porsiBingkai > 0.92) return 'Terlalu dekat, jauhkan sedikit agar bentuk daun terlihat.';
+    if (porsiTanaman < 0.18) return 'Terlalu jauh, dekatkan kamera sampai daun memenuhi layar.';
+    if (porsiTanaman > 0.92) return 'Terlalu dekat, jauhkan sedikit agar bentuk daun terlihat.';
     return 'Jarak foto sudah baik.';
   }
 }
@@ -92,6 +101,12 @@ HasilPotong potongTanaman(Uint8List bytes) {
     mask[i] = nilai[i] > ambang ? 1 : 0;
   }
 
+  var pikselTanaman = 0;
+  for (var i = 0; i < n; i++) {
+    if (mask[i] == 1) pikselTanaman++;
+  }
+  final porsiTanaman = pikselTanaman / n;
+
   // 3. bagian hijau terbesar
   final kotak = _komponenTerbesar(mask, w, h);
   if (kotak == null) {
@@ -100,6 +115,20 @@ HasilPotong potongTanaman(Uint8List bytes) {
       porsiBingkai: 0,
       rasioBentuk: 1,
       kelurusanTepi: 0,
+    );
+  }
+
+  // Foto jarak dekat: tanaman sudah memenuhi bingkai, jadi tidak dipotong.
+  // Memotong di sini justru membuang bentuk daun dan tepi daun.
+  if (porsiTanaman >= 0.55) {
+    final rasioPenuh = math.max(w, h) / math.max(1, math.min(w, h));
+    return HasilPotong(
+      bytes: Uint8List.fromList(img.encodeJpg(kecil, quality: 92)),
+      porsiBingkai: porsiTanaman,
+      rasioBentuk: rasioPenuh,
+      kelurusanTepi: _kelurusan(mask, w, kotak),
+      porsiTanaman: porsiTanaman,
+      dipotong: false,
     );
   }
 
@@ -125,6 +154,8 @@ HasilPotong potongTanaman(Uint8List bytes) {
     porsiBingkai: porsi,
     rasioBentuk: rasio,
     kelurusanTepi: lurus,
+    porsiTanaman: porsiTanaman,
+    dipotong: true,
   );
 }
 

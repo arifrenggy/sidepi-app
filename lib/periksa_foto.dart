@@ -106,7 +106,11 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         hasilBaru.add(periksaFotoBytes(potong.bytes));
         HasilModel? m;
         try {
-          m = _modelSiap ? _model.periksa(potong.bytes) : null;
+          m = _modelSiap
+              ? _model.periksa(potong.bytes,
+                  porsiTanaman: potong.porsiTanaman,
+                  rasioBentuk: potong.rasioBentuk)
+              : null;
         } catch (_) {
           m = null;
         }
@@ -360,7 +364,9 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
             const Divider(color: W.garisTipis),
             const SizedBox(height: 12),
             _baris('Bagian tanaman pada foto', '${(ciri.rasioTanaman * 100).toStringAsFixed(0)}%'),
-            _baris('Tanaman menempati bingkai', '${(potongan.porsiBingkai * 100).toStringAsFixed(0)}%'),
+            _baris('Tanaman menempati bingkai', '${(potongan.porsiTanaman * 100).toStringAsFixed(0)}%'),
+            _baris('Pemotongan latar',
+                potongan.dipotong ? 'Dipotong, foto terlalu jauh' : 'Tidak perlu, jarak dekat'),
             _baris('Rasio bentuk daun', '${potongan.rasioBentuk.toStringAsFixed(1)} : 1'),
             _baris('Kelurusan tepi daun', '${(potongan.kelurusanTepi * 100).toStringAsFixed(0)}%'),
             if (!semuaDitolak) ...[

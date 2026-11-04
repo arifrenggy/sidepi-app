@@ -12,11 +12,11 @@ class ModelGerbang {
   /// Ambang peluang padi. Di bawah nilai ini foto dianggap bukan tanaman padi.
   /// Nilai diambil dari pengujian pada spesies tanaman yang tidak pernah
   /// dilihat model saat latihan.
-  static const double ambang = 0.60;
+  static const double ambang = 0.50;
 
   /// Di antara ambang dan nilai ini, foto dianggap meragukan: model penyakit
   /// tetap dijalankan, tetapi hasilnya harus meyakinkan untuk dipakai.
-  static const double ambangRagu = 0.42;
+  static const double ambangRagu = 0.35;
 
   Interpreter? _mesin;
 

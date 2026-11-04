@@ -67,7 +67,8 @@ class ModelFoto {
     }
   }
 
-  HasilModel periksa(Uint8List bytes) {
+  HasilModel periksa(Uint8List bytes,
+      {double porsiTanaman = 0, double rasioBentuk = 1}) {
     if (_mesin == null) throw StateError('model belum disiapkan');
     final gambar = img.decodeImage(bytes);
     if (gambar == null) throw StateError('gambar tidak terbaca');
@@ -75,7 +76,12 @@ class ModelFoto {
     // Tahap 1: gerbang tanaman. Foto yang bukan daun padi ditolak di sini,
     // tidak diteruskan ke model penyakit sama sekali.
     final padi = gerbang.peluangPadi(bytes);
-    if (padi != null && padi < ModelGerbang.ambangRagu) {
+
+    // Foto jarak dekat: tanaman memenuhi bingkai dan bentuknya memanjang
+    // seperti daun padi. Gerbang yang meragukan tidak boleh langsung menolak
+    // foto seperti ini, karena justru inilah foto yang paling jelas.
+    final dekatDanMemanjang = porsiTanaman >= 0.5 && rasioBentuk >= 2.0;
+    if (padi != null && padi < ModelGerbang.ambangRagu && !dekatDanMemanjang) {
       final peluang = <String, double>{};
       for (final k in labelModel) {
         peluang[k] = 0;
@@ -132,7 +138,10 @@ class ModelFoto {
 
     // Tahap 2: bila gerbang ragu dan model penyakit juga tidak yakin,
     // foto ditolak daripada ditebak.
-    if (padi != null && padi < ModelGerbang.ambang && tertinggi < 0.55) {
+    if (padi != null &&
+        padi < ModelGerbang.ambang &&
+        !dekatDanMemanjang &&
+        tertinggi < 0.55) {
       final ragu = <String, double>{};
       for (final k in labelModel) {
         ragu[k] = 0;
