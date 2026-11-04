@@ -1,9 +1,11 @@
 // SIDEPI - layar periksa foto: bisa satu atau beberapa foto sekaligus.
 import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'botani.dart';
 import 'citra.dart';
 import 'galeri_acuan.dart';
 import 'model_foto.dart';
@@ -26,6 +28,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   final Set<int> _ciriDicentang = {};
 
   final List<File> _berkas = [];
+  final List<HasilPotong> _potongan = [];
   final List<HasilFoto> _perFoto = [];
   final List<HasilModel?> _modelPerFoto = [];
   HasilModel? _gabungan;
@@ -97,10 +100,13 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
       for (final x in pilihan) {
         final f = File(x.path);
         final bytes = await f.readAsBytes();
-        hasilBaru.add(periksaFotoBytes(bytes));
+        // Tahap 0: buang latar belakang, sisakan bagian tanaman saja.
+        final potong = potongTanaman(bytes);
+        potonganBaru.add(potong);
+        hasilBaru.add(periksaFotoBytes(potong.bytes));
         HasilModel? m;
         try {
-          m = _modelSiap ? _model.periksa(bytes) : null;
+          m = _modelSiap ? _model.periksa(potong.bytes) : null;
         } catch (_) {
           m = null;
         }
@@ -137,6 +143,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
       setState(() {
         _bukanPadi = ditolakModel;
         _berkas.addAll(berkasBaru);
+        _potongan.addAll(potonganBaru);
         _perFoto.addAll(hasilBaru);
         _modelPerFoto.addAll(modelBaru);
         _gabungan = gab;
@@ -262,6 +269,9 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   bool _ditolak(HasilFoto h) => h.status == 'bukan_padi' || h.status == 'terlalu_jauh';
 
   List<Widget> _isiHasil() {
+    final potongan = _potongan.isEmpty
+        ? HasilPotong(bytes: Uint8List(0), porsiBingkai: 0, rasioBentuk: 1, kelurusanTepi: 0)
+        : _potongan[_utama.clamp(0, _potongan.length - 1)];
     final semuaDitolak = _gabungan == null;
     final kelas = _gabungan?.kelas ?? _perFoto[_utama].kelas;
     final teksKelas = namaTampil[kelas] ?? _perFoto[_utama].nama;
@@ -350,6 +360,9 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
             const Divider(color: W.garisTipis),
             const SizedBox(height: 12),
             _baris('Bagian tanaman pada foto', '${(ciri.rasioTanaman * 100).toStringAsFixed(0)}%'),
+            _baris('Tanaman menempati bingkai', '${(potongan.porsiBingkai * 100).toStringAsFixed(0)}%'),
+            _baris('Rasio bentuk daun', '${potongan.rasioBentuk.toStringAsFixed(1)} : 1'),
+            _baris('Kelurusan tepi daun', '${(potongan.kelurusanTepi * 100).toStringAsFixed(0)}%'),
             if (!semuaDitolak) ...[
               _baris('Luas daun berbercak', '${(ciri.rasioLesi * 100).toStringAsFixed(1)}%'),
               _baris('Jumlah bercak terdeteksi', '${ciri.jumlahBercak}'),

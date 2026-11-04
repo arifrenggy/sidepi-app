@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 
+import 'model_gerbang.dart';
+
 const List<String> labelModel = [
   'bercak_coklat',
   'blas',
@@ -52,16 +54,36 @@ HasilModel gabungModel(List<HasilModel> daftar) {
 class ModelFoto {
   static const int ukuran = 256;
   Interpreter? _mesin;
+  final ModelGerbang gerbang = ModelGerbang();
 
   Future<void> siapkan() async {
     final data = await rootBundle.load('assets/models/sidepi_model.tflite');
     _mesin = Interpreter.fromBuffer(data.buffer.asUint8List());
+    // gerbang tanaman: dipakai lebih dulu untuk menolak foto bukan padi
+    try {
+      await gerbang.muat();
+    } catch (_) {
+      // bila gerbang gagal dimuat, aplikasi tetap memakai model penyakit
+    }
   }
 
   HasilModel periksa(Uint8List bytes) {
     if (_mesin == null) throw StateError('model belum disiapkan');
     final gambar = img.decodeImage(bytes);
     if (gambar == null) throw StateError('gambar tidak terbaca');
+
+    // Tahap 1: gerbang tanaman. Foto yang bukan daun padi ditolak di sini,
+    // tidak diteruskan ke model penyakit sama sekali.
+    final padi = gerbang.peluangPadi(bytes);
+    if (padi != null && padi < ModelGerbang.ambangRagu) {
+      final peluang = <String, double>{};
+      for (final k in labelModel) {
+        peluang[k] = 0;
+      }
+      peluang['bukan_padi'] = 1 - padi;
+      return HasilModel('bukan_padi', peluang);
+    }
+
     final kecil = img.copyResize(gambar, width: ukuran, height: ukuran, interpolation: img.Interpolation.linear);
 
     final masukan = List.generate(
@@ -107,6 +129,17 @@ class ModelFoto {
         kelas = k;
       }
     });
+
+    // Tahap 2: bila gerbang ragu dan model penyakit juga tidak yakin,
+    // foto ditolak daripada ditebak.
+    if (padi != null && padi < ModelGerbang.ambang && tertinggi < 0.55) {
+      final ragu = <String, double>{};
+      for (final k in labelModel) {
+        ragu[k] = 0;
+      }
+      ragu['bukan_padi'] = 1 - padi;
+      return HasilModel('bukan_padi', ragu);
+    }
     return HasilModel(kelas, peluang);
   }
 
