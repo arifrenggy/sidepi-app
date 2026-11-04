@@ -1,7 +1,6 @@
 // Gerbang tanaman: memastikan foto benar-benar daun padi sebelum dinilai penyakitnya.
 // Model biner MobileNetV3-Large (224x224) yang dilatih membedakan padi dari
 // 38 jenis tanaman lain, gulma sawah, dan daun teh.
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;

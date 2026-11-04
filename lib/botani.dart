@@ -129,7 +129,7 @@ HasilPotong potongTanaman(Uint8List bytes) {
 }
 
 int _otsu(List<int> hist, int total) {
-  var jumlah = 0.0, bobotLatar = 0.0, momenLatar = 0.0, momenTotal = 0.0;
+  var jumlah = 0.0, bobotLatar = 0.0, momenLatar = 0.0;
   for (var i = 0; i < 256; i++) {
     jumlah += i * hist[i];
   }
