@@ -97,6 +97,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
       final berkasBaru = <File>[];
       final hasilBaru = <HasilFoto>[];
       final modelBaru = <HasilModel?>[];
+      final potonganBaru = <HasilPotong>[];
       for (final x in pilihan) {
         final f = File(x.path);
         final bytes = await f.readAsBytes();
