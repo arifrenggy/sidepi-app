@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'botani.dart';
 import 'citra.dart';
+import 'konfirmasi.dart';
 import 'galeri_acuan.dart';
 import 'model_foto.dart';
 import 'tema.dart';
@@ -34,6 +35,9 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   int _diterima = 0;
   int _dilewati = 0;
   int _bukanPadi = 0;
+  List<Tanya> _tanya = const [];
+  List<bool?> _jawab = const [];
+  HasilUlang? _ulang;
   int _sepakat = 0;
   int _utama = 0;
 
@@ -43,11 +47,54 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
     _muatDetail();
   }
 
+  /// Menyiapkan pertanyaan konfirmasi bila model ragu (55% sampai 80%).
+  /// Kalau model sudah yakin, pertanyaan tidak perlu ditampilkan.
+  void _siapkanTanya(HasilModel? gab) {
+    _tanya = const [];
+    _jawab = const [];
+    _ulang = null;
+    if (gab == null || _detail.isEmpty) return;
+    if (gab.kelas == 'sehat' || gab.kelas == 'bukan_padi') return;
+    final yakin = gab.teratas;
+    if (yakin < 0.55 || yakin >= 0.80) return;
+
+    final lain = gab.peluang.entries
+        .where((e) => e.key != gab.kelas && e.key != 'bukan_padi')
+        .toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    if (lain.isEmpty) return;
+
+    _tanya = susunPertanyaan(_detail, gab.kelas, lain.first.key);
+    _jawab = List<bool?>.filled(_tanya.length, null);
+  }
+
+  void _jawabTanya(int i, bool nilai) {
+    final baru = List<bool?>.from(_jawab);
+    baru[i] = nilai;
+    setState(() {
+      _jawab = baru;
+      final gab = _gabungan;
+      if (gab != null) {
+        _ulang = hitungUlang(
+          peluang: gab.peluang,
+          tanya: _tanya,
+          jawaban: _jawab,
+          sebelumnya: gab.kelas,
+        );
+      }
+    });
+  }
+
   Future<void> _muatDetail() async {
     try {
       final teks = await rootBundle.loadString('assets/detail_penyakit.json');
       final data = jsonDecode(teks) as Map<String, dynamic>;
-      if (mounted) setState(() => _detail = data);
+      if (mounted) {
+        setState(() {
+          _detail = data;
+          _siapkanTanya(_gabungan);
+        });
+      }
     } catch (_) {
       // tanpa detail, aplikasi tetap bisa dipakai
     }
@@ -151,6 +198,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         _perFoto.addAll(hasilBaru);
         _modelPerFoto.addAll(modelBaru);
         _gabungan = gab;
+        _siapkanTanya(gab);
         _diterima = dipakai.length;
         _dilewati = hasilBaru.length - dipakai.length;
         _sepakat = sepakat;
@@ -450,6 +498,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         const JudulBagian('Pengendalian'),
         _kartuPengendalian(kelas),
         const SizedBox(height: 16),
+        _kartuKonfirmasi(),
         _kartuKemungkinanLain(kelas),
       ],
       if (_gabungan != null) ...[
@@ -619,6 +668,108 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
               ),
             )),
       ],
+    );
+  }
+
+  Widget _kartuKonfirmasi() {
+    if (_tanya.isEmpty) return const SizedBox();
+    final gab = _gabungan;
+    if (gab == null) return const SizedBox();
+    final hasil = _ulang;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Kartu(
+        warna: W.hijauMuda,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.help_outline_rounded, size: 17, color: W.hijauSedang),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text('Bantu pastikan hasil',
+                      style: T.subjudul.copyWith(fontSize: 13)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Model masih ragu antara ${namaTampil[gab.kelas] ?? gab.kelas} dan '
+              '${_tanya.map((t) => t.kelas).toSet().where((k) => k != gab.kelas).map((k) => namaTampil[k] ?? k).join(', ')}. '
+              'Jawab ciri yang benar-benar terlihat di lapangan.',
+              style: T.kecil.copyWith(fontSize: 11.5, height: 1.4),
+            ),
+            const SizedBox(height: 10),
+            ...List.generate(_tanya.length, (i) {
+              final nilai = _jawab.length > i ? _jawab[i] : null;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(_tanya[i].teks, style: T.badan.copyWith(fontSize: 12.5, height: 1.35)),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        _pilihanJawab('Ya', nilai == true, () => _jawabTanya(i, true)),
+                        const SizedBox(width: 8),
+                        _pilihanJawab('Tidak', nilai == false, () => _jawabTanya(i, false)),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }),
+            if (hasil != null) ...[
+              const SizedBox(height: 2),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(11),
+                decoration: BoxDecoration(
+                  color: W.permukaan,
+                  borderRadius: BorderRadius.circular(R.kecil),
+                  border: Border.all(color: W.garisTipis),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Kesimpulan setelah jawaban: ${namaTampil[hasil.kelas] ?? hasil.kelas}',
+                      style: T.badan.copyWith(fontSize: 12.5, height: 1.35),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      hasil.berubah
+                          ? 'Bergeser dari ${namaTampil[hasil.sebelumnya] ?? hasil.sebelumnya}. Cocokkan lagi dengan foto acuan sebelum memutuskan.'
+                          : 'Sama dengan hasil foto, jadi kesimpulan ini lebih kuat.',
+                      style: T.kecil.copyWith(fontSize: 11, height: 1.35),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _pilihanJawab(String teks, bool aktif, VoidCallback tekan) {
+    return InkWell(
+      onTap: tekan,
+      borderRadius: BorderRadius.circular(R.kecil),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        decoration: BoxDecoration(
+          color: aktif ? W.hijau : W.permukaan,
+          borderRadius: BorderRadius.circular(R.kecil),
+          border: Border.all(color: aktif ? W.hijau : W.garisTipis),
+        ),
+        child: Text(teks,
+            style: T.kecil.copyWith(
+                fontSize: 11.5, color: aktif ? W.kertas : W.tinta, height: 1.2)),
+      ),
     );
   }
 
