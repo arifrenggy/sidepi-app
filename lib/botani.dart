@@ -121,11 +121,13 @@ HasilPotong potongTanaman(Uint8List bytes) {
   // Foto jarak dekat: tanaman sudah memenuhi bingkai, jadi tidak dipotong.
   // Memotong di sini justru membuang bentuk daun dan tepi daun.
   if (porsiTanaman >= 0.55) {
-    final rasioPenuh = math.max(w, h) / math.max(1, math.min(w, h));
+    // rasio diukur dari kotak bagian hijau, bukan dari bingkai foto
+    final rasioDaun = math.max(kotak.lebar, kotak.tinggi) /
+        math.max(1, math.min(kotak.lebar, kotak.tinggi));
     return HasilPotong(
       bytes: Uint8List.fromList(img.encodeJpg(kecil, quality: 92)),
       porsiBingkai: porsiTanaman,
-      rasioBentuk: rasioPenuh,
+      rasioBentuk: rasioDaun,
       kelurusanTepi: _kelurusan(mask, w, kotak),
       porsiTanaman: porsiTanaman,
       dipotong: false,

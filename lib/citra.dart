@@ -184,7 +184,7 @@ CiriFoto analisaPiksel(img.Image gambar) {
         hueLesi.add(H);
         valLesi.add(V);
         satLesi.add(S);
-        if (V > 150 && S < 120) totalPucat++;
+        if (V > 135 && S < 150) totalPucat++;
       }
     }
   }

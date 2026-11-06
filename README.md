@@ -21,6 +21,21 @@
 
 ---
 
+### Uji pemisahan bercak blas dan bercak coklat
+
+Dua percobaan sudah dilakukan untuk memisahkan kedua penyakit ini pada tingkat
+potongan bercak, keduanya tidak dipakai di aplikasi karena hasilnya bias.
+
+| Percobaan | Potongan | Blas tepat | Bercak coklat tepat |
+| :--- | ---: | ---: | ---: |
+| Kotak potong seragam | 15.903 | 98% | 40% |
+| Skala bercak diseragamkan, rotasi 8 arah | 18.233 | 96% | 29% |
+
+Model selalu condong menyebut blas. Karena itu aplikasi tidak menebak: bila hasil
+teratas dan pesaing terdekat adalah pasangan yang dikenal mirip, aplikasi
+menampilkan pertanyaan konfirmasi dan dua foto acuan berdampingan agar petugas
+membandingkan sendiri.
+
 ## 📖 Tentang SIDEPI
 
 **SIDEPI** (*Sistem Identifikasi Penyakit Padi*) adalah aplikasi Android yang dibuat untuk membantu petugas pengamat organisme pengganggu tumbuhan dan penyuluh pertanian di Kabupaten Sumba Timur dalam mengenali penyakit serta hama tanaman padi secara cepat di lapangan. Aplikasi ini dirancang untuk kondisi nyata di wilayah kerja: banyak lokasi tidak memiliki sinyal internet, dan perangkat yang dipakai adalah ponsel kelas menengah.

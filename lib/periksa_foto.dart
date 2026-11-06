@@ -55,14 +55,19 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
     _ulang = null;
     if (gab == null || _detail.isEmpty) return;
     if (gab.kelas == 'sehat' || gab.kelas == 'bukan_padi') return;
-    final yakin = gab.teratas;
-    if (yakin < 0.55 || yakin >= 0.80) return;
-
     final lain = gab.peluang.entries
         .where((e) => e.key != gab.kelas && e.key != 'bukan_padi')
         .toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     if (lain.isEmpty) return;
+
+    // Blas dan bercak coklat sering tertukar di lapangan. Untuk pasangan yang
+    // memang dikenal mirip, pertanyaan tetap diajukan walau model yakin.
+    final mirip = (_info(gab.kelas)?['mirip'] as List? ?? []).cast<String>();
+    final pasanganMirip = mirip.contains(lain.first.key);
+
+    final yakin = gab.teratas;
+    if (!pasanganMirip && (yakin < 0.55 || yakin >= 0.80)) return;
 
     _tanya = susunPertanyaan(_detail, gab.kelas, lain.first.key);
     _jawab = List<bool?>.filled(_tanya.length, null);
@@ -499,6 +504,7 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         _kartuPengendalian(kelas),
         const SizedBox(height: 16),
         _kartuKonfirmasi(),
+        _kartuBandingPasangan(),
         _kartuKemungkinanLain(kelas),
       ],
       if (_gabungan != null) ...[
@@ -668,6 +674,98 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
               ),
             )),
       ],
+    );
+  }
+
+  /// Menampilkan dua foto acuan berdampingan untuk pasangan penyakit yang
+  /// memang sering tertukar, terutama blas dan bercak daun coklat.
+  Widget _kartuBandingPasangan() {
+    final gab = _gabungan;
+    if (gab == null || _detail.isEmpty) return const SizedBox();
+    if (gab.kelas == 'sehat' || gab.kelas == 'bukan_padi') return const SizedBox();
+
+    final lain = gab.peluang.entries
+        .where((e) => e.key != gab.kelas && e.key != 'bukan_padi')
+        .toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    if (lain.isEmpty) return const SizedBox();
+
+    final mirip = (_info(gab.kelas)?['mirip'] as List? ?? []).cast<String>();
+    if (!mirip.contains(lain.first.key)) return const SizedBox();
+
+    final a = gab.kelas;
+    final b = lain.first.key;
+    if (_info(a) == null || _info(b) == null) return const SizedBox();
+
+    Widget sisi(String kelas) {
+      final info = _info(kelas)!;
+      final gejala = (info['gejala'] as List? ?? []).take(2).cast<String>();
+      return Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(R.kecil),
+              child: Image.asset(
+                info['gambar'] as String? ?? 'assets/gejala/$kelas.jpg',
+                height: 96,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(
+                  height: 96,
+                  color: W.hijauTipis,
+                  alignment: Alignment.center,
+                  child: const Icon(Icons.image_not_supported_outlined, size: 18),
+                ),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(namaTampil[kelas] ?? kelas,
+                style: T.subjudul.copyWith(fontSize: 12.5)),
+            const SizedBox(height: 3),
+            ...gejala.map((g) => Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Text('· $g',
+                      style: T.kecil.copyWith(fontSize: 11, height: 1.35)),
+                )),
+          ],
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Kartu(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.compare_arrows_rounded, size: 17, color: W.hijauSedang),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text('Bandingkan langsung',
+                      style: T.subjudul.copyWith(fontSize: 13)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Dua penyakit ini paling sering tertukar. Cocokkan bentuk bercak di tanaman Bos dengan dua foto di bawah.',
+              style: T.kecil.copyWith(fontSize: 11.5, height: 1.4),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sisi(a),
+                const SizedBox(width: 10),
+                sisi(b),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
