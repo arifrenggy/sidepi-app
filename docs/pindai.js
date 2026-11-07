@@ -11,7 +11,19 @@ var sedangMuat = false;
 
 function el(id) { return document.getElementById(id); }
 
-function status(teks) { el('status').textContent = teks; }
+function status(teks) {
+  var kotak = el('status');
+  if (kotak) kotak.textContent = teks;
+  console.log('[SIDEPI]', teks);
+}
+
+window.addEventListener('error', function (e) {
+  status('Galat: ' + (e.message || 'tidak diketahui'));
+});
+window.addEventListener('unhandledrejection', function (e) {
+  var alasan = e.reason && (e.reason.message || String(e.reason));
+  status('Galat: ' + alasan);
+});
 
 function mulaiMuat() {
   if (gerbang && model) return Promise.resolve();
@@ -23,12 +35,18 @@ function mulaiMuat() {
     });
   }
   sedangMuat = true;
-  status('Memuat model…');
+  if (!window.tf || !tf.tflite) {
+    sedangMuat = false;
+    status('Pustaka TFLite gagal dimuat. Periksa koneksi lalu muat ulang halaman.');
+    return Promise.resolve();
+  }
+  status('Menyiapkan mesin…');
   tf.tflite.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.10/wasm/');
   return Promise.all([
     tf.tflite.loadTFLiteModel('models/sidepi_gate.tflite'),
     tf.tflite.loadTFLiteModel('models/sidepi_model.tflite')
   ]).then(function (hasil) {
+    console.log('[SIDEPI] kedua model termuat');
     gerbang = hasil[0];
     model = hasil[1];
     sedangMuat = false;
