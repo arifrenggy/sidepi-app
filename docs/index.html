@@ -4,56 +4,157 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1f6f43">
-<title>SIDEPI Periksa Foto</title>
+<meta name="description" content="SIDEPI, aplikasi identifikasi penyakit dan hama padi untuk petugas lapangan. Model citra di perangkat, sistem pakar 42 ciri, 20 jenis, bekerja tanpa internet.">
+<title>SIDEPI — Identifikasi Penyakit dan Hama Padi</title>
 <link rel="stylesheet" href="gaya.css">
 </head>
 <body>
-<header>
-  <h1>SIDEPI</h1>
-  <p>Periksa foto daun padi</p>
+
+<header class="kepala">
+  <div class="kepala-dalam">
+    <div class="merek">
+      <h1>SIDEPI</h1>
+      <span>Sistem Identifikasi Penyakit Padi &middot; versi 0.13.1</span>
+    </div>
+    <nav class="nav">
+      <a href="#ringkasan">Ringkasan</a>
+      <a href="#model">Model</a>
+      <a href="#data">Data</a>
+      <a href="#evaluasi">Evaluasi</a>
+      <a href="ciri.html">Identifikasi lewat ciri</a>
+      <a href="https://github.com/arifrenggy/sidepi-app">Repositori</a>
+    </nav>
+  </div>
 </header>
 
 <main>
-  <section id="layar-awal">
-    <div class="kotak-foto" id="kotak-foto">
-      <span id="teks-kosong">Belum ada foto</span>
-      <img id="pratinjau" alt="" hidden>
+
+  <section id="ringkasan" class="pendahuluan">
+    <p><strong>SIDEPI</strong> membantu petugas pengamat organisme pengganggu tumbuhan
+    dan penyuluh pertanian mengenali penyakit serta hama padi di lapangan. Seluruh
+    proses berjalan di dalam ponsel: foto tidak dikirim ke server dan aplikasi tetap
+    bekerja tanpa koneksi internet.</p>
+
+    <dl class="ringkas">
+      <div><dt>Basis pengetahuan</dt><dd>20 jenis</dd></div>
+      <div><dt>Ciri lapangan</dt><dd>42 ciri</dd></div>
+      <div><dt>Kelas model foto</dt><dd>7 kondisi</dd></div>
+      <div><dt>Ukuran APK</dt><dd>33,8 MB</dd></div>
+    </dl>
+
+    <div class="aksi">
+      <a class="tombol" href="https://github.com/arifrenggy/sidepi-app/releases/latest">Unduh APK</a>
+      <a class="tombol samar" href="ciri.html">Coba identifikasi lewat ciri</a>
     </div>
-    <div class="tombol-baris">
-      <button id="tombol-kamera" class="utama">Ambil Foto</button>
-      <button id="tombol-galeri">Pilih dari Galeri</button>
-    </div>
-    <input type="file" id="input-foto" accept="image/*" capture="environment" hidden>
-    <p class="petunjuk">Dekatkan kamera sampai bercak memenuhi layar, hindari bayangan badan sendiri, dan jangan pakai lampu kilat.</p>
   </section>
 
-  <section id="layar-proses" hidden>
-    <p class="memuat">Menganalisis foto…</p>
-  </section>
+  <h2>Kemampuan</h2>
+  <ul>
+    <li><strong>Periksa foto.</strong> Satu sampai tiga foto bagian tanaman digabung menjadi satu kesimpulan.</li>
+    <li><strong>Gerbang tanaman.</strong> Foto yang bukan tanaman padi ditolak sebelum dianalisis.</li>
+    <li><strong>Identifikasi lewat ciri.</strong> 42 gejala lapangan untuk 20 jenis penyakit dan hama.</li>
+    <li><strong>Klarifikasi terarah.</strong> Pertanyaan ciri muncul bila dua kandidat teratas sering tertukar.</li>
+    <li><strong>Galeri acuan.</strong> 42 foto lapangan untuk tujuh kondisi, lengkap dengan sumber dan lisensi.</li>
+  </ul>
 
-  <section id="layar-hasil" hidden>
-    <div id="kartu-utama" class="kartu"></div>
-    <h2>Yang terukur dari foto</h2>
-    <table id="tabel-ukur"></table>
-    <h2>Tentang penyakit ini</h2>
-    <div id="kartu-penyakit"></div>
-    <h2>Kemungkinan lain yang mirip</h2>
-    <div id="kartu-lain"></div>
-    <h2>Rekomendasi pengendalian</h2>
-    <div id="kartu-kendali"></div>
-    <h2>Konfirmasi cepat</h2>
-    <p class="petunjuk">Centang yang benar-benar terlihat. Ini memperkuat atau membatalkan dugaan foto.</p>
-    <div id="daftar-ciri"></div>
-    <div id="kesimpulan-ciri" class="kartu kecil" hidden></div>
-    <p id="penafian" class="petunjuk"></p>
-    <div class="tombol-baris">
-      <button id="tombol-ulang">Foto Lain</button>
-    </div>
-  </section>
+  <div class="catatan">
+    Halaman ini memuat keterangan model dan data. Pembacaan foto hanya tersedia di
+    aplikasi Android, karena model dijalankan langsung di perangkat. Yang dapat
+    dicoba di peramban adalah identifikasi lewat ciri, memakai basis pengetahuan
+    yang sama dengan aplikasi.
+  </div>
+
+  <h2 id="model">Model</h2>
+  <p>Proses pembacaan foto berjalan dalam dua tahap: gerbang memastikan objek adalah
+  tanaman padi, lalu model penyakit menilai kondisinya.</p>
+
+  <table>
+    <tr><th>Komponen</th><th>Keterangan</th></tr>
+    <tr><td>Gerbang tanaman</td><td>MobileNetV3-Large, masukan 224 &times; 224, keluaran biner padi atau bukan padi</td></tr>
+    <tr><td>Model penyakit</td><td>8 kelas: blas, bercak coklat, kresek, penggerek, penggulung, tungro, sehat, bukan padi</td></tr>
+    <tr><td>Masukan model penyakit</td><td>256 &times; 256 piksel, normalisasi 0&ndash;1</td></tr>
+    <tr><td>Penguatan prediksi</td><td>Cermin ganda (<em>test-time augmentation</em>), peluang dirata-rata</td></tr>
+    <tr><td>Format</td><td>TensorFlow Lite, dijalankan dengan tflite_flutter di dalam perangkat</td></tr>
+    <tr><td>Ukuran</td><td>Gerbang 6,0 MB, penyakit 1,9 MB, total 7,9 MB</td></tr>
+  </table>
+
+  <p>Sebelum klasifikasi, citra dipisahkan dari latar memakai indeks kelebihan hijau
+  dan ambang Otsu. Foto yang diambil dari jarak jauh dipotong ke area tanaman,
+  sedangkan foto jarak dekat dibiarkan utuh agar bentuk dan tepi daun tidak hilang.</p>
+
+  <h2 id="data">Data</h2>
+  <table>
+    <tr><th>Sumber</th><th class="angka">Jumlah</th><th>Lisensi</th><th>Pemakaian</th></tr>
+    <tr><td>paddy-disease-classification (Kaggle, cermin Hugging Face)</td><td class="angka">10.407</td><td>CC BY 4.0</td><td>foto lapangan, 10 kelas</td></tr>
+    <tr><td>Rice Leaf Diseases, PlantVillage, Rice Leaf Disease Image</td><td class="angka">9.228</td><td>CC BY 4.0 dan tidak dinyatakan</td><td>foto laboratorium, kelas bukan padi</td></tr>
+    <tr><td>Roboflow Universe rice-leaf-wfax3</td><td class="angka">5.188</td><td>CC BY 4.0</td><td>kotak berlabel per bercak</td></tr>
+    <tr><td>Zenodo 15817084</td><td class="angka">1.913</td><td>CC BY 4.0</td><td>bahan uji tetap</td></tr>
+  </table>
+
+  <p>Duplikat antar dataset dibuang dengan sidik dhash 64 bit, ambang jarak Hamming 12.
+  Roboflow memuat 63,4% foto yang sama dengan data latih, DatasetNinja 63,8%, dan
+  GitHub aldrin 100%. Setelah penyaringan, foto Roboflow yang benar-benar baru
+  berjumlah 313 dan itu yang dipakai.</p>
+
+  <h2 id="evaluasi">Evaluasi</h2>
+  <p>Seluruh pengujian memakai foto yang tidak dipakai saat pelatihan, dipisah per
+  foto sumber.</p>
+
+  <table>
+    <tr><th>Ujian</th><th class="angka">v0.11.0</th><th class="angka">v0.12.0</th></tr>
+    <tr><td>Pembagian internal per foto sumber</td><td class="angka">96,3%</td><td class="angka">98,9%</td></tr>
+    <tr><td>Zenodo, 192 foto</td><td class="angka">91,7%</td><td class="angka">95,8%</td></tr>
+    <tr><td>Roboflow, 31 foto baru</td><td class="angka">48,4%</td><td class="angka">83,9%</td></tr>
+    <tr><td>Foto lapangan berlabel, 240 foto</td><td class="angka">12,1%</td><td class="angka">16,7%</td></tr>
+  </table>
+
+  <p>Rincian Zenodo v0.12.0: blas 96,9%, bercak coklat 95,3%, kresek 82,8%.</p>
+
+  <div class="catatan">
+    Angka terakhir pada tabel adalah yang paling menentukan dan paling rendah.
+    Seluruh dataset publik berasal dari kolam foto yang serupa, sehingga model belum
+    terbiasa pada latar, bayangan, dan sudut pengambilan khas sawah Sumba.
+    Perbaikan berikutnya memerlukan foto lapangan berlabel dari penyuluh setempat.
+  </div>
+
+  <h2>Basis pengetahuan</h2>
+  <p>Basis memuat 20 jenis dan 42 ciri. Setiap jenis dilengkapi nama ilmiah,
+  penyebab, deskripsi, bobot ciri 1&ndash;3, pengendalian kultur, hayati, dan kimia,
+  serta pencegahan.</p>
+
+  <table>
+    <tr><th>Kelompok</th><th>Isi</th></tr>
+    <tr><td>Penyakit</td><td>blas, hawar daun bakteri, tungro, bercak daun coklat, hawar pelepah, busuk pelepah bakteri, bercak sempit daun, hawar daun bergaris bakteri, busuk batang, bakanae, kerdil hampa, kerdil rumput</td></tr>
+    <tr><td>Hama</td><td>wereng batang coklat, wereng hijau, penggerek batang, penggulung daun, walang sangit, keong mas, tikus sawah, ganjur</td></tr>
+  </table>
+
+  <p>Aturan penilaian: skor 60 ke atas disertai minimal satu ciri kunci (bobot 3)
+  diangkat sebagai hasil utama; di bawah itu ditampilkan sebagai kemungkinan yang
+  perlu diverifikasi. <a href="ciri.html">Coba halaman identifikasi lewat ciri</a>.</p>
+
+  <h2>Batasan</h2>
+  <ul>
+    <li>Hasil merupakan alat bantu identifikasi, bukan diagnosis final. Keputusan pengendalian tetap berada pada penyuluh.</li>
+    <li>Ketepatan pada foto lapangan bebas masih rendah sebagaimana tabel evaluasi.</li>
+    <li>Model foto hanya mengenali tujuh kondisi. Jenis lain hanya dapat diakses lewat jalur ciri.</li>
+    <li>Basis pengetahuan disusun dari studi literatur dan belum divalidasi POPT.</li>
+  </ul>
+
+  <h2>Lisensi</h2>
+  <p>Data latih dan foto acuan memakai lisensi asalnya: CC BY 4.0, CC BY-SA, CC BY,
+  dan public domain, dengan rincian per berkas pada
+  <a href="https://github.com/arifrenggy/sidepi-app/blob/main/assets/acuan/sumber.txt">assets/acuan/sumber.txt</a>.
+  Riwayat perubahan tiap versi ada di
+  <a href="https://github.com/arifrenggy/sidepi-app/blob/main/CHANGELOG.md">CHANGELOG.md</a>.</p>
+
 </main>
 
-<script src="pohon.js"></script>
-<script src="analisa.js"></script>
-<script src="app.js"></script>
+<footer class="kaki">
+  <div class="kaki-dalam">
+    <span>SIDEPI &middot; aplikasi alat bantu lapangan, bukan pengganti pemeriksaan penyuluh.</span>
+    <span><a href="https://github.com/arifrenggy/sidepi-app">Repositori</a> &middot; <a href="https://github.com/arifrenggy/sidepi-app/releases/latest">Rilis APK</a></span>
+  </div>
+</footer>
+
 </body>
 </html>

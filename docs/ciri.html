@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6f43">
+<meta name="description" content="Identifikasi penyakit dan hama padi lewat ciri lapangan, memakai basis pengetahuan 20 jenis dan 42 ciri yang sama dengan aplikasi SIDEPI.">
+<title>Identifikasi lewat ciri — SIDEPI</title>
+<link rel="stylesheet" href="gaya.css">
+</head>
+<body>
+
+<header class="kepala">
+  <div class="kepala-dalam">
+    <div class="merek">
+      <h1>SIDEPI</h1>
+      <span>Identifikasi lewat ciri</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Beranda</a>
+      <a href="index.html#model">Model</a>
+      <a href="index.html#data">Data</a>
+      <a href="https://github.com/arifrenggy/sidepi-app">Repositori</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <p>Centang ciri yang benar-benar tampak pada tanaman. Penilaian memakai aturan yang
+  sama dengan aplikasi: bobot ciri 1&ndash;3, minimal satu ciri kunci (bobot 3), dan
+  skor 60 ke atas baru diangkat sebagai hasil utama.</p>
+
+  <div class="panel">
+    <div id="daftar-ciri" class="kosong">Memuat basis pengetahuan…</div>
+  </div>
+
+  <div class="aksi">
+    <button class="tombol" id="tombol-hitung">Hitung kecocokan</button>
+    <button class="tombol samar" id="tombol-bersih">Bersihkan pilihan</button>
+  </div>
+
+  <section id="hasil" hidden>
+    <h2>Hasil penilaian</h2>
+    <div id="kartu-hasil"></div>
+  </section>
+
+  <div class="catatan">
+    Hasil ini alat bantu, bukan diagnosis final. Anjuran pengendalian kimia sengaja
+    dibuat umum karena dosis harus mengikuti label dan arahan penyuluh.
+  </div>
+
+  <h2>Cara membaca hasil</h2>
+  <ul>
+    <li><strong>Skor</strong> adalah bagian bobot ciri yang cocok dibagi total bobot ciri jenis tersebut.</li>
+    <li><strong>Ciri kunci</strong> adalah ciri berbobot 3, penanda paling menentukan pada tiap jenis.</li>
+    <li>Bila skor tertinggi di bawah 60, aplikasi menampilkan kemungkinan tanpa menyimpulkan.</li>
+    <li>Maksimal tiga kemungkinan ditampilkan, diurutkan menurut skor lalu jumlah ciri kunci.</li>
+  </ul>
+
+</main>
+
+<footer class="kaki">
+  <div class="kaki-dalam">
+    <span>SIDEPI &middot; basis pengetahuan versi <span id="versi-basis">&mdash;</span></span>
+    <span><a href="index.html">Beranda</a> &middot; <a href="https://github.com/arifrenggy/sidepi-app">Repositori</a></span>
+  </div>
+</footer>
+
+<script src="ciri.js"></script>
+</body>
+</html>

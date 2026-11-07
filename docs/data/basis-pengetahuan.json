@@ -1,0 +1,864 @@
+{
+ "versi": "0.2.0",
+ "tanggal_rilis": "2026-11-07",
+ "catatan": "Basis pengetahuan 20 penyakit dan hama padi yang disusun dari literature study resmi (BB Padi, panduan PHT). Belum divalidasi penyuluh atau POPT Sumba Timur, jadi hasil identifikasi tetap perlu dikonfirmasi ke penyuluh.",
+ "gejala": [
+  {
+   "id": "G01",
+   "nama": "Bercak berbentuk belah ketupat atau jorong pada daun",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G02",
+   "nama": "Bercak dengan pusat abu-abu dan tepi coklat",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G03",
+   "nama": "Bercak kebasahan di tepi daun lalu memanjang",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G04",
+   "nama": "Daun mengering keabu-abuan",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G05",
+   "nama": "Daun menguning hingga jingga mulai dari ujung",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G06",
+   "nama": "Tanaman tampak kerdil dibanding sekitarnya",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G07",
+   "nama": "Leher malai membusuk coklat kehitaman, malai rebah",
+   "kelompok": "malai"
+  },
+  {
+   "id": "G08",
+   "nama": "Bercak coklat bulat kecil tersebar di daun",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G09",
+   "nama": "Daun mengering seperti terbakar",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G10",
+   "nama": "Bercak memanjang sejajar tulang daun",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G11",
+   "nama": "Gabah belang atau bercak coklat pada bulir",
+   "kelompok": "malai"
+  },
+  {
+   "id": "G12",
+   "nama": "Bercak abu-abu kebiruan pada pelepah bagian bawah",
+   "kelompok": "pelepah"
+  },
+  {
+   "id": "G13",
+   "nama": "Malai hampa, gabah tidak terisi",
+   "kelompok": "malai"
+  },
+  {
+   "id": "G14",
+   "nama": "Pelepah membusuk dengan lapisan jamur putih atau kelabu",
+   "kelompok": "pelepah"
+  },
+  {
+   "id": "G15",
+   "nama": "Tanaman layu mendadak seperti tersiram air panas",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G16",
+   "nama": "Jumlah anakan sedikit",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G17",
+   "nama": "Bercak pada pelepah dekat permukaan air",
+   "kelompok": "pelepah"
+  },
+  {
+   "id": "G18",
+   "nama": "Gabah berubah warna kecoklatan",
+   "kelompok": "malai"
+  },
+  {
+   "id": "G19",
+   "nama": "Daun hijau gelap, kaku, dan berdiri tegak",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G20",
+   "nama": "Pertumbuhan tidak merata dalam satu petak",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G21",
+   "nama": "Tanaman tumbuh lebih tinggi, ramping, dan pucat dibanding sekitarnya",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G22",
+   "nama": "Pangkal batang membusuk kehitaman sehingga tanaman mudah rebah",
+   "kelompok": "batang"
+  },
+  {
+   "id": "G23",
+   "nama": "Di dalam batang terdapat ulat dan kotoran bekas gerekan",
+   "kelompok": "batang"
+  },
+  {
+   "id": "G24",
+   "nama": "Batang berlubang dan anakan bagian tengah mati",
+   "kelompok": "batang"
+  },
+  {
+   "id": "G25",
+   "nama": "Anakan atau pucuk mengering mati padahal tanaman lain masih hijau",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G26",
+   "nama": "Malai pucat, hampa, dan mudah dicabut",
+   "kelompok": "malai"
+  },
+  {
+   "id": "G27",
+   "nama": "Daun tergulung memanjang membentuk tabung",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G28",
+   "nama": "Bekas gerekan memanjang berwarna putih pada permukaan daun",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G29",
+   "nama": "Bulir hampa dan gabah mengapur",
+   "kelompok": "malai"
+  },
+  {
+   "id": "G30",
+   "nama": "Bulir muda berbau menyengat dengan kumpulan serangga",
+   "kelompok": "malai"
+  },
+  {
+   "id": "G31",
+   "nama": "Anakan hilang atau mengapung di air dengan bekas potongan rapi",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G32",
+   "nama": "Batang terpotong miring seperti bekas gigitan",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G33",
+   "nama": "Ada kotoran, sisa jerami bertumpuk, dan jalur di pematang",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G34",
+   "nama": "Koloni serangga kecil berkumpul di pangkal batang, daun mengering",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G35",
+   "nama": "Tanaman mengering membentuk lingkaran di petak",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G36",
+   "nama": "Daun berbintik keriput dengan tepi menggulung",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G37",
+   "nama": "Anakan berbentuk seperti tabung menyerupai batang bawang",
+   "kelompok": "tanaman"
+  },
+  {
+   "id": "G38",
+   "nama": "Bercak garis sempit pendek merah kecoklatan sejajar tulang daun",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G39",
+   "nama": "Daun pucat kekuningan pada tanaman muda, tanaman mati setelah air dikurangi",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G40",
+   "nama": "Daun menguning dari ujung sementara tulang daun tetap hijau",
+   "kelompok": "daun"
+  },
+  {
+   "id": "G41",
+   "nama": "Pada pangkal batang muncul struktur jamur hitam kecil membulat",
+   "kelompok": "batang"
+  },
+  {
+   "id": "G42",
+   "nama": "Malai keluar tidak sempurna, gabah hampa dan bergerigi",
+   "kelompok": "malai"
+  }
+ ],
+ "penyakit": [
+  {
+   "id": "P01",
+   "nama": "Blas",
+   "nama_ilmiah": "Pyricularia oryzae",
+   "penyebab": "jamur",
+   "deskripsi": "Menyerang daun, leher malai, dan bulir. Paling merusak bila menyerang leher malai karena malai rebah dan gabah hampa.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G01": 3,
+    "G02": 3,
+    "G07": 3,
+    "G13": 2,
+    "G09": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Pakai varietas tahan blas sesuai anjuran setempat",
+     "Atur pupuk nitrogen agar tidak berlebihan",
+     "Bersihkan sisa jerami dan tunggul setelah panen"
+    ],
+    "hayati": [
+     "Aplikasi agens hayati sesuai anjuran penyuluh"
+    ],
+    "kimia": [
+     "Fungisida hanya bila serangan meluas, bahan aktif dan dosis sesuai label serta arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Tanam serempak dalam satu hamparan",
+    "Hindari kepadatan tanam berlebih"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P02",
+   "nama": "Hawar Daun Bakteri (Kresek)",
+   "nama_ilmiah": "Xanthomonas oryzae pv. oryzae",
+   "penyebab": "bakteri",
+   "deskripsi": "Bercak kebasahan pada tepi daun yang memanjang lalu mengering keabu-abuan. Pada tanaman muda dapat menyebabkan layu mendadak.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G03": 3,
+    "G04": 3,
+    "G15": 3,
+    "G05": 1,
+    "G13": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Hindari pemupukan nitrogen berlebihan",
+     "Kurangi genangan air yang berlebihan dan perbaiki drainase",
+     "Cabut dan musnahkan tanaman bergejala berat"
+    ],
+    "hayati": [
+     "Tidak ada pengendalian hayati yang praktis di lapangan"
+    ],
+    "kimia": [
+     "Bakterisida hanya atas arahan penyuluh, karena banyak kasus tidak responsif"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan varietas tahan",
+    "Jangan memindahkan bibit dari petak terserang",
+    "Bersihkan alat dan sepatu kerja antar petak"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P03",
+   "nama": "Tungro",
+   "nama_ilmiah": "Rice tungro virus",
+   "penyebab": "virus (ditularkan wereng hijau)",
+   "deskripsi": "Daun menguning hingga jingga mulai ujung, tanaman kerdil, anakan sedikit, malai kecil atau hampa. Ditularkan wereng hijau.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G05": 3,
+    "G06": 3,
+    "G16": 2,
+    "G40": 2,
+    "G13": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Cabut dan musnahkan tanaman bergejala secepat mungkin",
+     "Tanam serempak untuk memutus rantai penularan",
+     "Gunakan varietas tahan tungro"
+    ],
+    "hayati": [
+     "Konservasi musuh alami wereng hijau, seperti laba-laba dan kumbang kecil"
+    ],
+    "kimia": [
+     "Insektisida hanya bila populasi wereng hijau tinggi, sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Pantau wereng hijau sejak persemaian",
+    "Hindari persemaian dekat petak terserang"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P04",
+   "nama": "Bercak Daun Coklat",
+   "nama_ilmiah": "Bipolaris oryzae",
+   "penyebab": "jamur",
+   "deskripsi": "Bercak bulat sampai jorong berwarna coklat, kadang berpusat abu-abu. Menyerang daun, gabah, dan dapat menurunkan bobot gabah.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G08": 3,
+    "G02": 2,
+    "G11": 2,
+    "G18": 1,
+    "G09": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Cukupi unsur kalium dan hindari nitrogen berlebih",
+     "Bersihkan sisa tanaman terserang",
+     "Perbaiki drainase petak"
+    ],
+    "hayati": [
+     "Agens hayati sesuai anjuran penyuluh"
+    ],
+    "kimia": [
+     "Fungisida bila bercak meluas ke daun bendera, dosis sesuai label"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan benih sehat dan varietas toleran",
+    "Tanam serempak satu hamparan"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P05",
+   "nama": "Hawar Pelepah",
+   "nama_ilmiah": "Rhizoctonia solani",
+   "penyebab": "jamur",
+   "deskripsi": "Bercak abu-abu kebiruan pada pelepah bagian bawah, melebar dan naik ke daun. Serangan berat membuat tanaman rebah.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G12": 3,
+    "G14": 3,
+    "G17": 2,
+    "G04": 1,
+    "G20": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Kurangi kepadatan tanam agar sirkulasi udara baik",
+     "Hindari pemupukan nitrogen berlebihan",
+     "Buang sisa jerami yang menjadi sumber penyakit"
+    ],
+    "hayati": [
+     "Agens hayati Trichoderma sesuai anjuran penyuluh"
+    ],
+    "kimia": [
+     "Fungisida bila serangan mencapai pelepah atas, dosis sesuai label"
+    ]
+   },
+   "pencegahan": [
+    "Tanam varietas yang agak tahan",
+    "Atur jarak tanam tidak terlalu rapat"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P06",
+   "nama": "Busuk Pelepah Bakteri",
+   "nama_ilmiah": "Pseudomonas fuscovaginae",
+   "penyebab": "bakteri",
+   "deskripsi": "Pelepah dekat permukaan air membusuk dan berbau, malai hampa atau tidak keluar. Muncul terutama pada petak yang selalu tergenang.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G17": 3,
+    "G13": 2,
+    "G15": 2,
+    "G14": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Perbaiki drainase dan hindari genangan terus-menerus",
+     "Kurangi kepadatan tanam",
+     "Cabut tanaman membusuk"
+    ],
+    "hayati": [
+     "Tidak ada pengendalian hayati yang praktis"
+    ],
+    "kimia": [
+     "Bakterisida hanya atas arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan benih sehat",
+    "Terapkan pengairan berselang"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P07",
+   "nama": "Bercak Sempit Daun",
+   "nama_ilmiah": "Cercospora janseana",
+   "penyebab": "jamur",
+   "deskripsi": "Bercak berbentuk garis sempit pendek berwarna merah kecoklatan, sejajar tulang daun. Umum muncul saat tanaman tua.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G38": 3,
+    "G10": 2,
+    "G08": 1,
+    "G09": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Cukupi kalium dan hindari nitrogen berlebih",
+     "Bersihkan sisa tanaman terserang",
+     "Jaga kesehatan tanah agar tanaman tidak mudah terserang"
+    ],
+    "hayati": [
+     "Agens hayati sesuai anjuran penyuluh"
+    ],
+    "kimia": [
+     "Fungisida jarang diperlukan kecuali serangan berat pada fase pengisian gabah"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan varietas toleran",
+    "Tanam serempak"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P08",
+   "nama": "Hawar Daun Bergaris Bakteri",
+   "nama_ilmiah": "Xanthomonas oryzae pv. oryzicola",
+   "penyebab": "bakteri",
+   "deskripsi": "Bercak garis memanjang sejajar tulang daun yang pada awalnya tampak kebasahan, lalu mengering. Berbeda dengan kresek yang menyerang tepi daun.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G10": 3,
+    "G03": 2,
+    "G04": 2,
+    "G09": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Hindari percikan air dari petak terserang",
+     "Perbaiki drainase petak",
+     "Cabut tanaman bergejala berat"
+    ],
+    "hayati": [
+     "Tidak ada pengendalian hayati yang praktis"
+    ],
+    "kimia": [
+     "Bakterisida hanya atas arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan benih sehat bersertifikat",
+    "Jangan memindahkan bibit antar petak terserang"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P09",
+   "nama": "Busuk Batang",
+   "nama_ilmiah": "Nakataea sigmoidea",
+   "penyebab": "jamur",
+   "deskripsi": "Pangkal batang membusuk dan menghitam, muncul struktur jamur hitam kecil membulat. Tanaman rebah dan gabah hampa.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G41": 3,
+    "G22": 3,
+    "G13": 2,
+    "G20": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Buang dan musnahkan jerami serta tunggul terserang",
+     "Hindari penggenangan terus-menerus",
+     "Seimbangkan pemupukan nitrogen dan kalium"
+    ],
+    "hayati": [
+     "Agens hayati sesuai anjuran penyuluh"
+    ],
+    "kimia": [
+     "Fungisida pada pangkal batang bila serangan meluas sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan varietas tahan",
+    "Atur pengairan berselang"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P10",
+   "nama": "Bakanae (Gila)",
+   "nama_ilmiah": "Fusarium fujikuroi",
+   "penyebab": "jamur",
+   "deskripsi": "Tanaman muda tumbuh tinggi, ramping, dan pucat karena hormon jamur. Bibit dapat mati setelah air dikurangi, tanaman yang bertahan menghasilkan malai hampa.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G21": 3,
+    "G39": 2,
+    "G13": 2,
+    "G06": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Cabut tanaman bergejala sebelum pemupukan susulan",
+     "Jangan mengambil benih dari pertanaman terserang",
+     "Rendam benih dengan perlakuan air hangat sesuai anjuran penyuluh"
+    ],
+    "hayati": [
+     "Perlakuan benih dengan agens hayati sesuai anjuran"
+    ],
+    "kimia": [
+     "Perlakuan fungisida benih sesuai label dan arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan benih bersertifikat dari sumber bebas penyakit",
+    "Periksa persemaian sebelum bibit dipindah"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P11",
+   "nama": "Kerdil Hampa",
+   "nama_ilmiah": "Rice ragged stunt virus",
+   "penyebab": "virus (ditularkan wereng batang coklat)",
+   "deskripsi": "Tanaman kerdil dengan daun lebih pendek dan berwarna hijau gelap, malai keluar tidak sempurna, gabah hampa dengan tepi bergerigi.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G42": 3,
+    "G06": 3,
+    "G16": 2,
+    "G19": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Cabut tanaman bergejala",
+     "Tanam serempak",
+     "Kelola wereng batang coklat sebagai penular"
+    ],
+    "hayati": [
+     "Jaga populasi musuh alami wereng"
+    ],
+    "kimia": [
+     "Insektisida hanya bila populasi penular tinggi, sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan varietas tahan",
+    "Pantau populasi wereng sejak awal tanam"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "P12",
+   "nama": "Kerdil Rumput",
+   "nama_ilmiah": "Rice grassy stunt virus",
+   "penyebab": "virus (ditularkan wereng batang coklat)",
+   "deskripsi": "Tanaman kerdil dengan daun hijau gelap, kaku, dan berdiri tegak. Anakan bertambah banyak tetapi hampir tidak menghasilkan malai.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G19": 3,
+    "G06": 3,
+    "G16": 2,
+    "G13": 2
+   },
+   "pengendalian": {
+    "kultur": [
+     "Cabut tanaman bergejala agar tidak menjadi sumber penular",
+     "Tanam serempak",
+     "Kendalikan wereng batang coklat secara terpadu"
+    ],
+    "hayati": [
+     "Konservasi musuh alami wereng"
+    ],
+    "kimia": [
+     "Insektisida hanya bila populasi wereng tinggi sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan varietas tahan",
+    "Hindari penanaman terus-menerus tanpa jeda"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H01",
+   "nama": "Wereng Batang Coklat",
+   "nama_ilmiah": "Nilaparvata lugens",
+   "penyebab": "serangga",
+   "deskripsi": "Serangga mengisap cairan pangkal batang. Serangan berat membuat tanaman mengering berbentuk lingkaran seperti terbakar, disebut hopperburn.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G34": 3,
+    "G35": 3,
+    "G09": 2,
+    "G06": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Pantau populasi sejak tanaman muda, periksa pangkal batang",
+     "Atur waktu tanam serempak agar tidak ada sumber makanan berlanjut",
+     "Hindari penggunaan insektisida berlebihan yang membunuh musuh alami"
+    ],
+    "hayati": [
+     "Lestarikan laba-laba, kumbang wereng (Cyrtorhinus), dan kepik buaya sebagai musuh alami"
+    ],
+    "kimia": [
+     "Insektisida hanya bila populasi melewati ambang kendali, bahan aktif sesuai arahan penyuluh dan tidak dicampur sembarangan"
+    ]
+   },
+   "pencegahan": [
+    "Tanam varietas tahan wereng",
+    "Terapkan pergiliran tanaman",
+    "Jeda tanam setelah serangan berat"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H02",
+   "nama": "Wereng Hijau",
+   "nama_ilmiah": "Nephotettix virescens",
+   "penyebab": "serangga",
+   "deskripsi": "Mengisap cairan daun dan menjadi penular utama tungro. Daun tampak berbintik, keriput, dan tepinya menggulung.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G36": 3,
+    "G05": 2,
+    "G06": 2,
+    "G16": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Pantau sejak persemaian",
+     "Tanam serempak",
+     "Cabut tanaman bergejala tungro"
+    ],
+    "hayati": [
+     "Konservasi musuh alami seperti laba-laba dan kepik"
+    ],
+    "kimia": [
+     "Insektisida hanya bila populasi tinggi dan berdasarkan arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Gunakan varietas tahan tungro",
+    "Hindari persemaian dekat petak terserang"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H03",
+   "nama": "Penggerek Batang Padi",
+   "nama_ilmiah": "Scirpophaga incertulas",
+   "penyebab": "serangga",
+   "deskripsi": "Ulat gerekan masuk ke batang. Pada fase vegetatif pucuk mati mengering, pada fase generatif muncul malai pucat yang mudah dicabut.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G25": 3,
+    "G26": 3,
+    "G23": 2,
+    "G24": 2
+   },
+   "pengendalian": {
+    "kultur": [
+     "Buang dan musnahkan anakan atau malai bergejala",
+     "Potong tunggul setelah panen agar ulat tidak bertahan",
+     "Tanam serempak dalam satu hamparan"
+    ],
+    "hayati": [
+     "Lepas parasitoid telur sesuai anjuran penyuluh, jaga musuh alami di pematang"
+    ],
+    "kimia": [
+     "Insektisida hanya bila ditemukan kelompok telur atau gejala mencapai ambang, sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Tanam serempak",
+    "Bersihkan sisa jerami setelah panen"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H04",
+   "nama": "Penggulung Daun",
+   "nama_ilmiah": "Cnaphalocrocis medinalis",
+   "penyebab": "serangga",
+   "deskripsi": "Ulat menggulung daun dan memakan bagian dalamnya, meninggalkan bekas gerekan putih memanjang. Serangan berat membuat daun mengering.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G27": 3,
+    "G28": 3,
+    "G09": 1,
+    "G08": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Periksa daun yang menggulung sejak fase vegetatif",
+     "Pangkas dan musnahkan daun bergulung berisi ulat",
+     "Hindari nitrogen berlebihan yang membuat daun lebat dan disukai hama"
+    ],
+    "hayati": [
+     "Jaga musuh alami seperti laba-laba dan semut predator"
+    ],
+    "kimia": [
+     "Insektisida hanya bila daun bergulung banyak, sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Tanam serempak",
+    "Pantau berkala pada fase vegetatif"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H05",
+   "nama": "Walang Sangit",
+   "nama_ilmiah": "Leptocorisa oratorius",
+   "penyebab": "serangga",
+   "deskripsi": "Menghisap bulir muda sehingga gabah hampa dan mengapur. Serangga berbau menyengat dan berkumpul pada malai.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G29": 3,
+    "G30": 3,
+    "G11": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Pantau malai pada pagi atau sore hari",
+     "Tangkap serangga secara manual pada petak kecil",
+     "Tanam serempak agar fase malai tidak panjang"
+    ],
+    "hayati": [
+     "Jaga musuh alami seperti laba-laba dan jangkrik pemangsa"
+    ],
+    "kimia": [
+     "Insektisida hanya bila populasi tinggi, sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Tanam serempak",
+    "Bersihkan gulma di sekitar petak"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H06",
+   "nama": "Keong Mas",
+   "nama_ilmiah": "Pomacea canaliculata",
+   "penyebab": "moluska",
+   "deskripsi": "Memakan anakan muda yang baru ditanam. Anakan hilang atau mengapung dengan bekas potongan rapi.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G31": 3,
+    "G20": 2,
+    "G16": 2
+   },
+   "pengendalian": {
+    "kultur": [
+     "Kumpulkan telur dan keong di saluran serta petak",
+     "Pasang saringan pada saluran masuk air",
+     "Tanam bibit cukup tua agar lebih tahan"
+    ],
+    "hayati": [
+     "Manfaatkan itik untuk memakan keong sesuai anjuran penyuluh"
+    ],
+    "kimia": [
+     "Molusisida hanya pada titik serangan, sesuai label dan arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Bersihkan saluran air sebelum tanam",
+    "Periksa petak setiap pagi setelah tanam"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H07",
+   "nama": "Tikus Sawah",
+   "nama_ilmiah": "Rattus argentiventer",
+   "penyebab": "tikus",
+   "deskripsi": "Memotong batang dan memakan bulir. Terdapat kotoran, sisa jerami bertumpuk, dan jalur tikus di pematang.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G32": 3,
+    "G33": 3,
+    "G20": 2,
+    "G25": 2
+   },
+   "pengendalian": {
+    "kultur": [
+     "Gropyokan bersama pada lubang aktif",
+     "Jaga kebersihan pematang dan pinggir petak",
+     "Tanam serempak agar serangan tidak berlanjut antar petak"
+    ],
+    "hayati": [
+     "Jaga musuh alami seperti burung hantu dan ular"
+    ],
+    "kimia": [
+     "Rodentisida hanya pada lubang aktif dengan pengawasan, sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Bersihkan semak dan tempat persembunyian",
+    "Perbaiki tanggul dan pematang"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  },
+  {
+   "id": "H08",
+   "nama": "Ganjur",
+   "nama_ilmiah": "Orseolia oryzae",
+   "penyebab": "serangga",
+   "deskripsi": "Larva mengisap titik tumbuh sehingga anakan berubah bentuk seperti tabung menyerupai batang bawang. Anakan tersebut tidak menghasilkan malai.",
+   "gambar": [],
+   "bobot_gejala": {
+    "G37": 3,
+    "G06": 2,
+    "G16": 2,
+    "G25": 1
+   },
+   "pengendalian": {
+    "kultur": [
+     "Cabut dan musnahkan anakan berbentuk tabung",
+     "Tanam serempak",
+     "Hindari tanam terlalu rapat"
+    ],
+    "hayati": [
+     "Jaga musuh alami parasitoid larva sesuai anjuran penyuluh"
+    ],
+    "kimia": [
+     "Insektisida hanya bila serangan meluas, sesuai arahan penyuluh"
+    ]
+   },
+   "pencegahan": [
+    "Tanam serempak",
+    "Gunakan varietas toleran bila tersedia"
+   ],
+   "sumber": "Literature study BB Padi, Balai Proteksi Tanaman Pangan, dan panduan PHT"
+  }
+ ]
+}
