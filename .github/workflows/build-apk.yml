@@ -121,21 +121,15 @@ jobs:
           path: sidepi-*.apk
           if-no-files-found: error
 
+      - name: Susun catatan rilis lengkap
+        run: python3 tools/catatan_rilis.py ${{ steps.versi.outputs.nilai }}
+
       - name: Terbitkan rilis GitHub
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.versi.outputs.nilai }}
           name: SIDEPI v${{ steps.versi.outputs.nilai }}
-          body: |
-            Rilis SIDEPI versi ${{ steps.versi.outputs.nilai }}.
-
-            Yang ada di versi ini:
-            1. Periksa foto daun dari kamera, hasil keluar di perangkat tanpa internet
-            2. Model lima kelas: blas, bercak daun coklat, hawar daun bakteri, tungro, daun sehat
-            3. Foto yang bukan tanaman padi ditolak sebelum dianalisis
-            4. Hasil menampilkan contoh gambar gejala, deskripsi penyakit, kemungkinan lain yang mirip, dan rekomendasi pengendalian
-
-            Catatan: aplikasi ini alat bantu lapangan, bukan pengganti pemeriksaan penyuluh. Ketepatan model diuji pada foto laboratorium, bukan foto lapangan.
+          body_path: RELEASE_BODY.md
           files: sidepi-*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
