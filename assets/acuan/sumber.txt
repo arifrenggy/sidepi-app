@@ -1,0 +1,26 @@
+CATATAN SUMBER FOTO ACUAN SIDEPI
+
+Foto acuan dipakai pembanding di lapangan, bukan bahan latihan model.
+
+1. Dataset lapangan berlabel
+   Kaggle paddy-disease-classification, disusun ulang menjadi
+   anthony2261/paddy-disease-classification di Hugging Face. Lisensi CC BY 4.0.
+   Dipakai untuk kelas blas, bercak coklat, kresek, tungro, penggerek, dan sehat.
+
+2. Wikimedia Commons
+   - Rice blast symptoms.jpg | Donald Groth, Louisiana State University AgCenter, Bugwood.org | Public domain | kelas blas
+   - P. oryzae 14.jpg | Aleksandra50 | CC BY 4.0 | kelas blas
+   - Rice blast lab32.jpg | Ark. Agricultural Experiment Station | CC BY-SA 2.0 | kelas blas
+   - Cochliobolus miyabeanus.jpg | Donald Groth, Louisiana State University AgCenter | CC BY 3.0 us | kelas bercak_coklat
+   - Bipolaris oryzae 173160042.jpg | Jie-Hao Ou | CC BY 4.0 | kelas bercak_coklat
+   - Bacterial blight of rice.jpeg | Donald Groth, Louisiana State University AgCenter, Bugwood.org | CC BY 3.0 us | kelas kresek
+   - Rice plants affected by tungro disease1.jpg | Nozaki Michio (JIRCAS Photo Archive) | CC BY 2.0 | kelas tungro
+   - Rice leaf roller.jpg | Gannu03 | CC BY-SA 4.0 | kelas penggulung
+   - Moths 0830.jpg | Vengolis | CC BY-SA 4.0 | kelas penggulung
+   - Cnaphalocrocis medinalis z 0828.jpg | Vengolis | CC BY-SA 4.0 | kelas penggulung
+
+3. Foto lama SIDEPI
+   Tiga foto penggulung daun dari versi sebelumnya dipertahankan.
+
+Foto Commons diambil lewat Special:FilePath lebar 1400 piksel, lalu diperkecil
+sampai sisi terpanjang 900 piksel dengan JPEG kualitas 82.

@@ -102,6 +102,39 @@ class StripAcuan extends StatelessWidget {
   }
 }
 
+/// Baris kecil berisi tautan ke catatan sumber dan lisensi foto acuan.
+class SumberFoto extends StatelessWidget {
+  const SumberFoto({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _buka(context),
+      child: Text('Sumber foto',
+          style: T.kecil.copyWith(
+              fontSize: 10.5, color: W.hijau, decoration: TextDecoration.underline)),
+    );
+  }
+
+  Future<void> _buka(BuildContext context) async {
+    final teks = await rootBundle.loadString('assets/acuan/sumber.txt');
+    if (!context.mounted) return;
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Sumber dan lisensi foto'),
+        content: SingleChildScrollView(
+          child: Text(teks,
+              style: const TextStyle(fontFamily: 'Inter', fontSize: 11.5, height: 1.5)),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Tutup')),
+        ],
+      ),
+    );
+  }
+}
+
 /// Galeri penuh satu penyakit, bisa digeser dan diperbesar.
 class GaleriAcuanScreen extends StatefulWidget {
   const GaleriAcuanScreen({super.key, required this.kelas, required this.judul, this.awal = 0});
@@ -115,15 +148,8 @@ class GaleriAcuanScreen extends StatefulWidget {
 }
 
 class _GaleriAcuanScreenState extends State<GaleriAcuanScreen> {
-  final _kendali = PageController();
-  int _halaman = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _halaman = widget.awal;
-    _kendali.jumpToPage(widget.awal);
-  }
+  late final PageController _kendali = PageController(initialPage: widget.awal);
+  late int _halaman = widget.awal;
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +175,16 @@ class _GaleriAcuanScreenState extends State<GaleriAcuanScreen> {
                   onPageChanged: (i) => setState(() => _halaman = i),
                   itemBuilder: (_, i) => InteractiveViewer(
                     minScale: 1,
-                    maxScale: 4,
-                    child: Center(
-                      child: FotoAcuan(path: daftar[i], penuh: true),
+                    maxScale: 5,
+                    child: SizedBox.expand(
+                      child: Image.asset(
+                        daftar[i],
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => const Center(
+                          child: Text('Foto tidak terbaca.',
+                              style: TextStyle(fontFamily: 'Inter', fontSize: 12)),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -168,6 +201,8 @@ class _GaleriAcuanScreenState extends State<GaleriAcuanScreen> {
                       'Contoh gejala ${widget.judul}. Kalau ciri pada tanaman tidak sama dengan foto ini, curigai penyakit lain yang mirip.',
                       style: T.kecil.copyWith(fontSize: 12.5, height: 1.45),
                     ),
+                    const SizedBox(height: 6),
+                    const SumberFoto(),
                   ],
                 ),
               ),
@@ -221,6 +256,8 @@ class DaftarGaleriScreen extends StatelessWidget {
                       ],
                     ),
                   )),
+              const SizedBox(height: 4),
+              const SumberFoto(),
             ],
           );
         },
