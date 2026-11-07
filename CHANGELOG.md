@@ -13,6 +13,8 @@ sejak versi pertama.
   galeri contoh gejala.
 - Bug ketuk untuk memperbesar diperbaiki: galeri sekarang dibuka tepat pada foto
   yang diketuk dan gambar mengisi layar, tidak lagi berupa halaman putih kosong.
+- Foto gejala penggulung daun (hama putih palsu) berupa daun terlipat berwarna
+  putih ditambahkan ke galeri.
 
 ## v0.13.0
 
