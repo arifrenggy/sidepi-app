@@ -185,28 +185,6 @@ Basis disusun melalui studi literatur resmi dan **belum divalidasi POPT**. Anjur
 
 ---
 
-## 🚀 Memasang dan Membangun
-
-Rilis siap pasang tersedia di halaman [Releases](https://github.com/arifrenggy/sidepi-app/releases/latest): `sidepi-arm64.apk` untuk sebagian besar ponsel, `sidepi-universal.apk` bila arsitektur perangkat tidak diketahui.
-
-Membangun dari sumber:
-
-```bash
-flutter pub get
-flutter test
-flutter build apk --release --split-per-abi
-```
-
-| Kebutuhan | Keterangan |
-| :--- | :--- |
-| Flutter | 3.19 atau lebih baru (Dart SDK 3.3) |
-| Android SDK | 36 |
-| JDK | 17 |
-
-Proyek Android dihasilkan ulang oleh CI melalui `flutter create`, lalu aset merek dari `android_custom/` disalin ke dalamnya. APK rilis dibangun otomatis setiap tag `v*` ditekan dan diterbitkan bersama catatan perubahan lengkap dari `CHANGELOG.md`.
-
----
-
 ## 🗂️ Struktur Proyek
 
 ```text
@@ -253,14 +231,8 @@ tools/catatan_rilis.py    penyusun catatan rilis dari CHANGELOG.md
 
 ---
 
-## 📄 Lisensi dan Kredit
+## 📄 Lisensi
 
 Kode aplikasi ditulis untuk Dinas Pertanian dan Pangan Kabupaten Sumba Timur dan belum diterbitkan dengan lisensi terbuka. Data latih dan foto acuan memakai lisensi asalnya: **CC BY 4.0**, **CC BY-SA**, **CC BY**, dan **public domain**, dengan rincian per berkas pada `assets/acuan/sumber.txt`.
 
 Riwayat perubahan tiap versi, termasuk seluruh versi sebelumnya, ada di [CHANGELOG.md](CHANGELOG.md).
-
----
-
-<p align="center">
-  <em>Kurniawan Arif Renggi — Program Studi Teknik Informatika, Universitas Katolik Widya Mandala Surabaya, Kampus Waingapu</em>
-</p>
