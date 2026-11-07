@@ -15,6 +15,8 @@ sejak versi pertama.
   yang diketuk dan gambar mengisi layar, tidak lagi berupa halaman putih kosong.
 - Foto gejala penggulung daun (hama putih palsu) berupa daun terlipat berwarna
   putih ditambahkan ke galeri.
+- README ditulis ulang: alur kerja, model, data, hasil uji, dan basis
+  pengetahuan. Bagian yang tidak penting dihapus.
 
 ## v0.13.0
 
