@@ -36,6 +36,22 @@ teratas dan pesaing terdekat adalah pasangan yang dikenal mirip, aplikasi
 menampilkan pertanyaan konfirmasi dan dua foto acuan berdampingan agar petugas
 membandingkan sendiri.
 
+### Hasil model v0.12.0
+
+Model dilatih ulang dengan tambahan 313 foto baru dari Roboflow Rice Leaf (CC BY 4.0)
+setelah semua duplikat dibuang, memakai kotak berlabel per bercak.
+
+| Ujian | Model v0.11.0 | Model v0.12.0 |
+| :--- | ---: | ---: |
+| Zenodo test (192 foto) | 91,7% | 95,8% |
+| Roboflow test (31 foto) | 48,4% | 83,9% |
+| Foto lapangan berlabel (240 foto) | 12,1% | 16,7% |
+
+Akurasi internal pada pembagian per foto sumber: 98,9%, dengan blas 96,8% dan
+bercak coklat 98,2%. Foto lapangan sawah tetap lemah karena seluruh dataset
+publik berasal dari kolam foto yang sama; butuh foto lapangan Sumba berlabel
+penyuluh.
+
 ## 📖 Tentang SIDEPI
 
 **SIDEPI** (*Sistem Identifikasi Penyakit Padi*) adalah aplikasi Android yang dibuat untuk membantu petugas pengamat organisme pengganggu tumbuhan dan penyuluh pertanian di Kabupaten Sumba Timur dalam mengenali penyakit serta hama tanaman padi secara cepat di lapangan. Aplikasi ini dirancang untuk kondisi nyata di wilayah kerja: banyak lokasi tidak memiliki sinyal internet, dan perangkat yang dipakai adalah ponsel kelas menengah.
