@@ -140,7 +140,15 @@ function tampilkan() {
   kartu.appendChild(ket);
   wadah.appendChild(kartu);
 
-  hasil.forEach(function (h) {
+  if (hasil.length > 1) {
+    var sub = document.createElement('div');
+    sub.className = 'kelompok';
+    sub.style.marginTop = '16px';
+    sub.textContent = 'Kemungkinan lain';
+    wadah.appendChild(sub);
+  }
+
+  hasil.slice(1).forEach(function (h) {
     var baris = document.createElement('div');
     baris.className = 'baris-hasil';
     var kiri = document.createElement('div');
