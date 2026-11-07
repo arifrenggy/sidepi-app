@@ -15,6 +15,7 @@ Foto acuan dipakai pembanding di lapangan, bukan bahan latihan model.
    - Bipolaris oryzae 173160042.jpg | Jie-Hao Ou | CC BY 4.0 | kelas bercak_coklat
    - Bacterial blight of rice.jpeg | Donald Groth, Louisiana State University AgCenter, Bugwood.org | CC BY 3.0 us | kelas kresek
    - Rice plants affected by tungro disease1.jpg | Nozaki Michio (JIRCAS Photo Archive) | CC BY 2.0 | kelas tungro
+   - Rice leaf folder.jpg | Badal Chandra Sarker | CC BY-SA 4.0 | kelas penggulung (gejala daun terlipat)
    - Rice leaf roller.jpg | Gannu03 | CC BY-SA 4.0 | kelas penggulung
    - Moths 0830.jpg | Vengolis | CC BY-SA 4.0 | kelas penggulung
    - Cnaphalocrocis medinalis z 0828.jpg | Vengolis | CC BY-SA 4.0 | kelas penggulung
