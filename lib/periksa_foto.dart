@@ -25,7 +25,6 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
   bool _memproses = false;
   String? _galat;
   Map<String, dynamic> _detail = {};
-  final Set<int> _ciriDicentang = {};
 
   final List<File> _berkas = [];
   final List<HasilPotong> _potongan = [];
@@ -105,13 +104,6 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
     }
   }
 
-  static const _ciriKonfirmasi = [
-    'Bercak berbentuk belah ketupat atau jorong',
-    'Pusat bercak abu-abu dengan tepi coklat',
-    'Bercak tersebar di helai daun, bukan hanya tepi',
-    'Leher malai menghitam dan mudah patah',
-  ];
-
   Future<void> _ambil(ImageSource sumber) async {
     setState(() {
       _galat = null;
@@ -124,7 +116,6 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
       _dilewati = 0;
       _sepakat = 0;
       _utama = 0;
-      _ciriDicentang.clear();
     });
     try {
       final List<XFile> pilihan = sumber == ImageSource.camera
@@ -511,60 +502,6 @@ class _PeriksaFotoScreenState extends State<PeriksaFotoScreen> {
         const SizedBox(height: 20),
         const JudulBagian('Rincian peluang tiap kelas'),
         _kartuModel(_gabungan!),
-      ],
-      if (!semuaDitolak) ...[
-        const SizedBox(height: 20),
-        const JudulBagian('Konfirmasi ciri di lapangan'),
-        Text('Centang yang benar-benar tampak pada tanaman.', style: T.kecil.copyWith(fontSize: 12)),
-        const SizedBox(height: 8),
-        ...List.generate(_ciriKonfirmasi.length, (i) {
-          final aktif = _ciriDicentang.contains(i);
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 7),
-            child: Kartu(
-              onTap: () => setState(() {
-                if (aktif) {
-                  _ciriDicentang.remove(i);
-                } else {
-                  _ciriDicentang.add(i);
-                }
-              }),
-              warna: aktif ? W.hijauTipis : W.permukaan,
-              padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
-              child: Row(
-                children: [
-                  Icon(aktif ? Icons.check_circle : Icons.circle_outlined,
-                      size: 18, color: aktif ? W.hijau : W.garis),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(_ciriKonfirmasi[i],
-                        style: T.badan.copyWith(
-                            fontSize: 13, color: aktif ? W.hijau : W.tinta)),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }),
-        if (_ciriDicentang.isNotEmpty) ...[
-          const SizedBox(height: 4),
-          Container(
-            padding: const EdgeInsets.all(13),
-            decoration: BoxDecoration(
-              color: _ciriDicentang.length >= 2 ? W.hijauTipis : W.kunyitMuda,
-              borderRadius: BorderRadius.circular(R.sedang),
-            ),
-            child: Text(
-              _ciriDicentang.length >= 2
-                  ? 'Ciri yang dicentang mendukung indikasi $teksKelas. Lanjutkan dengan tindakan pengendalian dan laporkan ke penyuluh.'
-                  : 'Satu ciri belum cukup. Periksa ciri lain atau kirim tanaman ke penyuluh.',
-              style: T.kecil.copyWith(
-                  fontSize: 12.5,
-                  height: 1.45,
-                  color: _ciriDicentang.length >= 2 ? W.hijau : const Color(0xFF6B4A10)),
-            ),
-          ),
-        ],
       ],
       const SizedBox(height: 20),
       OutlinedButton.icon(

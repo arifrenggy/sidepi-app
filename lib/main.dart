@@ -22,6 +22,7 @@ const Map<String, String> kelasAcuan = {
 const Map<String, IconData> ikonBagian = {
   'daun': Icons.eco_outlined,
   'pelepah': Icons.grass_outlined,
+  'batang': Icons.straighten_rounded,
   'malai': Icons.grain_outlined,
   'tanaman': Icons.spa_outlined,
 };
@@ -399,7 +400,8 @@ class _PilihBagianScreenState extends State<PilihBagianScreen> {
 
   String _namaBagian(String k) => switch (k) {
         'daun' => 'Daun',
-        'pelepah' => 'Batang dan pelepah',
+        'pelepah' => 'Pelepah daun',
+        'batang' => 'Batang',
         'malai' => 'Malai dan bulir',
         'tanaman' => 'Pertumbuhan tanaman',
         _ => k,
