@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6f43">
+<meta name="description" content="Pindai foto daun padi langsung di peramban. Model TensorFlow Lite berjalan di perangkat, tanpa unggah foto ke server.">
+<title>Pindai foto — SIDEPI</title>
+<link rel="stylesheet" href="gaya.css">
+</head>
+<body>
+
+<header class="kepala">
+  <div class="kepala-dalam">
+    <div class="merek">
+      <h1>SIDEPI</h1>
+      <span>Pindai foto di peramban</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Beranda</a>
+      <a href="ciri.html">Identifikasi lewat ciri</a>
+      <a href="index.html#model">Model</a>
+      <a href="https://github.com/arifrenggy/sidepi-app">Repositori</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <p>Foto diproses di dalam peramban memakai model yang sama dengan aplikasi.
+  Tidak ada foto yang diunggah ke server.</p>
+
+  <div class="panel">
+    <div id="kotak" class="kotak-foto">
+      <span id="kosong">Belum ada foto</span>
+      <img id="pratinjau" alt="" hidden>
+    </div>
+
+    <div class="aksi">
+      <button class="tombol" id="tombol-pilih">Pilih foto</button>
+      <input type="file" id="berkas" accept="image/*" hidden>
+      <button class="tombol samar" id="tombol-contoh">Pakai contoh</button>
+    </div>
+    <p class="kosong" id="status" style="margin-top:6px">Model dimuat saat foto pertama dipilih, sekitar 8 MB.</p>
+  </div>
+
+  <section id="hasil" hidden>
+    <h2>Hasil</h2>
+    <div id="kartu"></div>
+  </section>
+
+  <div class="catatan">
+    Hasil ini alat bantu, bukan diagnosis final. Model hanya mengenali tujuh kondisi
+    sehingga jenis lain tetap perlu diperiksa lewat ciri atau oleh penyuluh.
+  </div>
+
+  <h2>Cara memotret</h2>
+  <ul>
+    <li>Jarak 15&ndash;25 cm, bagian yang bergejala memenuhi bingkai.</li>
+    <li>Cahaya terang merata, hindari bayangan badan dan lampu kilat.</li>
+    <li>Fokus pada bercak, bukan pada latar atau tangan.</li>
+    <li>Satu foto satu bagian tanaman, bisa diulang sampai tiga foto di aplikasi.</li>
+  </ul>
+
+</main>
+
+<footer class="kaki">
+  <div class="kaki-dalam">
+    <span>SIDEPI &middot; pemindaian berjalan di perangkat, tanpa server</span>
+    <span><a href="index.html">Beranda</a> &middot; <a href="https://github.com/arifrenggy/sidepi-app">Repositori</a></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.9.0/dist/tf-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.10/dist/tf-tflite.min.js"></script>
+<script src="pindai.js"></script>
+</body>
+</html>
