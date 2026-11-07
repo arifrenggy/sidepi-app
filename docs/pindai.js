@@ -5,6 +5,11 @@
 var LABEL = ['Bercak coklat', 'Blas', 'Bukan padi', 'Kresek', 'Penggerek', 'Penggulung', 'Daun sehat', 'Tungro'];
 var KUNCI = ['bercak_coklat', 'blas', 'bukan_padi', 'kresek', 'penggerek', 'penggulung', 'sehat', 'tungro'];
 
+// pustaka tfjs-tflite bisa menempel ke window.tflite atau window.tf.tflite
+function pustaka() {
+  return window.tflite || (window.tf && window.tf.tflite) || window.tf_tflite || null;
+}
+
 var gerbang = null;
 var model = null;
 var sedangMuat = false;
@@ -35,16 +40,17 @@ function mulaiMuat() {
     });
   }
   sedangMuat = true;
-  if (!window.tf || !tf.tflite) {
+  if (!window.tf || !pustaka()) {
     sedangMuat = false;
     status('Pustaka TFLite gagal dimuat. Periksa koneksi lalu muat ulang halaman.');
     return Promise.resolve();
   }
   status('Menyiapkan mesin…');
-  tf.tflite.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.10/wasm/');
+  var TFL = pustaka();
+  TFL.setWasmPath('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.10/wasm/');
   return Promise.all([
-    tf.tflite.loadTFLiteModel('models/sidepi_gate.tflite'),
-    tf.tflite.loadTFLiteModel('models/sidepi_model.tflite')
+    TFL.loadTFLiteModel('models/sidepi_gate.tflite'),
+    TFL.loadTFLiteModel('models/sidepi_model.tflite')
   ]).then(function (hasil) {
     console.log('[SIDEPI] kedua model termuat');
     gerbang = hasil[0];
