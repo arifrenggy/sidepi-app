@@ -89,7 +89,10 @@ jobs:
         run: flutter pub get
 
       - name: Analisis kode
-        run: flutter analyze
+        # Info dari Flutter sendiri (misalnya pemberitahuan API usang pada
+        # material.dart) tidak boleh menggagalkan build. Kesalahan dan
+        # peringatan tetap dianggap fatal.
+        run: flutter analyze --no-fatal-infos
 
       - name: Uji logika
         run: flutter test
