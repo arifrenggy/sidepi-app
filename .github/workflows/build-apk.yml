@@ -69,6 +69,20 @@ jobs:
                   }
               }
           }
+
+          // Matikan pemeriksaan lint saat build release. Lint bawaan Android
+          // Gradle Plugin yang dipakai runner (Flutter 3.50) gagal dengan
+          // NoSuchMethodError: JavaDocParser.parseDataItem ketika memeriksa
+          // plugin pihak ketiga seperti image_picker, sehingga build berhenti
+          // sebelum APK dibuat. Pemeriksaan kode tetap dijalankan lewat
+          // `flutter analyze` di langkah sebelumnya.
+          gradle.projectsEvaluated {
+              allprojects { proyek ->
+                  proyek.tasks.matching { t ->
+                      t.name.startsWith('lintVital') || t.name == 'lint'
+                  }.configureEach { enabled = false }
+              }
+          }
           GRADLE
 
       - name: Pasang ikon dan layar muat
