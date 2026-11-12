@@ -25,3 +25,12 @@ Foto acuan dipakai pembanding di lapangan, bukan bahan latihan model.
 
 Foto Commons diambil lewat Special:FilePath lebar 1400 piksel, lalu diperkecil
 sampai sisi terpanjang 900 piksel dengan JPEG kualitas 82.
+
+3. Pencabutan foto acuan penggulung, 12 November 2026
+   Enam foto acuan kelas penggulung dicabut dari assets/acuan/penggulung/.
+   Diperiksa dengan pengenal teks-gambar: keenamnya bernilai 89 sampai 100 persen
+   sebagai foto ngengat atau serangga, bukan gejala daun. Foto acuan yang
+   menampilkan ngengat justru menyesatkan petugas yang membandingkan gejala.
+   Kelas penggulung juga ditutup pada keluaran model (lihat lib/model_foto.dart).
+   Foto acuan penggulung akan diisi lagi hanya dengan foto daun tergulung
+   diambil sendiri di sawah, sesuai Protokol Foto Lapangan SIDEPI.

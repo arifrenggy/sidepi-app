@@ -4,6 +4,23 @@ Setiap rilis GitHub memuat seluruh riwayat perubahan di bawah ini, supaya
 pengguna yang baru memasang aplikasi tetap tahu apa saja yang sudah berubah
 sejak versi pertama.
 
+## v0.13.2
+
+- Kelas hama putih palsu (penggulung daun) ditutup pada keluaran model. Seluruh
+  455 foto latih dan ujinya ternyata foto hama, bukan foto daun tergulung di
+  sawah, sehingga keluarannya tidak bisa dipercaya. Model tetap delapan kelas,
+  peluang kelas itu dibuang lalu sisanya dinormalkan ulang agar angka yang
+  tampil tetap seratus persen. Identifikasi hama putih palsu sementara lewat
+  menu Ciri.
+- Enam foto acuan kelas penggulung dicabut dari galeri contoh gejala. Setelah
+  diperiksa, keenamnya foto ngengat, bukan gejala daun, sehingga justru
+  menyesatkan petugas yang membandingkan.
+- Catatan sumber foto acuan diperbarui: alasan pencabutan dan rencana
+  penggantian dengan foto daun tergulung hasil pengambilan di sawah.
+- Ketepatan diagnosis kelas lain tidak berubah. Pada foto lapangan yang diuji
+  ulang, peluang tungro bergeser dari 83 menjadi 85 persen karena peluang kelas
+  yang ditutup dibuang, bukan karena model dinilai ulang.
+
 ## v0.13.1
 
 - Foto acuan lapangan diganti dengan foto resolusi lebih tinggi: dari 256-300

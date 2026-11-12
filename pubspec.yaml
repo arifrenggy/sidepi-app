@@ -1,7 +1,7 @@
 name: sidepi
 description: SIDEPI - identifikasi penyakit tanaman padi untuk petugas lapangan
 publish_to: 'none'
-version: 0.13.1+18
+version: 0.13.2+19
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -33,7 +33,6 @@ flutter:
     - assets/acuan/blas/
     - assets/acuan/kresek/
     - assets/acuan/penggerek/
-    - assets/acuan/penggulung/
     - assets/acuan/sehat/
     - assets/acuan/tungro/
     - assets/acuan.json

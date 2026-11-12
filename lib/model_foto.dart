@@ -26,6 +26,23 @@ const Map<String, String> namaTampil = {
   'tungro': 'Tungro',
 };
 
+/// Kelas yang ditampilkan di keluaran aplikasi.
+///
+/// Sejak 12 November 2026 kelas `penggulung` ditutup: seluruh 455 foto latih
+/// dan ujinya ternyata foto hama, bukan foto daun tergulung di sawah, sehingga
+/// keluarannya tidak bisa dipercaya. Model tetap delapan kelas, peluang kelas
+/// ini dibuang lalu sisanya dinormalkan ulang. Identifikasi hama putih palsu
+/// sementara lewat menu Ciri.
+const List<String> labelKeluaran = [
+  'bercak_coklat',
+  'blas',
+  'bukan_padi',
+  'kresek',
+  'penggerek',
+  'sehat',
+  'tungro',
+];
+
 class HasilModel {
   final String kelas;
   final Map<String, double> peluang;
@@ -40,7 +57,7 @@ HasilModel gabungModel(List<HasilModel> daftar) {
   }
   final rata = <String, double>{};
   jumlah.forEach((k, v) => rata[k] = v / daftar.length);
-  var kelas = labelModel.first;
+  var kelas = labelKeluaran.first;
   var tertinggi = -1.0;
   rata.forEach((k, v) {
     if (v > tertinggi) {
@@ -83,7 +100,7 @@ class ModelFoto {
     final dekatDanMemanjang = porsiTanaman >= 0.5 && rasioBentuk >= 2.0;
     if (padi != null && padi < ModelGerbang.ambangRagu && !dekatDanMemanjang) {
       final peluang = <String, double>{};
-      for (final k in labelModel) {
+      for (final k in labelKeluaran) {
         peluang[k] = 0;
       }
       peluang['bukan_padi'] = 1 - padi;
@@ -125,9 +142,19 @@ class ModelFoto {
     );
     final peluang = <String, double>{};
     for (var i = 0; i < labelModel.length; i++) {
-      peluang[labelModel[i]] = (baris[i] as num).toDouble();
+      final k = labelModel[i];
+      if (!labelKeluaran.contains(k)) continue;
+      peluang[k] = (baris[i] as num).toDouble();
     }
-    var kelas = labelModel.first;
+    // Normalkan ulang setelah kelas yang ditutup dibuang, supaya jumlah
+    // peluang yang tampil tetap seratus persen.
+    final jumlahPeluang = peluang.values.fold(0.0, (a, b) => a + b);
+    if (jumlahPeluang > 0) {
+      for (final k in peluang.keys.toList()) {
+        peluang[k] = peluang[k]! / jumlahPeluang;
+      }
+    }
+    var kelas = labelKeluaran.first;
     var tertinggi = -1.0;
     peluang.forEach((k, v) {
       if (v > tertinggi) {
@@ -143,7 +170,7 @@ class ModelFoto {
         !dekatDanMemanjang &&
         tertinggi < 0.55) {
       final ragu = <String, double>{};
-      for (final k in labelModel) {
+      for (final k in labelKeluaran) {
         ragu[k] = 0;
       }
       ragu['bukan_padi'] = 1 - padi;
