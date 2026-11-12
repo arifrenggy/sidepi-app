@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sidepi/model_foto.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +12,7 @@ void main() {
   test('setiap foto acuan pada indeks benar-benar terbundel', () async {
     final teks = await rootBundle.loadString('assets/acuan.json');
     final peta = jsonDecode(teks) as Map<String, dynamic>;
-    expect(peta.keys.length, 7);
+    expect(peta.keys.length, 6);
 
     var jumlah = 0;
     for (final entri in peta.entries) {
@@ -23,7 +24,19 @@ void main() {
         jumlah++;
       }
     }
-    expect(jumlah, 42);
+    expect(jumlah, 36);
+  });
+
+  test('kelas penggulung ditutup dan tidak punya foto acuan', () async {
+    // Kelas penggulung masih ada di dalam model, tetapi sengaja tidak
+    // ditampilkan keluarannya dan tidak punya foto acuan, karena seluruh data
+    // latihnya ternyata foto hama, bukan foto daun tergulung.
+    expect(labelModel.contains('penggulung'), isTrue);
+    expect(labelKeluaran.contains('penggulung'), isFalse);
+    expect(labelKeluaran.length, labelModel.length - 1);
+    final teks = await rootBundle.loadString('assets/acuan.json');
+    final peta = jsonDecode(teks) as Map<String, dynamic>;
+    expect(peta.containsKey('penggulung'), isFalse);
   });
 
   test('aset merek, model, dan detail penyakit terbundel', () async {
